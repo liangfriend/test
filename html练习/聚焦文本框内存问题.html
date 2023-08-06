@@ -1,0 +1,19 @@
+<div>
+    <input type="button" onclick="toggleinput(false)" value="创建一个两秒后销毁的文本框"/>
+    <input type="button" onclick="toggleinput(true)" value="创建一个两秒后销毁的聚焦文本框"/>
+    <div id="text">
+
+    </div>
+</div>
+<script>
+    function toggleinput(isFocus){
+    
+        const inp=document.createElement('input')
+        inp.value="两秒后销毁"
+        document.getElementById('text').appendChild(inp)
+        isFocus && inp.focus();
+        setTimeout(()=>{
+            inp.remove()
+        },2000)
+    }
+</script>

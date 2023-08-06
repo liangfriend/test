@@ -1,0 +1,55 @@
+<div id="ad">
+    <div class="container" @mousemove.stop="move">
+        <div class="ball" :style="{left:offsetX+'px',top:offsetY+'px'}">
+
+        </div>
+        
+    </div>
+</div>
+<script src="js/vue.global.js"></script>
+<style>
+.container{
+    width: 440px;
+    height: 440px;
+    background-color: aqua;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+}
+.ball{
+    width: 60px;
+    height: 60px;
+    background-color: brown;
+    position: absolute;
+   
+    border-radius: 30px;
+}
+</style>
+<script>
+const app={
+data(){
+    return{
+        offsetX:0,
+        offsetY:0,
+    }
+},methods:{
+move(event){
+  if(event.clientX+30>440){
+    this.offsetX=440-60
+  }else if(event.clientX-30<0){
+    this.offsetX=0
+  }else{
+    this.offsetX=event.clientX-30
+  }
+  if(event.clientY+30>440){
+    this.offsetY=440-60
+  }else if(event.clientY-30<0){
+    this.offsetY=0
+  }else{
+    this.offsetY=event.clientY-30
+  }
+}
+}
+}
+Vue.createApp(app).mount("#ad")
+</script>

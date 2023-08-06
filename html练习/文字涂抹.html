@@ -1,0 +1,50 @@
+<body>
+    <div class='content'>  
+        文字涂抹 JAVASCRIPT
+        </div>
+</body>
+
+<script>
+
+</script>
+<style>
+    body{
+        display: flex;
+        background-color: black;
+    }
+    *{
+        box-sizing:border-box;
+        margin: 0;
+        padding: 0;
+    }
+    .content{
+        margin:auto;
+        color:#FFF;
+        font-size:70px;
+        border: 1px solid;
+        font-weight:bolder;
+        /* position: relative; */
+    }
+    .content::before{
+        
+        content:"文字涂抹 JAVASCRIPT";
+        color: aqua;
+        position:absolute;
+        display: inline-flex;
+        width: 50px;
+        overflow: hidden;
+        white-space:nowrap;  /* 好像不能换行*/
+        border-right: 1px solid aqua ;
+        animation: animate 1s infinite;
+        filter:drop-shadow(0 0 50px aqua);
+    }
+   
+    @keyframes animate{
+        0%{
+            width:0; 
+        }
+        100%{
+            width: 100%;
+        }
+    }
+</style>

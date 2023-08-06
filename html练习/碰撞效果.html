@@ -1,0 +1,49 @@
+<body>
+    <div class="father">
+        <div class="ball"></div>
+        <div class="ground"></div>
+    </div>
+</body>
+<script>
+
+</script>
+<style>
+.father{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.ball{
+    width: 80px;
+    height:80px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: relative;
+    top:0px;
+    animation: falling 0.5s ease-in infinite alternate;
+
+}
+.ground{
+    width: 400px;
+    height: 20px;
+    background-color: #fff;
+}
+body{
+    background-color: black;
+}
+
+@keyframes falling{
+    0%{
+        transform: translateY(-300px) scale(1,1);
+    }
+    90%{
+        transform: scale(0.8,1.2)
+    }
+    100%{
+        transform: translateY(0) scale(1.2,0.8);
+    }
+}
+</style>

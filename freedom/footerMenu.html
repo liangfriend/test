@@ -1,0 +1,109 @@
+<body>
+    <div class="container">
+        <div class="box"></div>
+        <div class="item" 
+        onclick="navigate(event)"
+         onmouseleave="minus(event)"
+          onmousemove="plus(event)">
+        </div>
+        
+        <div class="box"></div>
+    </div>
+</body>
+
+<script>
+    let move=false
+    let active=false
+function navigate(e){
+    console.log("跳转")
+    active=true
+    const dom = e.target;
+    const father=dom.parentElement
+    const child=father.childNodes
+    
+    for (let i = 0; i < child.length; i++) {
+        const childElement = child[i];
+  
+  // 判断是否为元素节点
+  if (childElement.nodeType === Node.ELEMENT_NODE) {
+    // 找到所需的子元素
+    childElement.style.transform = "scale(1)"
+    // 进行相应的操作
+  }
+}
+    
+    dom.style.transform = "scale(1.2)";
+}
+function plus(e){
+    if(!move){
+        console.log(e)
+        const dom=e.target
+        dom.style.transform = "scale(1.2)"
+        
+        move=true
+    }
+    
+}
+function minus(e){
+    if(!active){
+        move=false
+        const dom=e.target
+        dom.style.transform = "scale(1)"
+    }else{
+        active=false
+        move=false
+    }
+    
+    
+}
+</script>
+<style>
+.container{
+    
+    margin-top: 100px;
+    padding: 10px;
+    display: inline-flex;
+    border-radius: 20px;
+    background-color: blue;
+    clip-path: inset(-15px 0px 0px 0px);
+    
+
+}
+.item{
+    border-radius: 35px;
+    margin:10px;
+    width: 70px;
+    height:70px;
+    background-color: aqua;
+    position: relative;
+    transform-style: preserve-3d;
+    z-index: 100;
+    
+  
+}
+.item:hover{
+    transition: transform 0.3s ease-in-out;
+    /* transform: scale(1.2); */
+    
+}
+
+.item::after{
+    content: "";
+    display: block;
+    width: 130px;
+    height: 100px;
+    position:absolute;
+    top:-20px;
+    left: -30px;
+    border-radius: 50px;
+    clip-path: inset(0px 0px 80px 0px);
+    background-color: blue;
+    z-index:-100;
+    transform: translateZ(-1px);
+}
+.box{
+    width: 20px;
+}
+
+
+</style>

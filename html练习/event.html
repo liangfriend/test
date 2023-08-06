@@ -1,0 +1,19 @@
+<div id="ad">
+<button @click="click($event)">按钮</button>
+</div>
+<script src="js/vue.global.js"></script>
+<script>
+    const App={
+        data(){
+            return{
+
+            }
+        },
+        methods:{
+            click(event){
+                console.log(event)
+            }
+        }
+    }
+    Vue.createApp(App).mount("#ad")
+</script>

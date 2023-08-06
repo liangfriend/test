@@ -1,0 +1,27 @@
+
+
+<div id="ad">
+    {{count}}
+    <input type="button" v-on:click="clickButton">
+    <br>
+    <span v-html="string">{{string}}</span>
+</div>
+<script src="js/vue.global.js"></script>
+<script>
+    const app={
+        data(){
+            return{
+                count:0,
+                string:'<h1>hhh</h1>',
+            }
+        },methods:{
+            clickButton(){
+                this.count=this.count+1
+            }
+        }
+    }
+
+
+
+    Vue.createApp(app).mount("#ad")
+</script>

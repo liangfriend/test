@@ -1,0 +1,25 @@
+<div id="ad"></div>
+<script src="./js/vue.global.js"></script>
+<script>
+    const app=Vue.createApp({
+        setup(){
+            let a=Vue.ref(1)
+            let b=Vue.ref(2)
+            //使用toref函数value会被转成ref变量，直接解构则会失去响应式
+           let sum=Vue.computed(()=>{
+            return a.value+b.value
+           })
+           function click(){
+            a.value+=1
+            b.value+=1
+           }
+            return{
+                sum,
+                click
+            }
+        },
+        template:`<h1>测试数据{{sum}}</h1>
+        <button @click="click">点击</button>`
+    })
+    app.mount("#ad")
+</script>

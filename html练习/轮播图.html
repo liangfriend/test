@@ -1,0 +1,53 @@
+<body>
+    <div class="father">
+        <div class="middle">
+        <div class="child">1</div>
+        <div class="child">2</div>
+        <div class="child">3</div>
+        <div class="child">4</div>
+        <div class="child">5</div>
+        </div>
+    </div>
+</body>
+<script>
+   
+    const middle = document.querySelector('.middle');
+    const children = document.querySelectorAll('.child');
+    let currentIndex = 0;
+
+    function nextSlide() {
+        // 隐藏当前显示的子元素
+        children[currentIndex].style.display = 'none';
+
+        // 计算下一个要显示的子元素的索引
+        currentIndex = (currentIndex + 1) % children.length;
+
+        // 显示下一个子元素
+        
+        children[currentIndex].style.display = 'block';
+    }
+
+    // 每隔2秒执行一次轮播
+    setInterval(nextSlide, 2000);
+</script>
+<style>
+.father{
+    overflow: hidden;
+    height: 150px;
+    width: 300px;
+}
+.child{
+    display: inline-block;
+    width: 300px;
+    height: 150px;
+    transition: transform 2s ease;
+}
+.child:nth-child(even){
+    
+    background-color: aquamarine;
+}
+.child:nth-child(odd){
+    
+    background-color: rgb(107, 30, 231);
+}
+</style>

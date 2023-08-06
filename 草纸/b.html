@@ -1,0 +1,66 @@
+<body>
+<div class="container">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+</div>
+</body>
+<script>
+
+function a(){
+    this.asd=asd()
+    this.q=1
+    function asd(){
+        this.q=2
+    
+        return function(){
+            return this.q
+        }
+    }
+}
+let s=new a()
+
+
+console.log(s.asd())
+// coqnsole.log(s)
+
+
+</script>
+<style>
+.container{
+    display: flex;
+    height: 100%;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.container > div{
+    width: 20%;
+    height: 15%;
+    /* flex-basis: 20%; */
+    /* box-sizing: border-box; */
+    border: 1px solid black;
+
+}
+.item:nth-child(4n-1){
+    background-color: blue;
+    box-shadow: -10px -10px 10px #313131;
+}
+
+</style>

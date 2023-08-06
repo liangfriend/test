@@ -1,0 +1,48 @@
+<input oninput="jie()" type="text"/>
+<script>
+    //防抖
+    let Timer=null;
+    function fangdou(){
+      
+        clearTimeout(Timer)
+        Timer=setTimeout(()=>{
+            
+            console.log("防抖")
+        },1000)
+    }
+    let bool=true;
+    function jieliu() {
+    if (bool) {
+        bool = false;
+        timer = setTimeout(() => {
+            console.log("节流");
+            bool = true;
+        }, 1000);
+    }
+    // 清除上一次的定时器
+    clearTimeout(timer);
+    // 设置新的定时器来执行节流函数
+    timer = setTimeout(() => {
+        console.log("节流");
+        bool = true;
+    }, 1000);
+}
+function apply(){
+    console.log("放技能")
+}
+const jie=jieliu2(apply,1000)
+function jieliu2(fn,delay){
+    let cd=false
+    return function(){
+        if(cd){
+            return false
+        }
+        cd=true
+        setTimeout(()=>{
+            cd=false
+            fn()
+        },delay)
+    }
+
+}
+</script>

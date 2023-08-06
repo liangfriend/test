@@ -1,0 +1,23 @@
+<script>
+    const debounce=function debounce(func,duration=500){
+        let clearId
+        // console.log(...args)
+        return function(...args){
+            
+            clearTimeout(clearId)
+        clearId=setTimeout(() => {
+            console.log(this)
+            func.apply(this,args)
+        }, duration);
+    }
+    }
+    const func=function(event,...args){
+        console.log(this)
+        console.log(args)
+    }
+
+    const layout=debounce(func)
+    window.onresize=function(){
+        layout(1,2,3,4)
+    }
+</script>

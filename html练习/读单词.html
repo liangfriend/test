@@ -1,0 +1,19 @@
+<html>
+<body>
+
+<p id="myText">Click on any word in this sentence.</p>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const speech=window.speechSynthesis
+
+const str=document.getElementById('myText').innerHTML
+let utterance = new SpeechSynthesisUtterance("hello");
+speech.speak(utterance)
+console.log("执行")
+})
+
+</script>
+
+</body>
+</html>

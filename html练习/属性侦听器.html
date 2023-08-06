@@ -1,0 +1,22 @@
+<div id="ad">
+    <input v-model="searchText"/>
+</div>
+<script src="js/vue.global.js"></script>
+<script>
+    const App={
+        data(){
+            return{
+                searchText:"App"
+
+            }
+        },
+        watch:{
+            searchText(oldValue,newValue){
+                if(newValue.length>10){
+                    alert("文本太长了")
+                }
+            }
+        }
+    }
+    Vue.createApp(App).mount("#ad")
+</script>

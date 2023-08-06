@@ -1,0 +1,89 @@
+ <body>
+ 
+        <input type="text">
+        <p>输入的值: <span id="output"></span></p>
+   
+ </body>
+ 
+  
+  <script>
+    
+/*
+
+**/
+function reactive(target = {}) {
+ if (typeof target !== 'object' || target == null) { 
+     return target;
+     }
+
+    const proxyConf = {
+      get(target, key, receiver) {
+        const result = Reflect.get(target, key, receiver)
+        console.log('get', key)
+        return reactive(result); // 返回设置结果
+    },
+    set(target, key, val, receiver) {
+        // 重复的数据，不处理
+        console.log("进入")
+        if (val === target[key]) {
+            return true
+        }
+        const result = Reflect.set(target, key, val, receiver)
+        console.log('set', key, val)
+        return result;
+    },
+    deleteProperty(target, key) {
+        const result = Reflect.deleteProperty(target, key)
+        console.log('delete property', key)
+        return result;
+    }
+   }
+   const proxied = new Proxy(target,proxyConf);
+   return proxied;
+}
+
+// 示例数据
+const data = {
+  card: {
+    name:{
+        a:{
+            b:"a"
+        },
+        d:{
+            e:'d'
+        }
+    }
+  }
+};
+let n=reactive(data)
+
+n.card.name.d.e="c"
+// n.card.k="asd"
+
+
+
+
+// 创建深度监听的对象
+// const reactiveData = createReactiveObject(data, (changedObj) => {
+//   console.log("对象属性发生变化", changedObj);
+// });
+
+// // 更新视图
+// function updateView() {
+//   const input = document.querySelector("input");
+//   const output = document.querySelector("#output");
+
+//   input.value = reactiveData.card.name;
+//   console.log(reactiveData.card.name)
+//   output.innerText = reactiveData.card.name;
+// }
+
+// // 输入事件监听器
+// const input = document.querySelector("input");
+// input.addEventListener("input", (e) => {
+//   reactiveData.card.name = e.target.value;
+// });
+
+// // 初始更新视图
+// updateView();
+  </script>

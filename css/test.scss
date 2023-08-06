@@ -1,0 +1,11 @@
+$baseColor:blue;
+
+
+.item{
+    color : $baseColor;
+}
+@for $i from 1 through 36{
+    .item:nth-child(#{$i}){
+		color:rgb(255,255,0);
+	}
+} 

@@ -1,0 +1,82 @@
+<!-- 
+    1. 在设置网格之间间距的时候一般用margin和padding来设置元素之间的间距，
+但是在首行和最后一行不需要设置间距，那就需要单独设置0来抵消，
+而gap属性可以取消这个繁琐的操作，该属性需要配合grid布局或者flex布局使用。
+    2. 图文混合效果,给文本设置一个背景图，
+然后通过background-clip和fill-color是文字显示出图片在文字中的部分，
+也可以显示视频
+    3. 通过设置宽高比实现自适应布局 
+    4. 这个现在不常用了，可以很轻松实现文字倒影效果
+    5. 设置浮动元素的浮动区域,实现文字环绕效果
+
+-->
+<h1>1. gap</h1>
+<div class="container">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<h1 class="backgroun-clip">2. -webkit-background-clip</h1>
+<h1 >3. aspect-ratio</h1>
+<div class="aspect-ratio"><h1>永远保持正方形效果</h1></div>
+<h1 class="webkit-box-relect">4. -webkit-box-relect</h1>
+<h1>5. shape-outside</h1>
+<div class="block">
+    <div class="picture"></div>
+    简薇在那段青春的年龄里无怨无悔的陪伴着昭阳的成长
+    ，去私奔，哪怕每天就是咸菜馒头的生活也照样笑的很开心，
+    即使过着吃了上顿愁下顿的生活，也觉得没啥，
+    而最后他们还是分手了，不知道怎么说了。可能生活就是要有很多遗憾，
+    才会绚烂多姿吧，如果三年后颜妍和方圆的婚礼上，昭阳不那么装逼，
+    能够把自己心里最真挚的感情表达出来，那么简薇，这个可怜的女人，
+    这所有的苦难都是值得的。
+
+</div>
+<style>
+    .container{
+        width: 600px;
+        height:500px;
+        display: grid;
+        grid-template-columns: auto auto auto;
+        background-color: pink;
+        gap: 40px;
+    }
+    .container > div{
+        background-color: #444;
+
+    }
+    .backgroun-clip{
+        background: url('../../images/bg.jpg');
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .aspect-ratio{
+        aspect-ratio:1/1;
+        height:100%;
+        background-color: aqua;
+    }
+    .webkit-box-relect{
+        -webkit-box-reflect: below 10px linear-gradient(transparent,transparent,transparent, white);
+    }
+    .block{
+        width: 300px;
+        height:500px;
+    }
+    .picture{
+        width: 100px;
+        height: 100px;
+        float: left;
+        shape-outside: circle();   /*人话：设置文字环绕*/
+        clip-path: circle();       /*裁剪圆形*/
+        background-color: palevioletred;
+    }
+
+
+</style>
+

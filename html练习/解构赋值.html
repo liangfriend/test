@@ -1,0 +1,24 @@
+<div id="ad"></div>
+<script src="./js/vue.global.js"></script>
+<script>
+    const app=Vue.createApp({
+        setup(){
+            let myObject=Vue.reactive({
+                value:0
+            })
+            //使用toref函数value会被转成ref变量，直接解构则会失去响应式
+            let {value}=Vue.toRefs(myObject)
+            function click(){
+                value.value+=1
+                console.log(value.value)
+            }
+            return{
+                value,
+                click
+            }
+        },
+        template:`<h1>测试数据{{value}}</h1>
+        <button @click="click">点击</button>`
+    })
+    app.mount("#ad")
+</script>

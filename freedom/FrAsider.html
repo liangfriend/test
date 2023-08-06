@@ -1,0 +1,55 @@
+<body>
+<div class="container">
+    <div class="sidebar">
+    <ul class="menu">
+      <div><a href="#"><span>文件</span></a></div>
+      <div><a href="#"><span>编辑</span></a></div>
+      <div><a href="#"><span>视图</span></a></div>
+      <div><a href="#"><span>窗口</span></a></div>
+      <div><a href="#"><span>帮助</span></a></div>
+    </ul>
+  </div>
+</div>
+    
+</body>
+
+  <style>
+    .container{
+        display: flex;
+    }
+   .sidebar {
+  
+  height: 100%;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu div{
+  margin-bottom: 5px;
+ 
+}
+
+.menu div a {
+    padding: 5px;
+    border-radius: 10px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #ff6384;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.menu li a:hover {
+  background-color: #ff4562;
+}
+  </style>

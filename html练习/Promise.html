@@ -1,0 +1,63 @@
+<script>
+// 这里直接声明一个 Promise 类可以覆盖掉 原生 Promise
+class Promise {
+  constructor (executor) {
+    // 添加初始属性
+    this.PromiseState = 'pending'
+    this.PromiseResult = null
+
+    // 声明一个栈，用来存放then方法中的回调，onResolved, onRejected，之所以用栈，是因为
+    // 同一个实例 可以同时制定多个 then 方法，也就会有多个回调
+    this.callbacks = []
+
+    // 保存实例对象 this
+    const self = this
+
+    // resolve 函数
+    function resolve (data) {
+    }
+
+    // reject 函数
+    function reject (data) {
+    }
+
+    // 执行器函数
+    executor(resolve, reject)
+  }
+  // 添加 then 方法 === es5  Promise.prototype.then () {}  方法
+  then (onResolved, onRejected) {
+  }
+  // 添加 catch 方法 === es5  Promise.prototype.catch () {}  方法
+  catch (onRejected) {
+  }
+  // 添加 resolve 方法  === es5 Promise.resolve () {} 方法
+  static resolve (value) {
+    // 1.修改对象状态 (promiseSate)
+    self.PromiseState = 'fulfilled' // resolved
+      // 2.设置对象结果值 (promiseResult)
+      self.PromiseResult = data
+  }
+
+  // 添加 reject 方法  === es5 Promise.reject () {} 方法
+  static reject (reason) {
+    if (self.PromiseState !== 'pending') return
+      // 1.修改对象状态 (promiseSate)
+      self.PromiseState = 'rejected'
+      // 2.设置对象结果值 (promiseResult)
+      self.PromiseResult = data
+  }
+
+  // 添加 all 方法 === es5 Promise.all () {} 方法
+  static all (promises) {
+  }
+
+  // 添加 race 方法  === es5 Promise.race () {} 方法
+  static race (promises) {
+  }
+}
+let p=new Promise((resolve,reject)=>{
+    console.log(resolve)
+    console.log("你好")
+})
+
+</script>

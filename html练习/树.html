@@ -1,0 +1,75 @@
+<body>
+    <div class="container">
+        <div id="cube">
+            <div class="face front"></div>
+            <div class="face back"></div>
+            <div class="face right"></div>
+            <div class="face left"></div>
+            <div class="face top"></div>
+            <div class="face bottom"></div>
+          </div>
+    </div>
+    
+</body>
+<style>
+    .container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        
+        
+    }
+    #cube {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(0deg) rotateY(0deg);
+    }
+  
+    .face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #ccc;
+    }
+  
+    .front  { transform: translateZ(100px); }
+    .back   { transform: rotateY(180deg) translateZ(100px); }
+    .left   { transform: rotateY(-90deg) translateZ(100px); }
+    .right  { transform: rotateY(90deg) translateZ(100px); }
+    .top    { transform: rotateX(90deg) translateZ(100px); }
+    .bottom { transform: rotateX(-90deg) translateZ(100px); }
+  </style>
+  <script>
+    var cube = document.getElementById('cube'),
+        mouseX = 0, mouseY = 0,
+        curX = 0, curY = 0,
+        isDragging = false;
+  
+    cube.onmousedown = function(e) {
+      e.preventDefault();
+      isDragging = true;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+  
+    document.onmousemove = function(e) {
+      e.preventDefault();
+      if (isDragging) {
+        var diffX = e.clientX - mouseX,
+            diffY = e.clientY - mouseY;
+        curX += diffX;
+        curY += diffY;
+        cube.style.transform = 'rotateX(' + curY + 'deg) rotateY(' + curX + 'deg)';
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      }
+    };
+  
+    document.onmouseup = function(e) {
+      isDragging = false;
+    };
+  </script>

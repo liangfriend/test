@@ -1,0 +1,31 @@
+<body>
+  <tooltip>
+    <button>tooltip</button>
+  </tooltip>
+
+</body>
+<script>
+
+</script>
+<style>
+tooltip{
+  position: relative;
+
+}
+tooltip::before{
+  content: 'asfs';
+  padding: 5px;
+
+  background-color: black;
+  opacity: 0.5;
+  top:30px;
+  color: white;
+  position: absolute;
+  display: none;
+}
+tooltip:hover::before{
+  display: block;
+  /* background-color: rgb(244, 54, 54);
+   */
+}
+</style>

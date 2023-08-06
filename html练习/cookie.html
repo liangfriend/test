@@ -1,0 +1,9 @@
+<script>let data = new Date().getTime()   //先将此时的时间转化为毫秒
+    let new_data = new Date(data + 7*24*60*60*1000)  //将过期时间设置为7天后
+    //设置第一条 cookie
+    document.cookie = 'name=张三;' + 'expires=' + new_data.toUTCString()
+    //设置第二条 cookie
+    document.cookie = 'age=19;' + 'expires=' + new_data.toUTCString()
+
+    console.log(document.cookie)
+</script>

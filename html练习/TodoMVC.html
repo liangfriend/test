@@ -1,0 +1,24 @@
+<!--父组件显示-->
+<template id="parent">
+    
+</template>
+
+<script src="js/vue.global.js"></script>
+<script>
+    const messageApp = Vue.createApp({})
+    messageApp.component('parent', {
+        data() {
+            return {
+                //posts是对象数组
+                posts: [
+                    { id: 1, title: 'My journey with Vue' },
+                    { id: 2, title: 'Blogging with Vue' },
+                    { id: 3, title: 'Why Vue is so fun' }
+                ]
+            }
+        },
+        
+        template: '#parent'
+    })
+    messageApp.mount('#message-post-demo')
+</script>

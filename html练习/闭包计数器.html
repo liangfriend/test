@@ -1,0 +1,14 @@
+<body>
+    <button onclick="c()">+1</button>
+</body>
+<script>
+    
+    function count(){
+        var counter=0
+        return function(){
+            counter++;
+            console.log(counter)
+        }
+    }
+    var c=count()
+</script>

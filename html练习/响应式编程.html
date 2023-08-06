@@ -1,0 +1,27 @@
+<div id="ad"></div>
+<script src="./js/vue.global.js"></script>
+<script>
+    const App=Vue.createApp({
+       setup(){
+        let myData=Vue.reactive({
+    value:0
+})
+let myObject=Vue.ref(0)
+function click(){
+    myData.value+=1
+    myObject.value+=1
+    console.log(myData.value)
+    console.log(myObject)
+}
+return{
+    myData,
+    click,myObject
+}
+},
+template:`<h1>测试数据{{myData.value}}{{myObject}}</h1><button @click="click">点击</button>` 
+    })
+    App.mount("#ad")
+    
+
+
+</script>

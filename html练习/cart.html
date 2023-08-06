@@ -1,0 +1,19 @@
+<script src="js/vue.global.js"></script>
+
+<div id="cart">
+
+    <table cellspacing="0" cellpadding="0" border="1">
+       <tr><td></td><td>商品名称</td><td>商品单价</td><td>购买数量</td><td>操作</td></tr>
+         <tr v-show="s1"><td>1</td><td>spring从入门到实战</td><td>70</td><td><input type="button" v-on:click="price1-=1" value="-">{{price1}} <input value="+" v-on:click="price1+=1" type="button"></td><td><input type="button" v-on:click="s1=false" value="删除"/></td></tr>
+        <tr v-show="s2"><td>2</td><td>java web开发从入门到实战</td><td>80</td><td><input type="button" v-on:click="price2-=1" value="-">{{price2}} <input value="+" v-on:click="price2+=1" type="button"></td><td><input type="button" v-on:click="s2=false" value="删除"/></td></tr>
+        <tr v-show="s3"><td>3</td><td>java ee框架整合从入门到实战</td><td>90</td><td><input type="button" v-on:click="price3-=1" value="-">{{price3}} <input value="+" v-on:click="price3+=1" type="button"></td><td><input type="button" v-on:click="s3=false" value="删除"/></td></tr>
+    </table>
+    总价：{{price1*70+price2*80+price3*90}}<input type="button" v-on:click="price1=0,price2=0,price3=0" value="清空购物车"/>
+    
+</div>
+<script src="cart.js"></script>
+<style>
+    css1{
+        border:1px solid black;
+    }
+</style>

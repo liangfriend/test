@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome Page</title>
+  <style>
+    /* 背景样式 */
+    body {
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    
+    /* 顶部菜单栏样式 */
+    .navbar {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      transform-style: preserve-3d;
+    }
+    
+    /* 登录按钮样式 */
+    .login-btn {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    /* 欢迎界面样式 */
+    .welcome-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: welcomeAnimation 2s ease-in-out forwards;
+      opacity: 0;
+   
+    }
+    
+    /* 文字样式 */
+    .welcome-text {
+      position: relative;
+      font-size: 48px;
+      font-weight: bold;
+      color: #333;
+      transform: scale(0);
+      animation: textAnimation 1s ease-in-out forwards;
+    }
+    
+    /* 左侧梯形样式 */
+    .left-trapezoid {
+        
+      position: absolute;
+ 
+      left: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.5);
+      transform: skewX(-30deg);
+      animation: leftTrapezoidAnimation 2s ease-in-out forwards;
+    }
+    
+    /* 右侧梯形样式 */
+    .right-trapezoid {
+        transform-style: preserve-3d;
+        transform: translateZ(-1px);
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.5);
+      transform: skewX(30deg);
+      animation: rightTrapezoidAnimation 2s ease-in-out forwards;
+    }
+    .ball {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #f1c40f;
+      text-align: center;
+      line-height: 100px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      transition: transform 0.3s;
+    }
+    
+    .ball-left {
+      left: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .ball-right {
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    /* 动画 */
+    @keyframes welcomeAnimation {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes textAnimation {
+      0% {
+        transform: scale(0);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes leftTrapezoidAnimation {
+      0% {
+        transform: skewX(-30deg) translateX(-100%);
+      }
+      100% {
+        transform: skewX(-30deg) translateX(0);
+      }
+    }
+    
+    @keyframes rightTrapezoidAnimation {
+      0% {
+        transform: skewX(30deg) translateX(100%);
+      }
+      100% {
+        transform: skewX(30deg) translateX(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div>Logo</div>
+    <button class="login-btn">Login</button>
+  </div>
+  <div class="ball ball-left">树</div>
+  <div class="ball ball-right">3D</div>
+  <div style="overflow: hidden;">
+    <div class="welcome-container">
+        <div class="left-trapezoid"></div>
+        <div class="right-trapezoid"></div>
+        <div class="welcome-text">梁友谊的小世界</div>
+      </div>
+  </div>
+  
+  
+  <script>
+    // 获取欢迎容器和梯形元素
+    const welcomeContainer = document.querySelector('.welcome-container');
+    const leftTrapezoid = document.querySelector('.left-trapezoid');
+    const rightTrapezoid = document.querySelector('.right-trapezoid');
+    
+    // 监听鼠标移动事件
+    document.addEventListener('mousemove', (event) => {
+      const mouseX = event.clientX-window.innerWidth/2;
+      const mouseY = event.clientY-window.innerHeight/2;
+      
+      // 更新梯形元素和文字的位置
+      leftTrapezoid.style.transform = `skewX(-30deg) translateX(${mouseX * 0.1}px)`;
+      rightTrapezoid.style.transform = `skewX(30deg) translateX(${-(window.innerWidth - mouseX) * 0.1}px)`;
+      welcomeContainer.style.transform = `translate(${mouseX * 0.05}px, ${mouseY * 0.05}px)`;
+    
+      balls.forEach((ball) => {
+        const ballX = parseFloat(ball.style.left) || 0;
+        const ballY = parseFloat(ball.style.top) || 0;
+        
+        const dx = mouseX - ballX - 50;
+        const dy = mouseY - ballY - 50;
+        
+        ball.style.transform = `translate(${dx * 0.05}px, ${dy * 0.05}px)`;
+      });
+    });
+    const balls = document.querySelectorAll('.ball');
+    
+  
+  </script>
+</body>
+</html>

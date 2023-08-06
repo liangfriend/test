@@ -1,0 +1,39 @@
+
+    <img src="./images/avatar.png"/>
+<script>
+
+
+</script>
+<style>
+   img{
+    --s:280px;
+    --c1:#c02942;
+    --c2:#ecd078;
+    --b:5px;
+    --f:1;
+    --bgOption:content-box /*背景图默认覆盖的是padding的，这里修改为内容*/ 
+        no-repeat center/ calc(100% / var(--f)) 100%;/*径向渐变 cloest-side，以最短边作为半径*/
+
+    width:var(--s);
+    height:var(--s);
+    cursor:pointer;
+    transition:0.5s;
+    padding-top: 100px;
+    transform: scale(var(--f));
+    outline:var(--b) solid var(--c1);
+    outline-offset: calc((var(--s) / var(--f) - var(--s)) / 2 - var(--b)); /*表示外边框和元素之间的距离*/
+    border-radius: 0 0 999px 999px;
+    background: radial-gradient(
+        circle closest-side, 
+        var(--c2) calc(99% - var(--b)),
+        var(--c1) calc(99% - var(--b)),
+        var(--c2) 100%,
+        lightblue 100%
+        )var(--bgOption);
+
+        -webkit-mask: radial-gradient(circle closest-side,#000 99% transparent) var(--bgOption);
+   }
+   img:hover{
+   --f:1.35;
+   }
+</style>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>相机拍照示例</title>
+  <style>
+    #camera-preview {
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>相机拍照示例</h1>
+  <button id="start-camera-button">开启摄像机</button>
+  <video id="camera-preview" width="400" height="300" autoplay></video>
+
+  <script>
+    var startCameraButton = document.getElementById('start-camera-button');
+    var videoElement = document.getElementById('camera-preview');
+
+    startCameraButton.addEventListener('click', function() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+          videoElement.srcObject = stream;
+        })
+        .catch(function(error) {
+          console.log('无法访问摄像头:', error);
+        });
+    });
+  </script>
+</body>
+</html>

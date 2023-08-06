@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Block HTML Example</title>
+  
+</head>
+<body>
+  <div class="circle"></div>
+  <button onclick="run()">执行1000次耗时任务</button>
+  <div id="overlay" class="overlay"></div>
+
+</body>
+</html>
+
+<script>
+    /*
+    尽快完成这个高量级任务
+    尽可能让页面渲染流畅
+    尽可能兼容更多浏览器
+    */
+  function run(){
+    // let start=new Date().getTime()
+    for(let i=0;i<1000;i++){
+    setTimeout(()=>{
+      _runTask(task)
+    },0)
+        
+      
+      
+    }
+    // console.log("执行了"+(new Date().getTime()-start)+"毫秒")
+  }
+
+
+
+
+
+
+
+
+
+  function task(){
+    for(let i=0;i<1000;i++){
+      for(let i=0;i<1000;i++){
+        for(let i=0;i<10;i++){
+      
+    }
+    }
+    }
+  }
+  
+
+  function _runTask(task,){
+    requestIdleCallback((idle)=>{
+      if(idle.timeRemaining()>0){
+        task();
+       
+      }
+      else{
+        _runTask();
+      }
+    })
+  }
+</script>
+<style>
+  .circle {
+    width: 50px;  
+    height: 50px;
+    background-color: blue;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    animation: moveCircle 2s linear infinite;
+  }
+
+  @keyframes moveCircle {
+    0% { left:0px;top: 0px; }
+    25% { left:0px;top: 500px;  }
+    50% { left:500px;top: 500px;  }
+    75% { left:500px;top: 0px; }
+    100% { left:0px;top: 0px;  }
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+</style>

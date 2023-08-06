@@ -1,0 +1,44 @@
+<div   id="ad">
+<button >s</button>
+<div @keyup="keyup" id="bo"><button >s</button></div>
+</div>
+<script src="js/vue.global.js"></script>
+<script>
+const App={
+        data(){
+            return {
+                
+            }
+        },
+        computed:{
+      
+            
+        },
+        methods:{
+              keyup(event){
+           if(event.keyup='enter'){
+                                        alert("回车键被点击 ")
+           }                                    
+        } ,
+    
+     
+        },
+       
+        
+        
+    }
+   let instance= Vue.createApp(App).mount("#ad")
+ 
+</script>
+<style>
+    #ad{
+        width: 100%;
+        height: 100%;
+        background-color: azure;
+    }
+    #bo{
+        width: 200px;
+        height: 200px;
+        background-color: black;
+    }
+</style>

@@ -1,0 +1,23 @@
+<div id="ad">
+    <div style="position: absolute;width: 50px;"><my-alert></my-alert></div>
+    
+</div>
+<script src="./js/vue.global.js"></script>
+<script>
+const app=Vue.createApp({})
+app.component("my-alert",{
+    template:`<teleport to="body">
+    <div><button @click="show=true">弹出弹窗</button></div>
+    <div v-if="show" style="text-align:center;padding:20px;position:absolute;top:45%;left:30%;width:40%;border:black solid 2px;background-color:white">
+        <h3>弹窗</h3>
+        <button @click="show=false">隐藏弹窗</button>
+        </div></teleport>`,
+        data(){
+            return{
+                show:false
+            }
+        }
+
+})
+app.mount("#ad")
+</script>

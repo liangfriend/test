@@ -1,0 +1,52 @@
+<div class="box">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+</div>
+<script>
+    document.addEventListener("mousemove",(e)=>{
+        let mouseX = e.x
+        let mouseY = e.y
+        let items = document.querySelectorAll(".item")
+        items.forEach(item =>{
+            //距离左边和顶部的距离
+            let offsetX=item.offsetLeft
+            let offsetY=item.offsetTop
+            console.log(offsetX,offsetY)
+            //计算以item为原点鼠标在x，y轴上的位置
+            let diffX=mouseX-offsetX;
+            let diffY=mouseY-offsetY;
+            //求出旋转角度
+            let hudu=Math.atan2(diffY,diffX);
+            let angle=hudu/(Math.PI/180);
+            //设置旋转
+            item.style.transform=`rotate(${angle}deg)`
+        })
+
+    })
+</script>
+<style>
+    .item{
+        width: 45px;
+        height: 45px;
+        background-color: gold;
+    }
+    .item::before{
+        border: 5px solid;
+   
+      
+        content: '';
+    }
+    .box{
+        height: 300px;
+        width: 300px;
+        display: grid;
+        grid-template-rows:50px 50px 50px 50px;
+        grid-template-columns: 50px 50px 50px 50px; 
+    }
+</style>

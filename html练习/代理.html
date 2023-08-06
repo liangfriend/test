@@ -1,0 +1,16 @@
+
+<input id="text" type="text" >
+<div id="inp"></div>
+<input type="button" value="按钮" onclick="btn();"/>
+<script type="text/javascript">
+    const text=document.getElementById('text')
+    const inp=document.getElementById('inp')
+
+    const target={}
+    console.log(target)
+   Object.defineProperty(target,'foo',{value:'bar'})
+   function btn(){
+    console.log(target)
+   }
+
+</script>
