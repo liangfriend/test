@@ -1,0 +1,162 @@
+<body>
+<canvas></canvas>
+</body>
+<script>
+const canvas=document.querySelector('canvas');
+const ctx=canvas.getContext('2d',{
+    //这个配置能提升渲染效率
+    willReadFrequently:true
+})
+function initCanvasSize(){
+    canvas.width=window.innerWidth*devicePixelRatio
+    canvas.height=window.innerHeight*devicePixelRatio
+    
+}
+initCanvasSize()
+function getRandom(min,max){
+    return Math.floor(Math.random() * (max + 1))
+}
+class Particle{
+    constructor(x,y){
+       
+        
+        this.size=getRandom(2*devicePixelRatio,7*devicePixelRatio)
+        const r=Math.min(canvas.width,canvas.height)/2
+        const rad=(getRandom(0,360)*Math.PI)/180
+        const cx=canvas.width/2
+        const cy=canvas.height/2
+        this.x=x?x:cx+r*Math.cos(rad)
+        this.y=y?y:cy+r*Math.sin(rad)
+        
+    }
+    draw(){
+        ctx.beginPath()
+        ctx.arc(this.x,this.y,this.size,0,2*Math.PI)
+        ctx.fillStyle='#5445544d'
+        ctx.fill()
+    }
+    moveTo(tx,ty){
+        const duration=500
+        const sx=this.x,sy=this.y
+        const xSpeed=(tx-sx)/duration
+        const ySpeed=(ty-sy)/duration
+        const startTime=Date.now()
+        
+        const _move=()=>{
+            const t=Date.now()-startTime;
+            const x=sx+xSpeed*t
+            const y=sy+ySpeed*t
+            this.x=x
+            this.y=y
+            if(t>duration){
+                this.x=tx
+                this.y=ty
+                return
+            }
+           
+            requestAnimationFrame(_move)
+        }
+    
+        _move()
+    }
+    
+}
+
+function update(){
+    
+    const curText=getText()
+    if(text===curText){
+        return
+    }
+   
+    text=curText
+    const {width,height}=canvas
+    ctx.fillStyle='#000'
+    ctx.textBaseline='middle'
+    ctx.font=`${140*devicePixelRatio}px 'DS-Digital',sans-serif`
+    ctx.textAlign='center'
+    ctx.fillText(text,width/2,height/2)
+  
+    const points=getPoints()
+    clear()
+   
+   for(let i=0;i<points.length;i++){
+    const [x,y]=points[i]
+    let p=particles[i]
+    if(!p){
+        p=new Particle(x,y)
+        
+        particles.push(p)
+
+    }
+ 
+    if(points.length<particles.length){
+        particles.splice(points.length,particles.length-points.length)
+    }
+    p.moveTo(x,y)
+   }
+
+    
+}
+function clear(){
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+}
+//得到像素点
+function getPoints(){
+
+    const points=[]
+    const gap=2
+      //拿到像素信息，像素信息四个一组，表示rgba。从左到右，从上到下
+      const {data}=ctx.getImageData(0,0,canvas.width,canvas.height)
+      for(let i=0;i<canvas.width;i+=gap){
+        for(let j=0;j<canvas.height;j+=gap){
+            const index=(i+j*canvas.width)*4
+            const r=data[index]
+            const g=data[index+1]
+            const b=data[index+2]
+            const a=data[index+3]
+            if(r===0 && g===0 && b===0 && a===255){
+                points.push([i,j])
+            }
+        }
+      }
+
+      return points
+}
+//画文字
+function getText(){
+
+return new Date().toTimeString().substring(0,8)
+}
+
+
+let text=null
+
+const particles=[]
+// const p=new Particle()
+
+//绘制
+function draw(){
+    clear()
+    
+    update()
+    for(const p of particles){
+        p.draw()
+    }
+requestAnimationFrame(draw)
+}
+draw()
+
+</script>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+canvas{
+background: radial-gradient(#fff,#000);
+display: block;
+width: 100vw;
+height: 100vh;
+}
+</style>

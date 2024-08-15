@@ -1,0 +1,35 @@
+<body>
+<div>
+ss
+</div>
+</body>
+<script>
+    /*
+    影子dom会创建一个新的dom树，这个树和原来的dom树是分离的
+    影子dom的树中的节点不会影响到原来的dom树
+    影子dom的树中的节点也不会被原来的dom树影响
+    就像这个例子里的p标签的style样式，不会影响到原来的dom树中的p标签
+    如果把shadowDOM.innerHTML换成div.innerHTML，
+    那么就会影响到原来的dom树中的p标签,最后全都是蓝色
+    影子dom拥有最高优先级，会覆盖原来的dom树，如果换成div.innerHTML，
+    但是不注释掉shadowDOM.innerHTML，那么div内容为空
+    除非使用slot标签，才能让原来的dom树中的内容显示出来
+    slot还可以通过name属性来指定要显示的内容
+    */
+for(let color of ['red','green','blue']){
+    const div =document.createElement('div');
+    const shadowDOM=div.attachShadow({mode:'open'}).innerHTML=`<slot></slot>`;
+    document.body.appendChild(div);
+    div.innerHTML=`
+    <p>Make me ${color}</p>
+    <style>
+    p{
+        color:${color};
+    }
+    </style>
+    `
+}
+</script>
+<style>
+
+</style>

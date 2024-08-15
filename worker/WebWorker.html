@@ -1,0 +1,20 @@
+<script src="./work.js"></script>
+<script src="./self.js"></script>
+<script>
+function delay(time) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(resolve, time);
+  });
+}
+
+delay(2000).then(
+    function() {
+        console.log('2 seconds have passed!');
+    }
+    );
+
+
+</script>
+
+
+

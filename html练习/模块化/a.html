@@ -1,0 +1,20 @@
+<body>
+    <div>
+
+    </div>
+</body>
+<script src="./b.js"></script>
+<script type="module">
+    import { cc } from './c.js'
+    console.log( cc )
+    console.log( bb )
+</script>
+<script>
+
+    //相当于混入，b.js就是这个页面里的，b.js的变量，方法，属性都可以使用
+    console.log( bb )
+    //加了type等于module的可以用普通script中的变量，但是反之不能
+</script>
+<style>
+
+</style>

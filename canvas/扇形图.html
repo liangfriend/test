@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Pie Chart</title>
+</head>
+<body>
+<canvas id="pieChart" width="500" height="3s00"></canvas>
+<script>
+   
+
+   
+
+
+    
+    function fanChart(data,canvas,settings){
+        const ctx = canvas.getContext('2d');
+        const colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b'];
+        // 假设每个部分的值相等
+        
+    
+        let total = data.reduce((sum, cur) => sum + cur.value, 0);
+        let startAngle = 0;
+        ctx.font=`${settings?.fontSize?settings.fontSize:10}px  Arial`
+        // ctx.font = '20px Arial';
+        const R=settings.R?settings.R:100
+        data.forEach((item, index) => {
+            // 计算每个扇形的结束角度
+            const endAngle = startAngle + (2 * Math.PI * (item.value / total));
+            // 设置扇形的颜色
+            ctx.fillStyle = colors[index % colors.length];
+            // 绘制扇形
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, canvas.height / 2); // 扇形的起点位于圆心
+            ctx.arc(canvas.width / 2, canvas.height / 2, R, startAngle, endAngle);
+            ctx.closePath();
+            ctx.fill();
+            //绘制标签
+            const curAngle=(startAngle+endAngle)/2
+            ctx.beginPath();
+            ctx.strokeStyle=colors[index % colors.length];
+            const x=canvas.width / 2+Math.cos(curAngle)*R
+            const y=canvas.height / 2+Math.sin(curAngle)*R
+            ctx.moveTo(x,y)
+            ctx.lineTo(x+Math.cos(curAngle)*R*0.1,y+Math.sin(curAngle)*R*0.1)
+            let text=''
+            if(settings.formatter){
+                text=settings.formatter({data:data[index],total:total})
+            }else{
+                text= item.name
+            }
+            if(Math.cos(curAngle)>0){
+                const lx=x+Math.cos(curAngle)*R*0.1+R*0.1
+                const ly=y+Math.sin(curAngle)*R*0.1
+                ctx.lineTo(lx,ly)
+                ctx.fillText(text,lx+R*0.1,ly)
+               
+            }else if(Math.cos(curAngle)<0){
+                const lx=x+Math.cos(curAngle)*R*0.1-R*0.1
+                const ly=y+Math.sin(curAngle)*R*0.1
+                ctx.lineTo(lx,ly)
+                
+                const metrics=ctx.measureText(text);
+                ctx.fillText(text,lx-R*0.1-metrics.width,ly)
+              }
+              
+            ctx.stroke()
+            // 更新下一个扇形的起始角度
+            startAngle = endAngle;
+
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const canvas = document.getElementById('pieChart');
+        const data=[{name:'离床',value:2},{name:'清醒',value:40},{name:'浅睡',value:20},{name:'深睡',value:50},{name:'REM',value:10}]
+     
+        if(canvas.getContext){
+            //这里第三个参数是formatter函数
+            fanChart(data,canvas,{formatter:(params)=>{return params.data.name},R:100,fontSize:20})
+        }
+        
+    })
+  
+   
+
+
+</script>
+<style>
+    #pieChart{
+        margin: 10rem;
+        
+    }
+</style>
+</body>
+</html>
+

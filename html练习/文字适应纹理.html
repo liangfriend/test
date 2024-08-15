@@ -1,0 +1,66 @@
+<body>
+    <div class="container">
+        <div class="item">
+            <input class="text" type="text" /><input type="color" />
+        </div>
+
+        <div class="item">
+            <svg style="">
+                <defs>
+                    <filter id="conform">
+                        <feImage href="../resources//images/红砖墙.jpg" x="0" y="0" width="100%" height="100%"
+                            preserveAspectRatio="none" result="ORIGIN_IMAGE">
+
+                        </feImage>
+                        <feColorMatrix in="ORIGIN_IMAGE" type="saturate" value="0" result="GRAY_IMAGE"></feColorMatrix>
+                        <feDisplacementMap in="SourceGraphic" in2="GRAY_IMAGE" scale="15" xChannelSelector="R"
+                            yChannelSelector="R" result="TEXTURED_TEXT"></feDisplacementMap>
+                        <feImage href="../resources//images/红砖墙.jpg" x="0" y="0" width="100%" height="100%"
+                            preserveAspectRatio="none" result="BG">
+
+                        </feImage>
+                        <feColorMatrix in="TEXTURED_TEXT" type="matrix" values="1 0 0 0 0 
+                            0 1 0 0 0
+                            0 0 1 0 0 
+                            0 0 0 .9 0" result="OPACITY_TEXT">
+                        </feColorMatrix>
+                        <feBlend in="BG" in2="OPACITY_TEXT" mode="multiply" result="BLENDED_TEXT"></feBlend>
+                    </filter>
+                </defs>
+
+                <Image x="0" y="0" width="100%" height="100%" preserveAspectRatio="none"
+                    href="../resources//images/红砖墙.jpg" />
+                <text x="50%" y="50%" width="100%" font-size="20em" font-weight="bold" alignment-baseline="middle"
+                    text-anchor="middle" height="100%" text-anchor="middle" class="target"
+                    filter="url(#conform)"></text>
+            </svg>
+        </div>
+    </div>
+</body>
+<script>
+    const textDom = document.querySelector( '.text' )
+    const targetDom = document.querySelector( '.target' )
+    let text = 'sss'
+
+
+    textDom.value = text
+    targetDom.textContent = text
+    textDom.addEventListener( 'input', ( e ) =>
+    {
+        console.log( "更新" )
+        text = textDom.value
+        targetDom.textContent = text
+    } )
+</script>
+<style>
+    .container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    svg {
+        height: 100vh;
+        width: 100vw;
+    }
+</style>

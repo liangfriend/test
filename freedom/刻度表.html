@@ -1,0 +1,42 @@
+<body>
+    <div class="exCircle">
+        <div class="calibrationBar"></div>
+    </div>
+</body>
+<style>
+.exCircle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;  /* 隐藏超出部分 */
+}
+
+.calibrationBar {
+    width: 150px;
+    height: 150px;
+  
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;  /* 隐藏超出部分 */
+}
+
+.calibrationBar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background: linear-gradient(to right, red, yellow, green);
+    clip-path: ellipse(50% 50% at 50% 100%)
+}
+</style>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>拖放示例</title>
+    <style>
+        body{
+            display: flex;
+        }
+        .left{
+            margin: 20px;
+            border: 1px solid black;
+            width: 200px;
+            height: 400px;
+        }
+        .right{
+            margin: 20px;
+            width: 200px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        .item{
+            margin: 10px;
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div class="left">
+        <div class="item" draggable="true" id="item1">吃饭</div>
+        <div class="item" draggable="true" id="item2">睡觉</div>
+        <div class="item" draggable="true" id="item3">打豆豆</div>
+    </div>
+    <div class="right" id="right"></div>
+
+    <script>
+        const items = document.querySelectorAll('.item');
+        const right = document.getElementById('right');
+
+        items.forEach(item => {
+            item.addEventListener('dragstart', function(event) {
+                event.dataTransfer.setData('text', event.target.id);
+            });
+        });
+
+        right.addEventListener('dragover', function(event) {
+            event.preventDefault();
+        });
+
+        right.addEventListener('drop', function(event) {
+            event.preventDefault();
+            const id = event.dataTransfer.getData('text');
+            const element = document.getElementById(id);
+            right.appendChild(element);
+        });
+    </script>
+</body>
+</html>

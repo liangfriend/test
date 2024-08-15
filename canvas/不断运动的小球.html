@@ -1,0 +1,74 @@
+<body>
+    <canvas class="canvas" width="1000px" height="1000px"></canvas>
+</body>
+
+
+<script>
+const cvs=document.querySelector("canvas")
+
+const ctx= cvs.getContext("2d")
+
+
+        // Second path
+let x=0
+let y=0
+const base = 250
+const length = 100
+const speed=5
+let direction='1'
+function draw(){
+    requestAnimationFrame(()=>{
+        ctx.clearRect( 0, 0, cvs.width, cvs.height )
+        draw()
+    })
+    
+    if(x > length &&  direction === '1' ){
+        direction = '2'
+    }
+    if ( y > length && direction === '2' )
+    {
+        direction = '3'
+    } 
+    if ( x< -length && direction === '3' )
+    {
+       direction = '4'
+    }
+    if ( y  < -length && direction === '4'  )
+    {
+       direction = '1'
+    } 
+    if(direction==='1'){
+        x+= speed
+    }
+    if ( direction === '2' )
+    {
+        y += speed
+    }
+    if ( direction === '3' )
+    {
+        x -= speed
+    }
+    if ( direction === '4' )
+    {
+        y -= speed
+    }
+    
+   
+    ctx.beginPath();
+    ctx.strokeStyle = "blue";
+    ctx.arc( base+x, base +y, 100, 0, Math.PI*2, true )
+ 
+    ctx.stroke();
+}
+window.addEventListener("resize",(e)=>{
+    console.log(ctx)
+     ctx.scale( window.devicePixelRatio, window.devicePixelRatio )
+})
+   draw()
+</script>
+<style>
+
+.canvas{
+
+}
+</style>

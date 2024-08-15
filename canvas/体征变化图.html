@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Pie Chart</title>
+</head>
+<body>
+<canvas id="pieChart" width="800" height="300"></canvas>
+<script>
+    const data=[
+  {
+    name: "RR",
+    value: [
+      [1, 1], [2, 3], [3, 5], [4, 4], [5, 6], [6, 7], [7, 5], [8, 8], [9, 7], [10, 9]
+    ],
+    substitution:'呼吸率'
+  },
+  {
+    name: "PR",
+    value: [
+      [1, 10], [2, 10], [3, 10], [4, 11], [5, 9], [6, 10], [7, 11], [8, 9], [9, 10], [10, 11]
+    ],
+    substitution:'脉率'
+  },
+  {
+    name: "bodyMovement",
+    direction: 'right',
+    value: [
+      [1, 5], [2, 7], [3, 8], [4, 7], [5, 6], [6, 8], [7, 9], [8, 7], [9, 8], [10, 6]
+    ],
+    substitution:'体动'
+  }
+];
+
+
+
+
+    
+    function fanChart(data,canvas,settings){
+        const ctx = canvas.getContext('2d');
+        const colors = [
+            'rgba(203, 109, 9, 0.8)',
+            'rgba(24, 79, 3,0.8)',
+            'rgba(63, 228, 241, 0.8)',
+            'rgba(92, 200, 173,0.8)',
+            'rgba(231, 155, 251, 0.8)',
+            'rgba(110, 156, 26, 0.8)',
+            'rgba(125, 60, 220, 0.8)',
+            'rgba(81, 2, 230, 0.8)',
+            'rgba(44, 187, 132, 0.8)',
+            'rgba(92, 152, 213, 0.8)'
+            ];
+        //配置项
+        const left=settings.left?settings.left:10
+        const right=settings.right?settings.right:10
+        const bottom=settings.bottom?settings.bottom:10
+        const top=settings.top?settings.top:10
+        const xInterval = settings.xInterval || 1;
+        const yInterval = settings.yInterval || 1;
+        const symbolXOffset=settings.symbolXOffset?settings.symbolXOffset:40
+        const symbolYOffset=settings.symbolYOffset?settings.symbolYOffset:-10
+        //原点x坐标
+        const originX=canvas.width-right
+        //原点y坐标
+        const originY=canvas.height-bottom
+
+        //计算出x最大值
+
+        //计算出x最小值
+        let minValueX=data[0].value[0][0]
+        let maxValueX=0
+        data.forEach(item => {
+            
+            item.value.forEach(range => {
+            if (range[0] > maxValueX) { // 只比较区间的结束值，因为它大于开始值
+                maxValueX = range[0];
+            }
+            });
+            item.value.forEach(range => {
+                if (range[0] < minValueX) {
+                    minValueX = range[0];
+                }
+            });
+        });
+        
+        
+        //计算出左侧y最大值
+        let maxValueLY=0
+        //计算出右侧y最大值
+        let maxValueRY=0
+        data.forEach(item => {
+            if(!item.direction || item.direction!=='right'){
+                item.value.forEach(range => {
+                if (range[1] > maxValueLY) {
+                    maxValueLY = range[1];
+                }
+            });
+            }else{
+                item.value.forEach(range => {
+                if (range[1] > maxValueRY) {
+                    maxValueRY = range[1];
+                }
+            });
+            }
+            
+        });
+        console.log(maxValueLY,maxValueRY)
+        //绘制坐标轴
+        //x轴
+        ctx.beginPath()
+        ctx.moveTo(canvas.width-right,canvas.height-bottom)
+        ctx.lineTo(left,canvas.height-bottom)
+        ctx.stroke()
+        //左侧y轴
+        ctx.beginPath()
+        ctx.moveTo(left,canvas.height-bottom)
+        ctx.lineTo(left,top)
+        ctx.stroke()
+        //右侧y轴
+        if(settings.showRightY){
+            ctx.beginPath()
+            
+            ctx.moveTo(canvas.width-right,canvas.height-bottom)
+            ctx.lineTo(canvas.width-right,top)
+            ctx.stroke()
+        }
+        //绘制y轴名称
+        //左侧
+        ctx.beginPath()
+        ctx.moveTo(left,top)
+        const LName=settings.LeftYName?settings.LeftYName:''
+        const LNameMetrics=ctx.measureText(LName)
+        ctx.fillText(LName,left-LNameMetrics.width/2,top-10)
+        ctx.stroke()
+        ctx.beginPath()
+        //右侧
+        const RName=settings.RightYName?settings.RightYName:''
+        const RNameMetrics=ctx.measureText(RName)
+        ctx.fillText(RName,canvas.width-right-RNameMetrics.width/2,top-10)
+        ctx.stroke()
+
+        //绘制上方数据图例
+        // 绘制上方数据symbol
+        
+        const legendPosition = { x: left+symbolXOffset, y: top / 2 +symbolYOffset}; // 设置图例的位置
+        
+        const legendRectSize = 10; // 设置图例颜色条的大小
+
+        data.forEach((item, index) => {
+           
+            const nameText=item.substitution?item.substitution:item.name
+            const nameTextMetrics=ctx.measureText(nameText)
+            const legendSpacing = nameTextMetrics.width+15; // 设置图例之间的间距
+            // 绘制图例颜色条
+            ctx.fillStyle = colors[index % colors.length];
+            ctx.fillRect(legendPosition.x, legendPosition.y - legendRectSize / 2, legendRectSize*2, legendRectSize);
+            
+            // 绘制图例文本
+            ctx.fillStyle = '#000'; // 文本颜色
+            ctx.font = '12px Arial'; // 文本字体
+            ctx.textAlign = 'left'; // 文本对齐方式
+            ctx.textBaseline = 'middle'; // 文本基线
+            
+            ctx.fillText(nameText, legendPosition.x + legendRectSize + 15, legendPosition.y);
+            
+            // 更新图例位置，为下一个图例准备
+            const metrics = ctx.measureText(item.name);
+            legendPosition.x += metrics.width + legendSpacing + legendRectSize;
+        });
+
+        //绘制坐标标签
+        //每份x标签间隔
+        const intervalLWidth=(canvas.width-left-right)/(maxValueX-minValueX)
+        
+        const intervalLHeight=(canvas.height-bottom-top)/(maxValueLY)
+        const intervalRHeight=(canvas.height-bottom-top)/(maxValueRY)
+        for(let i=0;i<=maxValueLY;i+=yInterval){
+            //左侧y轴label
+            ctx.beginPath()
+            ctx.moveTo(left,originY-intervalLHeight*i)
+            ctx.lineTo(left+10,originY-intervalLHeight*i)
+            const textYL=i.toString()
+            const metricsYL=ctx.measureText(textYL)
+            ctx.fillText(textYL,left-10-metricsYL.width,originY-intervalLHeight*i+5)
+            ctx.stroke()
+            
+
+        }
+        if(settings.showRightY){
+
+            for(let i=0;i<=maxValueRY;i+=yInterval){
+            //右侧y轴label
+            ctx.beginPath()
+            ctx.moveTo(canvas.width-right,originY-intervalRHeight*i)
+            ctx.lineTo(canvas.width-right-10,originY-intervalRHeight*i)
+            const textYL=i.toString()
+            const metricsYL=ctx.measureText(textYL)
+            ctx.fillText(textYL,canvas.width-right+15-metricsYL.width,originY-intervalRHeight*i+5)
+            ctx.stroke()
+            
+
+        }
+        }
+        
+        for(let i=minValueX;i<=maxValueX;i+=xInterval){
+            //底部x轴label
+            ctx.beginPath()
+            ctx.moveTo(intervalLWidth*(i-minValueX)+left,originY)
+            ctx.lineTo(intervalLWidth*(i-minValueX)+left,originY-10)
+            const textXB=i.toString()
+            const metricsXB=ctx.measureText(textXB)
+            ctx.fillText(textXB,intervalLWidth*(i-minValueX)+left-metricsXB.width/2,originY+20)
+            ctx.stroke()
+        }
+        //以上是通用逻辑，几乎可以用在所有有坐标系的图表中 --------------------------------------------
+        //数据渲染
+        data.forEach((item, index, array) => {
+
+            if(!item.direction || item.direction!=='right'){
+                ctx.beginPath()
+                ctx.strokeStyle=colors[index%colors.length]
+                // ctx.moveTo((item.value[0]-minValueX)*intervalLWidth+left,originY-item.value[1]*intervalLHeight)
+                item.value.forEach((inside, index, array) => {
+                
+                
+                
+                ctx.lineTo((inside[0]-minValueX)*intervalLWidth+left,originY-inside[1]*intervalLHeight)
+                // ctx.arc((inside[0]-minValueX)*intervalLWidth+left,originY-inside[1]*intervalLHeight+10,2,0,Math.PI*2,)
+             
+                
+                })
+          
+                ctx.stroke()
+
+            }else{
+                ctx.beginPath()
+                ctx.strokeStyle=colors[index%colors.length]
+                // ctx.moveTo((item.value[0]-minValueX)*intervalLWidth+left,originY-item.value[1]*intervalLHeight)
+                item.value.forEach((inside, index, array) => {
+                ctx.lineTo((inside[0]-minValueX)*intervalLWidth+left,originY-inside[1]*intervalRHeight)
+                // ctx.arc((inside[0]-minValueX)*intervalLWidth+left,originY-inside[1]*intervalLHeight+10,2,0,Math.PI*2,)
+             
+                
+                })
+          
+                ctx.stroke()
+            }
+            
+        })
+        
+
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const canvas = document.getElementById('pieChart');
+       
+        
+        if(canvas.getContext){
+            //这里第三个参数是formatter函数
+            fanChart(data,canvas,{symbolXOffset:420,LeftYName:'左侧名称',RightYName:'右侧名称',left:30,right:100,top:50,bottom:30,xInterval:1,yInterval:1,showRightY:true})
+        }
+        
+    })
+  
+   
+
+
+</script>
+<style>
+    #pieChart{
+        margin: 10rem;
+        
+    }
+</style>
+</body>
+</html>
+

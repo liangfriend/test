@@ -1,0 +1,73 @@
+<body>
+    <div class="father">
+        <div class="item" draggable="true">1</div>
+        <div class="item" draggable="true">2</div>
+        <div class="item" draggable="true">3</div>
+        <div class="item" draggable="true">4</div>
+        <div class="item" draggable="true">5</div>
+    </div>
+</body>
+<script>
+
+    const list = document.querySelector( '.father' )
+    let source = null
+    list.ondragstart = ( e ) =>
+    {
+        console.log( e )
+
+        setTimeout( () =>
+        {
+
+            e.target.classList.add( 'moving' )
+
+        }, 0 )
+        e.dataTransfer.effectAllowed = 'move'
+        source = e.target
+    }
+    list.ondragenter = ( e ) =>
+    {
+        if ( e.target === list || e.target === source )
+        {
+
+        } else
+        {
+            const children = [ ...list.children ]
+            const sourceIndex = children.indexOf( source )
+            const targetIndex = children.indexOf( e.target )
+            if ( sourceIndex < targetIndex )
+            {
+                console.log( "向下拖动" )
+                list.insertBefore( source, e.target.nextElementSibling )
+            } else
+            {
+                console.log( "向上拖动" )
+                list.insertBefore( source, e.target )
+            }
+
+        }
+    }
+    list.ondragend = e =>
+    {
+        e.target.classList.remove( 'movingpp' )
+    }
+
+</script>
+<style>
+    .item {
+        width: 300px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+
+        background-color: rgba(2, 255, 158, 1);
+        border-radius: 8px;
+        margin: 20px;
+    }
+
+    .moving {
+        background: transparent;
+        color: transparent;
+        border: 1px dashed #ccc
+    }
+</style>

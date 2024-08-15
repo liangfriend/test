@@ -1,0 +1,21 @@
+<body>
+    <canvas id="pieChart" width="300" height="300"></canvas>
+</body>
+<script>
+     
+    const canvas = document.getElementById('pieChart');
+    
+       
+    const ctx = canvas.getContext('2d');
+ctx.beginPath();
+// ctx.fillStyle="red"
+ctx.moveTo(canvas.width / 2, canvas.height / 2); // 扇形的起点位于圆心
+ctx.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2, 0, Math.PI);
+// ctx.closePath()
+// ctx.fill()
+// ctx.stroke()
+
+</script>
+<style>
+
+</style>

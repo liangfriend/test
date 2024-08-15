@@ -1,0 +1,50 @@
+<body>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" accept="image/*,video/*" multiple />
+        <button type="submit">Upload</button>
+    </form>
+    <div id="previewContainer"></div>
+</body>
+<script>
+    document
+        .getElementById('uploadForm')
+        .addEventListener('submit', function (event) {
+            event.preventDefault(); // 防止表单的默认提交行为
+
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+            const previewContainer =
+                document.getElementById('previewContainer');
+
+            // 清空之前的预览
+            previewContainer.innerHTML = '';
+
+            // 遍历所有选择的文件
+            for (const file of files) {
+                const fileReader = new FileReader();
+
+                // 根据文件类型创建不同的 HTML 元素
+                fileReader.onload = function (e) {
+                    const fileURL = e.target.result;
+                    console.log(e.target.result);
+                    if (file.type.startsWith('image/')) {
+                        // 如果是图片，创建一个 img 元素
+                        const img = document.createElement('img');
+                        img.src = fileURL;
+                        img.style.maxWidth = '200px';
+                        previewContainer.appendChild(img);
+                    } else if (file.type.startsWith('video/')) {
+                        // 如果是视频，创建一个 video 元素
+                        const video = document.createElement('video');
+                        video.src = fileURL;
+                        video.controls = true;
+                        video.style.maxWidth = '300px';
+                        previewContainer.appendChild(video);
+                    }
+                };
+
+                // 读取文件内容
+                fileReader.readAsDataURL(file);
+            }
+        });
+</script>

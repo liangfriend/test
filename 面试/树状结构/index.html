@@ -1,0 +1,305 @@
+<body>
+    <div>
+
+        <input type="text" class="text" oninput="change()" placeholder="输入名称搜索" />
+
+    </div>
+
+    <div class="tree">
+        <div class="node">
+            <div class="up">
+                <div class="btn">↓</div>
+                <div class="checkbox"><input type="checkbox" /></div>
+                <div class="name"></div>
+
+            </div>
+            <div class="down"></div>
+        </div>
+
+
+    </div>
+</body>
+
+<script>
+
+    let data
+    //初始化
+    async function init ()
+    {
+        //先加载源数据
+        data = await fetch( './dept.json' )
+            .then( response => response.json() )
+            .catch( error =>
+            {
+                console.error( '出错了', error );
+            } );
+    }
+    //模拟异步查询节点列表
+    async function search ( parentId )
+    {
+        console.log( "查询" )
+
+        return data.filter( e =>
+        {
+
+            return e.PARENT_ID === parentId
+        } )
+
+    }
+    //树结构内部逻辑处理
+    function treeLogic ( dom, data, load, updateDataFn )
+    {
+        //拖动逻辑
+        let draggingElement = null;
+        function dragStart ( event )
+        {
+            draggingElement = event.target;
+            setTimeout( () => ( event.target.style.display = 'none' ), 0 );
+        }
+
+        function dragOver ( event )
+        {
+            event.preventDefault();
+        }
+
+        function dragEnter ( event )
+        {
+            event.preventDefault();
+            if ( event.target !== draggingElement )
+            {
+                event.target.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+            }
+        }
+
+        function dragLeave ( event )
+        {
+            if ( event.target !== draggingElement )
+            {
+                event.target.style.backgroundColor = '';
+            }
+        }
+
+        function dragDrop ( event )
+        {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if ( event.target !== draggingElement )
+            {
+                const draggingElementIndex = Array.from( draggingElement.parentNode.children ).indexOf( draggingElement );
+                const dropElementIndex = Array.from( draggingElement.parentNode.children ).indexOf( event.target );
+
+                if ( draggingElementIndex < dropElementIndex )
+                {
+                    event.target.closest( '.node' ).parentNode.insertBefore( draggingElement, event.target.closest( '.node' ).nextSibling );
+                    // 更新排序属性
+                    updateSort( draggingElement, event.target.closest( '.node' ).nextSibling );
+                } else
+                {
+                    event.target.closest( '.node' ).parentNode.insertBefore( draggingElement, event.target.closest( '.node' ) );
+                    // 更新排序属性
+                    updateSort( draggingElement, event.target.closest( '.node' ) );
+                }
+
+
+            }
+
+            event.target.style.backgroundColor = '';
+        }
+
+
+        function dragEnd ( event )
+        {
+            event.target.style.display = '';
+            draggingElement = null;
+        }
+
+        function updateSort ()
+        {
+
+
+            // 这里可以更新数据源，将排序属性重新映射到相应的数据项。
+            // updateDataFn(  );
+        }
+
+
+        //调用逻辑
+        const downW = dom.children[ 1 ]
+        const btnW = dom.children[ 0 ].children[ 0 ]
+        const map = new Map()
+        map.set( data.id, {
+            id: data.id,
+            name: data.NAME,
+            sort: data.sort,
+            dom: dom,
+            down: downW
+        } )
+
+        dom.children[ 0 ].children[ 2 ].innerText = data.NAME
+
+        dom.setAttribute( "name", data.NAME )
+
+        btnW.addEventListener( 'click', ( e ) =>
+        {
+
+            if ( btnW.innerHTML === '→' )
+            {
+                btnW.innerHTML = '↓'
+
+                tree( data.id )
+            } else
+            {
+                btnW.innerHTML = '→'
+                downW.innerHTML = ''
+            }
+
+
+        } )
+        return async function ( parentId )
+        {
+            const current = map.get( parentId )
+            const lists = await load( parentId )
+            //排序和过滤
+            lists.sort( ( a, b ) =>
+            {
+
+                return a.SORT - b.SORT
+            } ).filter( e =>
+            {
+                return e.NAME && e.id && e.SORT
+            } )
+
+            lists.forEach( element =>
+            {
+                const div = document.createElement( 'div' )
+                const up = document.createElement( 'div' )
+                const down = document.createElement( 'div' )
+                const btn = document.createElement( 'div' )
+                const checkbox = document.createElement( 'input' )
+                const name = document.createElement( 'div' )
+
+                checkbox.setAttribute( "type", "checkbox" )
+                up.className = 'up'
+
+                btn.innerHTML = "→"//↓
+                name.innerText = element.NAME
+                btn.setAttribute( "isExpand", false )
+                div.setAttribute( "draggable", 'true' )
+                div.setAttribute( "name", element.NAME )
+                up.appendChild( btn )
+                up.appendChild( checkbox )
+                up.appendChild( name )
+                div.className = 'node'
+                div.setAttribute( "key", element.id )
+                div.style.marginLeft = '1rem'
+                div.appendChild( up )
+                div.appendChild( down )
+
+                current.down.appendChild( div )
+                map.set( element.id, {
+                    id: element.id,
+                    sort: element.sort,
+                    name: element.NAME,
+                    dom: div,
+                    down: down
+                } )
+                //监听拖动事件
+                div.addEventListener( 'dragstart', dragStart );
+                div.addEventListener( 'dragover', dragOver );
+                div.addEventListener( 'dragenter', dragEnter );
+                div.addEventListener( 'dragleave', dragLeave );
+                div.addEventListener( 'drop', dragDrop );
+                div.addEventListener( 'dragend', dragEnd );
+                btn.addEventListener( 'click', ( e ) =>
+                {
+                    if ( btn.innerHTML === '→' )
+                    {
+                        btn.innerHTML = '↓'
+
+                        tree( div.getAttribute( "key" ) )
+                    } else
+                    {
+                        btn.innerHTML = '→'
+                        down.innerHTML = ''
+                    }
+
+
+                } )
+            } );
+
+        }
+
+    }
+
+
+    //调用逻辑
+
+    const node = document.querySelector( '.node' )
+
+    const root = {
+        id: "482fe5f0-1203-408a-9e36-102d26f36560",
+        NAME: "根",
+        SORT: 1000,
+
+    }
+    const tree = treeLogic( node, root, search )
+    const text = document.querySelector( '.text' )
+
+    //搜索
+    function change ()
+    {
+        console.log( "a" )
+        const nodes = document.querySelectorAll( '.node' )
+
+        // console.log( nodes )
+
+        nodes.forEach( item =>
+        {
+            console.log( text.value, item.getAttribute( 'name' ) )
+            item.style.display = isShow( item, text.value ) ? 'block' : 'none'
+
+
+        } )
+        //递归
+        function isShow ( d, value )
+        {
+            if ( text.value === '' )
+            {
+                return true
+            }
+            if ( d.children[ 1 ].children.length !== 0 )
+            {
+                for ( let e of d.children[ 1 ].children )
+                {
+                    const res = isShow( e, value )
+                    if ( res === true )
+                    {
+                        return true
+                    }
+                }
+
+            } else
+            {
+                if ( d.getAttribute( 'name' ) === value )
+                {
+                    return true
+                }
+            }
+            return false
+        }
+
+    }
+    //函数执行
+    window.onload = async () =>
+    {
+
+        await init()
+        await tree( "482fe5f0-1203-408a-9e36-102d26f36560" )
+
+    }
+</script>
+<style>
+    .up {
+        display: flex;
+    }
+</style>

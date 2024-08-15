@@ -1,0 +1,19 @@
+<body>
+    b
+    <div>
+        <button onclick="sendmessage">发送消息</button>
+    </div>
+    </body>
+    <script>
+    const channel = new BroadcastChannel('music')
+    const sendmessage=()=>{
+        channel.postMessage("你好");
+    }
+    channel.addEventListener('message',(e)=>{
+        console.log(e)
+        alert(e)
+    })
+    </script>
+    <style>
+    
+    </style>

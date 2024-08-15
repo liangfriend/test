@@ -1,0 +1,2186 @@
+[
+  {
+    "id": "44a17f6c-5259-4cdd-b7c7-854debfa65f8",
+    "NAME": "保密技术服务中心",
+    "PARENT_ID": "cbc40bf1-2e1e-4eae-9acb-e09ce2a5246f",
+    "SORT": 1000
+  },
+  {
+    "id": "7e9f84ca-af41-4949-919a-644f70651c72",
+    "NAME": "机要密码科",
+    "PARENT_ID": "cbc40bf1-2e1e-4eae-9acb-e09ce2a5246f",
+    "SORT": 1000
+  },
+  {
+    "id": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "NAME": "酒泉市",
+    "PARENT_ID": "0",
+    "SORT": 1000
+  },
+  {
+    "id": "f5c5d257-d018-4e4a-b5a8-242daa9efd0d",
+    "NAME": "阿克塞县200",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 200
+  },
+  {
+    "id": "31d0f192-dc91-4987-a13e-6c1044156273",
+    "NAME": "瓜州县100",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 100
+  },
+  {
+    "id": "cef648ad-8df9-42b2-9b27-f328eaed73b6",
+    "NAME": "金塔县400",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 400
+  },
+  {
+    "id": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "NAME": "人民团体300",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 300
+  },
+  {
+    "id": "44b19e41-facb-4872-ae6f-799c858758ec",
+    "NAME": "市法院",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "d7aef590-3702-406c-a9f0-56139ccd3346",
+    "NAME": "市检察院",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "40889bd4-ab7b-4a70-a16a-fec9a3579a66",
+    "NAME": "市人大",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "NAME": "市政府",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "d7d5b05f-6668-4d51-9054-7d1435358ab6",
+    "NAME": "市政协",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "49786c96-afa2-4bd3-9b63-c9bb99c495a2",
+    "NAME": "肃北县",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "e6a38f2d-877b-4063-b1a2-aebd69fb093d",
+    "NAME": "肃州区",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "1fa030a7-2b6e-4ee5-ae1f-f2ef07102209",
+    "NAME": "玉门市",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1002
+  },
+  {
+    "id": "6bbc72b9-8249-4aa3-bc3e-d3e7e3766897",
+    "NAME": "阿克塞县委办",
+    "PARENT_ID": "f5c5d257-d018-4e4a-b5a8-242daa9efd0d",
+    "SORT": 1000
+  },
+  {
+    "id": "9a6a130c-04af-4fc2-90c5-f20f235cdcd6",
+    "NAME": "阿克塞县政府办",
+    "PARENT_ID": "f5c5d257-d018-4e4a-b5a8-242daa9efd0d",
+    "SORT": 1000
+  },
+  {
+    "id": "e1bed1a0-f979-4469-8bf1-ea9b7b18ac87",
+    "NAME": "机要保密室",
+    "PARENT_ID": "6bbc72b9-8249-4aa3-bc3e-d3e7e3766897",
+    "SORT": 1000
+  },
+  {
+    "id": "cb0324aa-384f-43e1-8dd7-e5578e02560c",
+    "NAME": "文档室",
+    "PARENT_ID": "6bbc72b9-8249-4aa3-bc3e-d3e7e3766897",
+    "SORT": 1000
+  },
+  {
+    "id": "0eb6cfe3-f916-4392-845e-d59cea0667fc",
+    "NAME": "文档室",
+    "PARENT_ID": "9a6a130c-04af-4fc2-90c5-f20f235cdcd6",
+    "SORT": 1000
+  },
+  {
+    "id": "29d7b19c-31a0-4328-a19c-4598a44e16ba",
+    "NAME": "敦煌市委办",
+    "PARENT_ID": "84491a59-4429-4353-a49c-1cbbb06225fa",
+    "SORT": 1000
+  },
+  {
+    "id": "f71a019c-baa4-48f2-a500-3c7a26eedc0d",
+    "NAME": "敦煌市政府办",
+    "PARENT_ID": "84491a59-4429-4353-a49c-1cbbb06225fa",
+    "SORT": 1000
+  },
+  {
+    "id": "139eaa4c-41e5-4826-b979-3fb7a3315d5c",
+    "NAME": "文档科",
+    "PARENT_ID": "29d7b19c-31a0-4328-a19c-4598a44e16ba",
+    "SORT": 1000
+  },
+  {
+    "id": "b47fc413-254a-45fe-bac1-369fa005d277",
+    "NAME": "文电科",
+    "PARENT_ID": "f71a019c-baa4-48f2-a500-3c7a26eedc0d",
+    "SORT": 1000
+  },
+  {
+    "id": "84491a59-4429-4353-a49c-1cbbb06225fa",
+    "NAME": "敦煌市",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 999
+  },
+  {
+    "id": "83b23d12-f0fb-48a4-a91b-89f807f68b67",
+    "NAME": "瓜州县委办",
+    "PARENT_ID": "31d0f192-dc91-4987-a13e-6c1044156273",
+    "SORT": 1000
+  },
+  {
+    "id": "2a5da4cf-27c8-4a66-9e5b-c3dd396c59c1",
+    "NAME": "瓜州县政府办",
+    "PARENT_ID": "31d0f192-dc91-4987-a13e-6c1044156273",
+    "SORT": 1000
+  },
+  {
+    "id": "26ef0853-b595-4403-8f4c-e8d57ed654f0",
+    "NAME": "文档法规股",
+    "PARENT_ID": "83b23d12-f0fb-48a4-a91b-89f807f68b67",
+    "SORT": 1000
+  },
+  {
+    "id": "29ef504d-0052-4675-9856-ae2f0e3e65e9",
+    "NAME": "机要文档股",
+    "PARENT_ID": "2a5da4cf-27c8-4a66-9e5b-c3dd396c59c1",
+    "SORT": 1000
+  },
+  {
+    "id": "07fc9334-206a-4d71-b225-5f538b6e35d8",
+    "NAME": "金塔县委办",
+    "PARENT_ID": "cef648ad-8df9-42b2-9b27-f328eaed73b6",
+    "SORT": 1000
+  },
+  {
+    "id": "2697efb1-16ee-4313-8ba7-8e3e0018f576",
+    "NAME": "金塔县政府办",
+    "PARENT_ID": "cef648ad-8df9-42b2-9b27-f328eaed73b6",
+    "SORT": 1000
+  },
+  {
+    "id": "c396948a-2d23-4a7d-935a-13dd453e1d25",
+    "NAME": "机要保密室",
+    "PARENT_ID": "07fc9334-206a-4d71-b225-5f538b6e35d8",
+    "SORT": 1000
+  },
+  {
+    "id": "3d60f701-333d-4087-874b-2ec60796f6e2",
+    "NAME": "机要文档室",
+    "PARENT_ID": "2697efb1-16ee-4313-8ba7-8e3e0018f576",
+    "SORT": 1000
+  },
+  {
+    "id": "cbc40bf1-2e1e-4eae-9acb-e09ce2a5246f",
+    "NAME": "机要和保密局",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "f2139b76-628c-4017-bf2c-0529a1f77fad",
+    "NAME": "酒泉日报社",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "6c912a19-49cd-49a8-8a23-7b9e3113e21c",
+    "NAME": "市党政专用通信局",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "a24820b9-6523-4057-a7ba-153a70909cd6",
+    "NAME": "市档案馆",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "30d0cf48-94f8-4990-877e-7051120e51c5",
+    "NAME": "市纪委监委",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "18a5d052-456f-4896-a011-24d55131b67f",
+    "NAME": "市社会治安综合治理中心",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "NAME": "市委办公室",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "fc494767-4de7-4f3c-9dc6-483ba507e043",
+    "NAME": "市委编办",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "5cb41f43-47c8-48c1-bb62-8cb03483577e",
+    "NAME": "市委党史研究室",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "4030b1dc-5d9b-44f4-b9a0-b1b7232b3edf",
+    "NAME": "市委党校",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "31af590b-2cb6-4487-b5ce-4d1de29801c7",
+    "NAME": "市委军民融合办",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "08cc59ed-6caf-466e-80a1-4da54dbdc197",
+    "NAME": "市委老干部局",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "953977ec-43b8-4e90-9b5e-7293fb499d53",
+    "NAME": "市委统战部",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "c2011337-1804-42b6-85fa-3016d7aa1824",
+    "NAME": "市委网信办",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "5cfde09a-5068-432b-a39b-03734834e844",
+    "NAME": "市委宣传部",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "b90817e6-a7fe-4d15-a035-a667d1a8e228",
+    "NAME": "市委巡察办",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "f57c8ee7-664d-40ef-b95c-67c9d911ba79",
+    "NAME": "市委政法委",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "8c348bdc-4b56-4d31-bb0b-e8fc18ffa1dd",
+    "NAME": "保密管理科",
+    "PARENT_ID": "cbc40bf1-2e1e-4eae-9acb-e09ce2a5246f",
+    "SORT": 1000
+  },
+  {
+    "id": "121c351e-f864-4cbf-be6f-7f6ed910d52a",
+    "NAME": "局领导",
+    "PARENT_ID": "cbc40bf1-2e1e-4eae-9acb-e09ce2a5246f",
+    "SORT": 1000
+  },
+  {
+    "id": "a7a2b5a1-e7fb-44fb-8879-06a00810686c",
+    "NAME": "综合业务科",
+    "PARENT_ID": "cbc40bf1-2e1e-4eae-9acb-e09ce2a5246f",
+    "SORT": 1000
+  },
+  {
+    "id": "86e1611f-9aee-4e7d-a9e2-1a534b60870a",
+    "NAME": "党群办公室",
+    "PARENT_ID": "f2139b76-628c-4017-bf2c-0529a1f77fad",
+    "SORT": 1000
+  },
+  {
+    "id": "794becbb-5733-4b51-9c8b-d99fa8ddc8eb",
+    "NAME": "行政办公室",
+    "PARENT_ID": "f2139b76-628c-4017-bf2c-0529a1f77fad",
+    "SORT": 1000
+  },
+  {
+    "id": "8a38ce06-1911-4bb0-8830-732064f0e155",
+    "NAME": "局领导",
+    "PARENT_ID": "6c912a19-49cd-49a8-8a23-7b9e3113e21c",
+    "SORT": 1000
+  },
+  {
+    "id": "b69f68ea-c6b5-43fa-92dd-ba213f7bfdab",
+    "NAME": "通信保障科",
+    "PARENT_ID": "6c912a19-49cd-49a8-8a23-7b9e3113e21c",
+    "SORT": 1000
+  },
+  {
+    "id": "e9246994-47c3-4a07-b705-e8d0addc10a8",
+    "NAME": "网络维护科",
+    "PARENT_ID": "6c912a19-49cd-49a8-8a23-7b9e3113e21c",
+    "SORT": 1000
+  },
+  {
+    "id": "35f9123d-5b9f-4e88-ad99-96cd25c77df6",
+    "NAME": "综合办公室",
+    "PARENT_ID": "6c912a19-49cd-49a8-8a23-7b9e3113e21c",
+    "SORT": 1000
+  },
+  {
+    "id": "b21f6f57-2358-4a56-8c75-6696bb269416",
+    "NAME": "综合科",
+    "PARENT_ID": "a24820b9-6523-4057-a7ba-153a70909cd6",
+    "SORT": 1000
+  },
+  {
+    "id": "cca5f24f-ffd8-4923-9344-2e9d8881b0ef",
+    "NAME": "办公室",
+    "PARENT_ID": "30d0cf48-94f8-4990-877e-7051120e51c5",
+    "SORT": 1000
+  },
+  {
+    "id": "f78e9aa7-8cdd-4622-a3e2-dbc6282d262b",
+    "NAME": "技术保障科",
+    "PARENT_ID": "18a5d052-456f-4896-a011-24d55131b67f",
+    "SORT": 1000
+  },
+  {
+    "id": "a563c267-d36c-40f9-8b8d-24c837d335bc",
+    "NAME": "信息研判科",
+    "PARENT_ID": "18a5d052-456f-4896-a011-24d55131b67f",
+    "SORT": 1000
+  },
+  {
+    "id": "0cfd7a31-f941-4bdb-839b-f016a73648e2",
+    "NAME": "综合科",
+    "PARENT_ID": "18a5d052-456f-4896-a011-24d55131b67f",
+    "SORT": 1000
+  },
+  {
+    "id": "f9751b6b-fde6-4f97-bb3e-02cc08c04891",
+    "NAME": "综合业务科",
+    "PARENT_ID": "18a5d052-456f-4896-a011-24d55131b67f",
+    "SORT": 1000
+  },
+  {
+    "id": "922b6dd4-9237-4115-8dc7-ff69e3adb466",
+    "NAME": "办公室领导",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "f3b98abf-1fef-47fc-840b-135ec2a451a6",
+    "NAME": "国家安全管理科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "7a9e2ccd-b6a5-41ba-bf13-b5d94aac6c34",
+    "NAME": "行政科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "e48cbc5e-900c-4e0b-9caf-1cdeaf2c7c88",
+    "NAME": "会务活动科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "01e3df8a-36b2-4206-8dbd-1dca74e9991a",
+    "NAME": "市委督查室",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "fc07fb65-6e65-48fb-b0c3-67429f9d31d2",
+    "NAME": "市委直属机关工委",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "a234d836-1290-4584-95d0-9008bdd60103",
+    "NAME": "市委组织部",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "1e586e82-6052-4c26-8713-c696a1b476d8",
+    "NAME": "市信访局",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "a99b62cc-73df-4a1a-9d80-8778c85b306d",
+    "NAME": "玉门铁人干部学院",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "3fa4a26c-7dcd-460e-b184-bfa5c11302f4",
+    "NAME": "市委法规室",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "21a433ac-5f83-41ec-950d-b0b66481e189",
+    "NAME": "市委总值班室",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "45079d37-f4fd-4d55-a514-5abaedc8a05a",
+    "NAME": "文档科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "c75ee13e-1dba-4473-a7cd-a9e56e7c4171",
+    "NAME": "信息科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "f1fd46d2-dbdd-42d8-84ec-ae3ef6cb81fd",
+    "NAME": "要件办理科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "c6f46c10-a46f-41e7-8c2d-1517a156c3b7",
+    "NAME": "政务二科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "3943442c-8f92-46ca-b876-a48b91ebfcc2",
+    "NAME": "政务三科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "c536d785-afdd-4756-bc0f-31fbb7162ec1",
+    "NAME": "政务一科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "03a24c8f-68d1-4432-8a97-dd4f635bc98c",
+    "NAME": "综合科",
+    "PARENT_ID": "4c500daa-9cf1-417e-9f3a-055a3a933e2e",
+    "SORT": 1000
+  },
+  {
+    "id": "521fa562-5ae2-4a22-a4d0-9257371e4d7b",
+    "NAME": "综合科",
+    "PARENT_ID": "fc494767-4de7-4f3c-9dc6-483ba507e043",
+    "SORT": 1000
+  },
+  {
+    "id": "7717e5ac-5854-452b-bde7-07ef7a355982",
+    "NAME": "综合科",
+    "PARENT_ID": "5cb41f43-47c8-48c1-bb62-8cb03483577e",
+    "SORT": 1000
+  },
+  {
+    "id": "74111fd3-c001-444d-ab53-16f94edae0a4",
+    "NAME": "办公室",
+    "PARENT_ID": "4030b1dc-5d9b-44f4-b9a0-b1b7232b3edf",
+    "SORT": 1000
+  },
+  {
+    "id": "70ccff13-b453-485c-8220-f3c275cc5892",
+    "NAME": "保障协调科",
+    "PARENT_ID": "31af590b-2cb6-4487-b5ce-4d1de29801c7",
+    "SORT": 1000
+  },
+  {
+    "id": "c30eec68-3bbf-4b2e-a0ce-03e38e45633f",
+    "NAME": "产业发展科",
+    "PARENT_ID": "31af590b-2cb6-4487-b5ce-4d1de29801c7",
+    "SORT": 1000
+  },
+  {
+    "id": "6edd3e90-2c82-4c77-ab2a-6d8e241dd94a",
+    "NAME": "综合科",
+    "PARENT_ID": "31af590b-2cb6-4487-b5ce-4d1de29801c7",
+    "SORT": 1000
+  },
+  {
+    "id": "d28716f0-67b5-41ef-b5d7-89ea98fa205d",
+    "NAME": "办公室",
+    "PARENT_ID": "08cc59ed-6caf-466e-80a1-4da54dbdc197",
+    "SORT": 1000
+  },
+  {
+    "id": "f3ee53f9-ef98-4c06-a5b6-41c607d5421d",
+    "NAME": "办公室",
+    "PARENT_ID": "953977ec-43b8-4e90-9b5e-7293fb499d53",
+    "SORT": 1000
+  },
+  {
+    "id": "ee0856e8-1370-4549-bf11-e269d737730b",
+    "NAME": "党派科",
+    "PARENT_ID": "953977ec-43b8-4e90-9b5e-7293fb499d53",
+    "SORT": 1000
+  },
+  {
+    "id": "e7b5dad4-6cfd-460d-a22d-5a2303f76890",
+    "NAME": "网络安全科",
+    "PARENT_ID": "c2011337-1804-42b6-85fa-3016d7aa1824",
+    "SORT": 1000
+  },
+  {
+    "id": "99aa61bc-ed07-426a-8b13-cc3518fc9c5d",
+    "NAME": "综合科",
+    "PARENT_ID": "c2011337-1804-42b6-85fa-3016d7aa1824",
+    "SORT": 1000
+  },
+  {
+    "id": "4dd29a24-bf9a-46c9-bb64-da4a54f6e99a",
+    "NAME": "办公室",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "6102866a-c29d-4d95-8d8a-b1a3fe42677c",
+    "NAME": "出版管理科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "e8a0d8d1-fe97-4ef2-b207-5a9ceba84375",
+    "NAME": "对外宣传科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "7c0054e6-7fcb-418f-8690-9a93da363f3d",
+    "NAME": "精神文明建设科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "39bdb578-c54d-4a74-b134-ddc3e3fb63b0",
+    "NAME": "酒泉市社会科学界联合会",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "e8518b38-5790-4da0-8f2f-f628828150c0",
+    "NAME": "信息化服务中心",
+    "PARENT_ID": "cbc40bf1-2e1e-4eae-9acb-e09ce2a5246f",
+    "SORT": 1000
+  },
+  {
+    "id": "660c81cc-4ec2-42ae-870e-5ef4ee3d9a8a",
+    "NAME": "理论教育课",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "60fa781d-7d75-4ea6-a892-506e2b4b06ad",
+    "NAME": "文化科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "68a7182d-5fbf-43d5-8ac9-ecffcfd12ddb",
+    "NAME": "新闻科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "7db1f060-0eae-4e57-a994-70f0e8db5709",
+    "NAME": "宣传教育科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "73e4fcc7-a42a-4174-8e17-a53efff74bfb",
+    "NAME": "意识形态工作科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "3e477f37-2072-434c-a596-ab812307c8c3",
+    "NAME": "舆情应急科",
+    "PARENT_ID": "5cfde09a-5068-432b-a39b-03734834e844",
+    "SORT": 1000
+  },
+  {
+    "id": "ef8d1de7-639d-4d66-84ee-b5b4459df0be",
+    "NAME": "综合科",
+    "PARENT_ID": "b90817e6-a7fe-4d15-a035-a667d1a8e228",
+    "SORT": 1000
+  },
+  {
+    "id": "b5f99bd6-f7a3-4a87-8255-2a8e84502f20",
+    "NAME": "办公室",
+    "PARENT_ID": "f57c8ee7-664d-40ef-b95c-67c9d911ba79",
+    "SORT": 1000
+  },
+  {
+    "id": "cf4f15bd-e8a6-4812-a261-c5146dde130b",
+    "NAME": "队建指导宣传科",
+    "PARENT_ID": "f57c8ee7-664d-40ef-b95c-67c9d911ba79",
+    "SORT": 1000
+  },
+  {
+    "id": "bdbc7101-c611-4b82-ac6e-763b676076b6",
+    "NAME": "基层社会治理科",
+    "PARENT_ID": "f57c8ee7-664d-40ef-b95c-67c9d911ba79",
+    "SORT": 1000
+  },
+  {
+    "id": "139ec3d1-2446-4e20-aa2f-0e58f154220e",
+    "NAME": "信息技术管理科",
+    "PARENT_ID": "f57c8ee7-664d-40ef-b95c-67c9d911ba79",
+    "SORT": 1000
+  },
+  {
+    "id": "69ecdb27-b108-4314-8b7a-b65d81c27477",
+    "NAME": "执法监督和法制科",
+    "PARENT_ID": "f57c8ee7-664d-40ef-b95c-67c9d911ba79",
+    "SORT": 1000
+  },
+  {
+    "id": "aed9eeb5-97dc-4581-8769-818e71db0a1d",
+    "NAME": "办公室",
+    "PARENT_ID": "a7e7f739-8ce9-4d9e-b96f-13915428d29b",
+    "SORT": 1000
+  },
+  {
+    "id": "0334dc16-b977-4552-a128-5b2c26219ebc",
+    "NAME": "改革督察科",
+    "PARENT_ID": "a7e7f739-8ce9-4d9e-b96f-13915428d29b",
+    "SORT": 1000
+  },
+  {
+    "id": "f90d8ccf-8dfe-43d1-8518-d258c3d3b91f",
+    "NAME": "综合协调科",
+    "PARENT_ID": "a7e7f739-8ce9-4d9e-b96f-13915428d29b",
+    "SORT": 1000
+  },
+  {
+    "id": "9f42c549-d035-4cc2-8721-f442b4d4d00e",
+    "NAME": "办公室",
+    "PARENT_ID": "fc07fb65-6e65-48fb-b0c3-67429f9d31d2",
+    "SORT": 1000
+  },
+  {
+    "id": "091c7e1e-ccf3-47a3-add0-7cc8a0cc007c",
+    "NAME": "办公室",
+    "PARENT_ID": "a234d836-1290-4584-95d0-9008bdd60103",
+    "SORT": 1000
+  },
+  {
+    "id": "1ddb70c8-8c1a-4588-8655-e966f1f1cf69",
+    "NAME": "办公室",
+    "PARENT_ID": "1e586e82-6052-4c26-8713-c696a1b476d8",
+    "SORT": 1000
+  },
+  {
+    "id": "830d856e-107f-4029-b8e5-c610a1e777da",
+    "NAME": "综合管理部",
+    "PARENT_ID": "a99b62cc-73df-4a1a-9d80-8778c85b306d",
+    "SORT": 1000
+  },
+  {
+    "id": "c81dc76b-35aa-4561-99e4-4cdf4b5ed8ec",
+    "NAME": "酒泉市残疾人联合会",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "5954905f-3442-4a1c-8680-b87fba9950d1",
+    "NAME": "酒泉市妇女联合会",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "07bedf3c-e466-48f6-9a7a-8a81c055b204",
+    "NAME": "酒泉市工商业联合会",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "da1402bb-4272-4a2b-aa68-015f381d9ebf",
+    "NAME": "酒泉市归国华侨联合会",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "fa431bc7-aaaa-4223-b991-682f65d60185",
+    "NAME": "酒泉市科学技术协会",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "be36f56c-f234-428f-bac2-5306a6c533ba",
+    "NAME": "酒泉市文学艺术界联合会",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "87887f55-9062-438f-b3f5-0019ee007046",
+    "NAME": "市团委",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "5343c305-6c52-4072-a9c1-0647e7dc05aa",
+    "NAME": "市总工会",
+    "PARENT_ID": "67003f4c-a360-475d-a9fb-e61323a18238",
+    "SORT": 1000
+  },
+  {
+    "id": "6e0b41f5-02d1-4def-8474-9ee430bd58bf",
+    "NAME": "办公室",
+    "PARENT_ID": "c81dc76b-35aa-4561-99e4-4cdf4b5ed8ec",
+    "SORT": 1000
+  },
+  {
+    "id": "ea4d3ec9-7430-47b9-ad1c-4a2e9cfdd756",
+    "NAME": "办公室",
+    "PARENT_ID": "5954905f-3442-4a1c-8680-b87fba9950d1",
+    "SORT": 1000
+  },
+  {
+    "id": "0e937d6a-794d-43c2-a393-10e6974af1a4",
+    "NAME": "宣传权益部",
+    "PARENT_ID": "5954905f-3442-4a1c-8680-b87fba9950d1",
+    "SORT": 1000
+  },
+  {
+    "id": "668e9d65-3101-4524-ac50-5956995caf87",
+    "NAME": "办公室",
+    "PARENT_ID": "07bedf3c-e466-48f6-9a7a-8a81c055b204",
+    "SORT": 1000
+  },
+  {
+    "id": "fd02f2fb-dfb4-4b5d-83c2-1ce461bdadca",
+    "NAME": "办公室",
+    "PARENT_ID": "da1402bb-4272-4a2b-aa68-015f381d9ebf",
+    "SORT": 1000
+  },
+  {
+    "id": "cc8ef11a-42dd-4305-80ac-414ccbb82454",
+    "NAME": "综合科",
+    "PARENT_ID": "fa431bc7-aaaa-4223-b991-682f65d60185",
+    "SORT": 1000
+  },
+  {
+    "id": "ff8f4de8-0cc2-4679-b854-a348e086d672",
+    "NAME": "办公室",
+    "PARENT_ID": "be36f56c-f234-428f-bac2-5306a6c533ba",
+    "SORT": 1000
+  },
+  {
+    "id": "a0bac767-f782-48db-a0b4-3baa0a8cebd2",
+    "NAME": "组织部",
+    "PARENT_ID": "87887f55-9062-438f-b3f5-0019ee007046",
+    "SORT": 1000
+  },
+  {
+    "id": "019c6e0a-c467-453a-baf2-b60ccda5a889",
+    "NAME": "办公室",
+    "PARENT_ID": "5343c305-6c52-4072-a9c1-0647e7dc05aa",
+    "SORT": 1000
+  },
+  {
+    "id": "6b07a541-5698-4251-bf40-0db10e4a73f7",
+    "NAME": "市中级人民法院",
+    "PARENT_ID": "44b19e41-facb-4872-ae6f-799c858758ec",
+    "SORT": 1000
+  },
+  {
+    "id": "ba666311-faaf-462c-8702-23b0a616f8c3",
+    "NAME": "办公室",
+    "PARENT_ID": "6b07a541-5698-4251-bf40-0db10e4a73f7",
+    "SORT": 1000
+  },
+  {
+    "id": "70040aaa-5abb-401a-afa1-d1963f6beaea",
+    "NAME": "信访室",
+    "PARENT_ID": "6b07a541-5698-4251-bf40-0db10e4a73f7",
+    "SORT": 1000
+  },
+  {
+    "id": "a30423e5-84fe-4470-9a07-3a7abf6705ab",
+    "NAME": "刑一庭",
+    "PARENT_ID": "6b07a541-5698-4251-bf40-0db10e4a73f7",
+    "SORT": 1000
+  },
+  {
+    "id": "9900e869-90f3-4031-b155-45797628cdba",
+    "NAME": "政治部",
+    "PARENT_ID": "6b07a541-5698-4251-bf40-0db10e4a73f7",
+    "SORT": 1000
+  },
+  {
+    "id": "98524b33-1b73-4c32-a161-02ed00f633b1",
+    "NAME": "市检察院",
+    "PARENT_ID": "d7aef590-3702-406c-a9f0-56139ccd3346",
+    "SORT": 1000
+  },
+  {
+    "id": "096de0f5-a75f-4428-b797-d0fea1e95632",
+    "NAME": "办公室",
+    "PARENT_ID": "98524b33-1b73-4c32-a161-02ed00f633b1",
+    "SORT": 1000
+  },
+  {
+    "id": "86e6dc0a-152e-4158-8623-4c589a019f96",
+    "NAME": "检察技术信息处",
+    "PARENT_ID": "98524b33-1b73-4c32-a161-02ed00f633b1",
+    "SORT": 1000
+  },
+  {
+    "id": "bfb57ec0-9cc3-46c8-85d2-228a21dbbcb3",
+    "NAME": "派驻纪检监察组",
+    "PARENT_ID": "98524b33-1b73-4c32-a161-02ed00f633b1",
+    "SORT": 1000
+  },
+  {
+    "id": "92db570d-fce1-4c4e-9502-5d71a09bbb18",
+    "NAME": "政治部",
+    "PARENT_ID": "98524b33-1b73-4c32-a161-02ed00f633b1",
+    "SORT": 1000
+  },
+  {
+    "id": "e14e421c-01ea-406c-943e-4eaf889a39f8",
+    "NAME": "市人大办",
+    "PARENT_ID": "40889bd4-ab7b-4a70-a16a-fec9a3579a66",
+    "SORT": 1000
+  },
+  {
+    "id": "1c4a12f4-d605-4326-a122-2b46c6d1214d",
+    "NAME": "代工委综合科",
+    "PARENT_ID": "e14e421c-01ea-406c-943e-4eaf889a39f8",
+    "SORT": 1000
+  },
+  {
+    "id": "bf327ad3-0f55-4b21-b2cf-5e793bf81c8b",
+    "NAME": "文档科",
+    "PARENT_ID": "e14e421c-01ea-406c-943e-4eaf889a39f8",
+    "SORT": 1000
+  },
+  {
+    "id": "6bfbfea1-6ecf-410c-acf9-34f0e16a0e2e",
+    "NAME": "综合科",
+    "PARENT_ID": "e14e421c-01ea-406c-943e-4eaf889a39f8",
+    "SORT": 1000
+  },
+  {
+    "id": "8d18b278-09b9-44fb-a1d9-cbd696f4a811",
+    "NAME": "公安局玉门油田分局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "cc7ae436-a8bd-410f-b0f1-64fb1a87ad11",
+    "NAME": "酒泉电视台",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "39aef040-c75f-4721-b4a8-4ce548966d0f",
+    "NAME": "酒泉经开区管委会",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "e4158766-9d5c-4db6-851c-a215b8386b58",
+    "NAME": "酒泉师范学校",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "cf249f53-23f5-49ef-9b4b-b3f4fea99b68",
+    "NAME": "酒泉职业技术学院",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "786e8189-52f8-4bde-bd6f-b5a55a7dce46",
+    "NAME": "市财政局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "5df21ff6-2d64-4305-809b-95e7e8739506",
+    "NAME": "市畜牧兽医总站",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "fa6768e7-ae52-4f5e-9152-fd26ec941494",
+    "NAME": "市大数据服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "6c25303c-76e0-4f24-8615-f597422a0c8b",
+    "NAME": "市党河流域水资源管理局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "20bae07a-bacb-4b0d-a341-4784194dc899",
+    "NAME": "市地震局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "4a92bc38-8e96-4dac-886c-004ff90580db",
+    "NAME": "市发改委",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "e91811b3-790f-4114-b87e-03dfb860788d",
+    "NAME": "市供销社",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "NAME": "市公安局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "dc15c26f-3bc5-4c93-bc64-8b5de853dfed",
+    "NAME": "市公安局交通警察支队",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "0fc978c5-723d-450c-9878-7e670cbaec5d",
+    "NAME": "市公共资源交易中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "3bf453e9-7d59-41bc-8f12-723220a01636",
+    "NAME": "市公路管理局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "ce91882d-a626-47a0-85a1-1cb10281fc70",
+    "NAME": "市公路运输管理局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "643c15db-0f96-4332-a067-da62051d059b",
+    "NAME": "市工信局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "f4525586-8584-43b4-bb59-9ca47df47a56",
+    "NAME": "市机关事务管理局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "dd06e25b-f35a-40c2-bab4-29cd0ceb8d5d",
+    "NAME": "市疾病预防控制中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "5ddc11d6-1c12-40b6-91ee-b169bbbbc79d",
+    "NAME": "市交通运输局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "31b41bf1-32b3-47a6-bf22-9a7fa3f6bc0a",
+    "NAME": "市教育局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "3ee4de33-d5e2-4461-a982-f714663a28ca",
+    "NAME": "市金融办",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "354fda94-3d27-44f0-aa5b-cd5cd0186d5b",
+    "NAME": "市就业服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "c86ac316-a7e5-4171-a1b0-a22865cf1328",
+    "NAME": "市科技局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "28fd1944-bd1e-4dc0-be11-cccde799a4c7",
+    "NAME": "市林草局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "fe65655f-26ec-46ee-aaa1-b6865b18449b",
+    "NAME": "市林果服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "002b0c1e-5612-4016-8273-1e42a1ed933f",
+    "NAME": "市民政局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "80006bcb-ec30-4efa-bbf1-0cb481affc8b",
+    "NAME": "市民宗委",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "1e2dacf9-0516-457a-89ae-d439ddcc4c85",
+    "NAME": "市能源局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "513b86f5-812d-4334-a2e6-919a422f4b12",
+    "NAME": "市农产品质量安全监督管理站",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "6f513b70-1b48-4815-95bd-cbf659d99770",
+    "NAME": "市农业机械化服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "2c2dd3ab-a316-4160-8392-ccc3c53cd7b5",
+    "NAME": "市农业技术推广服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "360e8662-a470-4dd7-ad69-852080797e71",
+    "NAME": "市农业科学研究院",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "f8421841-7807-4fcd-b5aa-93e008885351",
+    "NAME": "市农业农村局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "9273b7f6-8eb8-4b61-bd28-54dcc5504181",
+    "NAME": "市人才交流开发服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "19f67d4b-eccc-460b-8dac-8603d8f9f8b2",
+    "NAME": "市人防办",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "ec42506a-e48d-424a-97c4-45418c94121b",
+    "NAME": "市人社局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "de7be60f-a747-4e06-9529-c4227c3c1833",
+    "NAME": "市商务局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "7a4de6b0-de5b-437c-ba2f-514332465c94",
+    "NAME": "市社会保险事业服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "1f078d7b-df69-4c2a-8f3a-6577d774d394",
+    "NAME": "市审计局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "b5c669d8-b145-4eca-ac51-fd82f6652a81",
+    "NAME": "市生态环境局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "d4281cb6-dae7-43dc-aa89-ee3333fe1d6a",
+    "NAME": "市食品检验检测中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "52b1349b-4f7b-4d61-bc8e-02fda4a53c30",
+    "NAME": "市史志办",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "3114cf55-0260-48da-a4b4-e5be426dd633",
+    "NAME": "市市场监管局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "8e5f7ed9-cb19-4b3a-a070-d76a37b32132",
+    "NAME": "市水务局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "1db881a3-ab94-4632-b686-8b71fd3874ce",
+    "NAME": "市司法局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "b5f69eae-7be9-43b3-b631-a48b747fb444",
+    "NAME": "市统计局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "NAME": "市退役军人事务局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "a8bafa68-f80f-420a-b1f2-c22ac3d54c26",
+    "NAME": "市卫健委",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "3cf5236f-debb-4d1d-8d7d-fdef75316e7b",
+    "NAME": "市卫生计生委综合监督执法局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "7ff6e689-c7f0-4858-8b18-674d9c5690e0",
+    "NAME": "市文旅局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "6928331e-1b21-4077-a912-a889b3f1fa01",
+    "NAME": "市文物局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "a926d6f6-48b3-4f2b-834d-c8e0346116e5",
+    "NAME": "市乡村振兴局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "375b508f-f1f1-4c6f-972c-128db1abf1ce",
+    "NAME": "市新城区管委会",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "3ee8b8f1-1849-4e45-8636-9c1c08560149",
+    "NAME": "市药品检验检测中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "aacec04d-b466-4c0f-a2ee-9acef877e8cb",
+    "NAME": "市医保局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "ad2851dd-338d-423b-90ac-37a33b0f803a",
+    "NAME": "市应急管理局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "NAME": "市政府办公室",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "a0bd535f-fc84-41d3-a5fe-d089458aabe3",
+    "NAME": "市政府国资委",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "be4d7ee9-1c6f-4f42-8dbd-dd767126dda8",
+    "NAME": "市政府行政服务中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "09e73fd2-b195-43bc-ba64-a76b73e98aed",
+    "NAME": "市政府外事办",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "20a14fab-943b-461b-806e-b21a33c3cf7a",
+    "NAME": "市政府研究室",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "8c157903-365f-41c2-983a-054911bffb80",
+    "NAME": "市种子管理站",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "98b2f791-e2ed-4784-a8a5-4a526087c3f5",
+    "NAME": "市住房公积金管理中心",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "f11d3ef1-1fb9-409f-95e7-8ba7aa2dbf3d",
+    "NAME": "市住建局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "7b0facbc-eca3-4b2b-9ba8-4041b46dc851",
+    "NAME": "市自然资源局",
+    "PARENT_ID": "ab295238-0ac0-4b97-ba53-fb3fee1591b4",
+    "SORT": 1000
+  },
+  {
+    "id": "2fb515db-d0f5-4ba9-a681-8f69a010d99f",
+    "NAME": "指挥中心",
+    "PARENT_ID": "8d18b278-09b9-44fb-a1d9-cbd696f4a811",
+    "SORT": 1000
+  },
+  {
+    "id": "850f2a0d-9934-440d-885f-a891ef4e88d5",
+    "NAME": "办公室",
+    "PARENT_ID": "cc7ae436-a8bd-410f-b0f1-64fb1a87ad11",
+    "SORT": 1000
+  },
+  {
+    "id": "b9049e89-0f64-4768-af1f-d07a790ca60e",
+    "NAME": "档案室",
+    "PARENT_ID": "cc7ae436-a8bd-410f-b0f1-64fb1a87ad11",
+    "SORT": 1000
+  },
+  {
+    "id": "96f5fadf-0ad0-4fda-88e5-d8c80933b318",
+    "NAME": "文印机要室",
+    "PARENT_ID": "cc7ae436-a8bd-410f-b0f1-64fb1a87ad11",
+    "SORT": 1000
+  },
+  {
+    "id": "68c56ca8-d877-4976-922f-7456366a14df",
+    "NAME": "综合管理部",
+    "PARENT_ID": "39aef040-c75f-4721-b4a8-4ce548966d0f",
+    "SORT": 1000
+  },
+  {
+    "id": "f3c5b62a-5d73-4fcc-83ba-d7a8c3225255",
+    "NAME": "党委办公室",
+    "PARENT_ID": "e4158766-9d5c-4db6-851c-a215b8386b58",
+    "SORT": 1000
+  },
+  {
+    "id": "b1cfa0ff-b67f-4b7c-a23c-1e88b5bf997c",
+    "NAME": "办公室",
+    "PARENT_ID": "cf249f53-23f5-49ef-9b4b-b3f4fea99b68",
+    "SORT": 1000
+  },
+  {
+    "id": "32c7ea42-91dc-4ace-b0de-da577dd92fd3",
+    "NAME": "办公室",
+    "PARENT_ID": "786e8189-52f8-4bde-bd6f-b5a55a7dce46",
+    "SORT": 1000
+  },
+  {
+    "id": "695240db-a5c1-46b1-84e9-228fe6ecd126",
+    "NAME": "综合科",
+    "PARENT_ID": "5df21ff6-2d64-4305-809b-95e7e8739506",
+    "SORT": 1000
+  },
+  {
+    "id": "24b0fb9e-539f-4fdc-894a-dc5353fa6b6e",
+    "NAME": "综合科",
+    "PARENT_ID": "fa6768e7-ae52-4f5e-9152-fd26ec941494",
+    "SORT": 1000
+  },
+  {
+    "id": "ba9c296b-83e0-4160-bd28-7d4e65634531",
+    "NAME": "办公室",
+    "PARENT_ID": "6c25303c-76e0-4f24-8615-f597422a0c8b",
+    "SORT": 1000
+  },
+  {
+    "id": "663664d0-3e84-4522-9bcb-542c2e7fb6d3",
+    "NAME": "综合科",
+    "PARENT_ID": "20bae07a-bacb-4b0d-a341-4784194dc899",
+    "SORT": 1000
+  },
+  {
+    "id": "e9626e16-a58b-4764-89c6-b8f507e315fa",
+    "NAME": "办公室",
+    "PARENT_ID": "4a92bc38-8e96-4dac-886c-004ff90580db",
+    "SORT": 1000
+  },
+  {
+    "id": "6d68db2d-c988-46b6-be9e-887d75c88be2",
+    "NAME": "储备监督科",
+    "PARENT_ID": "4a92bc38-8e96-4dac-886c-004ff90580db",
+    "SORT": 1000
+  },
+  {
+    "id": "4e37cb42-7143-4787-9195-93767d5a741c",
+    "NAME": "国民经济综合科",
+    "PARENT_ID": "4a92bc38-8e96-4dac-886c-004ff90580db",
+    "SORT": 1000
+  },
+  {
+    "id": "983696ec-9e85-4d12-97b2-fb206ccd4ec7",
+    "NAME": "经济装备动员办公室",
+    "PARENT_ID": "4a92bc38-8e96-4dac-886c-004ff90580db",
+    "SORT": 1000
+  },
+  {
+    "id": "b56600eb-1e85-4e44-8e44-8049c2a809d7",
+    "NAME": "政策法规和发展规划科",
+    "PARENT_ID": "4a92bc38-8e96-4dac-886c-004ff90580db",
+    "SORT": 1000
+  },
+  {
+    "id": "8ebacd47-1c7c-4c09-9465-1af758dfc878",
+    "NAME": "办公室",
+    "PARENT_ID": "e91811b3-790f-4114-b87e-03dfb860788d",
+    "SORT": 1000
+  },
+  {
+    "id": "0271b00a-8c64-4ac4-b50a-83f87baa5ac0",
+    "NAME": "反恐防暴支队",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "7ba2a17c-944d-4df8-b35d-1c2b12990245",
+    "NAME": "国内安全保卫支队",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "a1133ed8-2189-4ec3-8628-80acc00ba1e8",
+    "NAME": "技术侦察支队",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "17a8389f-684c-4a16-9bc2-719a24b99142",
+    "NAME": "科技信通机要支队",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "bd6d767f-fbfb-457a-8692-6aef3620d455",
+    "NAME": "七里镇分局",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "d288408f-1a8a-4c47-824a-0012c98069fd",
+    "NAME": "网络安全保卫支队",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "6e09634e-0e58-4810-8b80-39b0b3720dfc",
+    "NAME": "刑事侦查支队",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "78b0228b-63ef-4cb1-9fac-33fc4fdedeb6",
+    "NAME": "指挥中心",
+    "PARENT_ID": "8b3ce36b-e958-411d-9622-13ab433ca03f",
+    "SORT": 1000
+  },
+  {
+    "id": "09f711fa-16c5-4fd7-a993-6e87711af959",
+    "NAME": "办公室",
+    "PARENT_ID": "dc15c26f-3bc5-4c93-bc64-8b5de853dfed",
+    "SORT": 1000
+  },
+  {
+    "id": "d8f09638-b5fc-40fd-9880-56f989f62b08",
+    "NAME": "综合科",
+    "PARENT_ID": "0fc978c5-723d-450c-9878-7e670cbaec5d",
+    "SORT": 1000
+  },
+  {
+    "id": "4f4e55ce-4e26-4111-ba7d-f9a7aa2aeaaa",
+    "NAME": "办公室",
+    "PARENT_ID": "3bf453e9-7d59-41bc-8f12-723220a01636",
+    "SORT": 1000
+  },
+  {
+    "id": "c57d1c66-c526-40bc-bd9b-88df615940b2",
+    "NAME": "规划财务科",
+    "PARENT_ID": "3bf453e9-7d59-41bc-8f12-723220a01636",
+    "SORT": 1000
+  },
+  {
+    "id": "6a50639c-179d-4783-b1d1-17c7d6971daf",
+    "NAME": "办公室",
+    "PARENT_ID": "ce91882d-a626-47a0-85a1-1cb10281fc70",
+    "SORT": 1000
+  },
+  {
+    "id": "c9a18427-1330-49fe-8098-0af2089a59cf",
+    "NAME": "办公室",
+    "PARENT_ID": "643c15db-0f96-4332-a067-da62051d059b",
+    "SORT": 1000
+  },
+  {
+    "id": "2b45608c-5aa3-4c55-ab06-1a00638dd8e6",
+    "NAME": "办公室",
+    "PARENT_ID": "f4525586-8584-43b4-bb59-9ca47df47a56",
+    "SORT": 1000
+  },
+  {
+    "id": "34a246ab-f01a-4b35-936b-0b9cd42854fc",
+    "NAME": "党委办公室",
+    "PARENT_ID": "dd06e25b-f35a-40c2-bab4-29cd0ceb8d5d",
+    "SORT": 1000
+  },
+  {
+    "id": "801718c4-6c30-42c3-a341-3f4acb699355",
+    "NAME": "行政办公室",
+    "PARENT_ID": "dd06e25b-f35a-40c2-bab4-29cd0ceb8d5d",
+    "SORT": 1000
+  },
+  {
+    "id": "b52057dc-2299-470c-a3d6-32893e7cf50b",
+    "NAME": "办公室",
+    "PARENT_ID": "5ddc11d6-1c12-40b6-91ee-b169bbbbc79d",
+    "SORT": 1000
+  },
+  {
+    "id": "0f2b8b35-e44a-419f-9327-d8be40bc9964",
+    "NAME": "保密室",
+    "PARENT_ID": "5ddc11d6-1c12-40b6-91ee-b169bbbbc79d",
+    "SORT": 1000
+  },
+  {
+    "id": "29e5f455-b55c-43d7-a9c7-c3c9b4831400",
+    "NAME": "办公室",
+    "PARENT_ID": "31b41bf1-32b3-47a6-bf22-9a7fa3f6bc0a",
+    "SORT": 1000
+  },
+  {
+    "id": "0e86cf87-37d7-4ac5-bf01-0862bf290b5d",
+    "NAME": "综合科",
+    "PARENT_ID": "3ee4de33-d5e2-4461-a982-f714663a28ca",
+    "SORT": 1000
+  },
+  {
+    "id": "8e08b3d4-d82c-481f-90f0-ea587e2f7767",
+    "NAME": "综合科",
+    "PARENT_ID": "354fda94-3d27-44f0-aa5b-cd5cd0186d5b",
+    "SORT": 1000
+  },
+  {
+    "id": "ec32cbce-ee80-430c-992b-4b80c6209bf5",
+    "NAME": "办公室",
+    "PARENT_ID": "c86ac316-a7e5-4171-a1b0-a22865cf1328",
+    "SORT": 1000
+  },
+  {
+    "id": "c7715ee0-7196-40c8-8807-6f8bedbf6039",
+    "NAME": "办公室",
+    "PARENT_ID": "28fd1944-bd1e-4dc0-be11-cccde799a4c7",
+    "SORT": 1000
+  },
+  {
+    "id": "d27590d3-5712-4ec9-85b8-fa274269d116",
+    "NAME": "综合科",
+    "PARENT_ID": "fe65655f-26ec-46ee-aaa1-b6865b18449b",
+    "SORT": 1000
+  },
+  {
+    "id": "367a4991-528f-404e-85a7-ad2ec841c8d4",
+    "NAME": "办公室",
+    "PARENT_ID": "002b0c1e-5612-4016-8273-1e42a1ed933f",
+    "SORT": 1000
+  },
+  {
+    "id": "02008a98-aa19-4acf-96e8-df198ef3d9fc",
+    "NAME": "区划地名科",
+    "PARENT_ID": "002b0c1e-5612-4016-8273-1e42a1ed933f",
+    "SORT": 1000
+  },
+  {
+    "id": "e49407b0-fc58-4544-bc85-35dd19154c7f",
+    "NAME": "政权科",
+    "PARENT_ID": "002b0c1e-5612-4016-8273-1e42a1ed933f",
+    "SORT": 1000
+  },
+  {
+    "id": "d72f99e3-0539-40cb-983d-a2d81f059bf1",
+    "NAME": "办公室",
+    "PARENT_ID": "80006bcb-ec30-4efa-bbf1-0cb481affc8b",
+    "SORT": 1000
+  },
+  {
+    "id": "987ef9f1-7851-4564-9131-e9c6f342b42c",
+    "NAME": "民族科",
+    "PARENT_ID": "80006bcb-ec30-4efa-bbf1-0cb481affc8b",
+    "SORT": 1000
+  },
+  {
+    "id": "833a9a6b-279c-4e27-9888-d83022465171",
+    "NAME": "宗教科",
+    "PARENT_ID": "80006bcb-ec30-4efa-bbf1-0cb481affc8b",
+    "SORT": 1000
+  },
+  {
+    "id": "38c2877f-7662-4733-a489-23799c035f4b",
+    "NAME": "办公室",
+    "PARENT_ID": "1e2dacf9-0516-457a-89ae-d439ddcc4c85",
+    "SORT": 1000
+  },
+  {
+    "id": "87894d37-fd8f-409e-bcc1-a6c5231b7bb6",
+    "NAME": "综合科",
+    "PARENT_ID": "513b86f5-812d-4334-a2e6-919a422f4b12",
+    "SORT": 1000
+  },
+  {
+    "id": "cdc95db6-ed50-4f3a-aca3-b5cd824050a3",
+    "NAME": "综合科",
+    "PARENT_ID": "6f513b70-1b48-4815-95bd-cbf659d99770",
+    "SORT": 1000
+  },
+  {
+    "id": "dcc6b1d7-6ef8-4885-8a82-ed526782acc5",
+    "NAME": "综合科",
+    "PARENT_ID": "2c2dd3ab-a316-4160-8392-ccc3c53cd7b5",
+    "SORT": 1000
+  },
+  {
+    "id": "94554fdc-3ff0-458c-a067-54f020e19086",
+    "NAME": "办公室",
+    "PARENT_ID": "360e8662-a470-4dd7-ad69-852080797e71",
+    "SORT": 1000
+  },
+  {
+    "id": "20a0b6f8-cb0c-4120-88b8-536c0d905db1",
+    "NAME": "办公室",
+    "PARENT_ID": "f8421841-7807-4fcd-b5aa-93e008885351",
+    "SORT": 1000
+  },
+  {
+    "id": "2e4bbc88-4fba-4f71-93ba-cdc4aa891050",
+    "NAME": "办公室",
+    "PARENT_ID": "9273b7f6-8eb8-4b61-bd28-54dcc5504181",
+    "SORT": 1000
+  },
+  {
+    "id": "77a3e428-70f3-4998-ae56-8e94631e7bb3",
+    "NAME": "财务部",
+    "PARENT_ID": "9273b7f6-8eb8-4b61-bd28-54dcc5504181",
+    "SORT": 1000
+  },
+  {
+    "id": "e449f900-38df-4918-83e2-995efcb7260e",
+    "NAME": "信保中心",
+    "PARENT_ID": "19f67d4b-eccc-460b-8dac-8603d8f9f8b2",
+    "SORT": 1000
+  },
+  {
+    "id": "170dfbf0-409a-4463-a888-04e1955dfe77",
+    "NAME": "综合科",
+    "PARENT_ID": "19f67d4b-eccc-460b-8dac-8603d8f9f8b2",
+    "SORT": 1000
+  },
+  {
+    "id": "5d28e756-e4f9-456c-a9fd-034a0b8144d3",
+    "NAME": "办公室",
+    "PARENT_ID": "ec42506a-e48d-424a-97c4-45418c94121b",
+    "SORT": 1000
+  },
+  {
+    "id": "428b19d0-1f22-4859-ba29-ad6159123ed2",
+    "NAME": "办公室",
+    "PARENT_ID": "de7be60f-a747-4e06-9529-c4227c3c1833",
+    "SORT": 1000
+  },
+  {
+    "id": "3e087222-c8f2-4113-9820-9719eb68a867",
+    "NAME": "市场秩序科",
+    "PARENT_ID": "de7be60f-a747-4e06-9529-c4227c3c1833",
+    "SORT": 1000
+  },
+  {
+    "id": "2af8d6a4-fe7e-44e5-8c5f-85f71eecb336",
+    "NAME": "综合科",
+    "PARENT_ID": "7a4de6b0-de5b-437c-ba2f-514332465c94",
+    "SORT": 1000
+  },
+  {
+    "id": "219e3247-b9ed-437e-a3b6-bd6c168b64d0",
+    "NAME": "办公室",
+    "PARENT_ID": "1f078d7b-df69-4c2a-8f3a-6577d774d394",
+    "SORT": 1000
+  },
+  {
+    "id": "12157400-b12c-453e-b991-52bcb209d7f6",
+    "NAME": "电子数据审计科",
+    "PARENT_ID": "1f078d7b-df69-4c2a-8f3a-6577d774d394",
+    "SORT": 1000
+  },
+  {
+    "id": "8a342a47-34d2-489e-9d38-5e49e2b7d0ce",
+    "NAME": "办公室",
+    "PARENT_ID": "b5c669d8-b145-4eca-ac51-fd82f6652a81",
+    "SORT": 1000
+  },
+  {
+    "id": "d74f2710-c791-4c40-ba25-df4fda972116",
+    "NAME": "综合科",
+    "PARENT_ID": "d4281cb6-dae7-43dc-aa89-ee3333fe1d6a",
+    "SORT": 1000
+  },
+  {
+    "id": "488b2409-7456-46f3-ac33-d327d85297b5",
+    "NAME": "综合科",
+    "PARENT_ID": "52b1349b-4f7b-4d61-bc8e-02fda4a53c30",
+    "SORT": 1000
+  },
+  {
+    "id": "05e20476-35ca-45c5-a1c8-25c4e8e26e36",
+    "NAME": "办公室",
+    "PARENT_ID": "3114cf55-0260-48da-a4b4-e5be426dd633",
+    "SORT": 1000
+  },
+  {
+    "id": "59f576f3-8ff5-40be-8e13-23785528f806",
+    "NAME": "办公室",
+    "PARENT_ID": "8e5f7ed9-cb19-4b3a-a070-d76a37b32132",
+    "SORT": 1000
+  },
+  {
+    "id": "2a4e3be8-35ed-435d-bd34-b1a0cb338f7d",
+    "NAME": "办公室",
+    "PARENT_ID": "1db881a3-ab94-4632-b686-8b71fd3874ce",
+    "SORT": 1000
+  },
+  {
+    "id": "0040bccb-8c80-47f4-856a-c46b7a52b8bd",
+    "NAME": "办公室",
+    "PARENT_ID": "b5f69eae-7be9-43b3-b631-a48b747fb444",
+    "SORT": 1000
+  },
+  {
+    "id": "d4ae0cf9-d170-425b-9b23-0c69d5d61104",
+    "NAME": "办公室",
+    "PARENT_ID": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "SORT": 1000
+  },
+  {
+    "id": "38bb4710-eef3-4369-bb8c-c79c97d9c509",
+    "NAME": "领导小组办公室秘书科",
+    "PARENT_ID": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "SORT": 1000
+  },
+  {
+    "id": "65ea4aae-fb6b-4074-8c40-210c73a7ba72",
+    "NAME": "双拥办工作科",
+    "PARENT_ID": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "SORT": 1000
+  },
+  {
+    "id": "bc8a8ab3-1fec-4fcb-a079-2cb7a02deeb5",
+    "NAME": "思想政治和权益维护科",
+    "PARENT_ID": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "SORT": 1000
+  },
+  {
+    "id": "df10435d-2233-4565-adab-405db89e1e07",
+    "NAME": "退役军人服务中心",
+    "PARENT_ID": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "SORT": 1000
+  },
+  {
+    "id": "d7b5aae2-798b-45ba-a958-24a9f671244b",
+    "NAME": "移交安置科",
+    "PARENT_ID": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "SORT": 1000
+  },
+  {
+    "id": "cfdc4d75-f35c-442d-b4eb-5cf13a2fcca5",
+    "NAME": "拥军优抚科",
+    "PARENT_ID": "4699fe4b-f0b1-428c-895c-c59e67d14ea7",
+    "SORT": 1000
+  },
+  {
+    "id": "24f945cb-f5a7-49a3-a7c1-86e993800654",
+    "NAME": "办公室",
+    "PARENT_ID": "a8bafa68-f80f-420a-b1f2-c22ac3d54c26",
+    "SORT": 1000
+  },
+  {
+    "id": "84a2ca1a-6b24-4dce-9326-ba541061e2fc",
+    "NAME": "疾控应急科",
+    "PARENT_ID": "a8bafa68-f80f-420a-b1f2-c22ac3d54c26",
+    "SORT": 1000
+  },
+  {
+    "id": "cb5673e8-0bbe-4f75-a279-c44de39fa479",
+    "NAME": "纪检组",
+    "PARENT_ID": "a8bafa68-f80f-420a-b1f2-c22ac3d54c26",
+    "SORT": 1000
+  },
+  {
+    "id": "4334f563-bbd7-4eb3-835d-b643bed51a70",
+    "NAME": "医政医管科",
+    "PARENT_ID": "a8bafa68-f80f-420a-b1f2-c22ac3d54c26",
+    "SORT": 1000
+  },
+  {
+    "id": "4680d1aa-69e9-432d-a685-eb72c0ed147f",
+    "NAME": "办公室",
+    "PARENT_ID": "3cf5236f-debb-4d1d-8d7d-fdef75316e7b",
+    "SORT": 1000
+  },
+  {
+    "id": "35441a68-512d-4c63-a0fd-9c93b15d9864",
+    "NAME": "办公室",
+    "PARENT_ID": "7ff6e689-c7f0-4858-8b18-674d9c5690e0",
+    "SORT": 1000
+  },
+  {
+    "id": "17a6a182-315a-42fa-bf0f-a870e2fdc676",
+    "NAME": "办公室",
+    "PARENT_ID": "6928331e-1b21-4077-a912-a889b3f1fa01",
+    "SORT": 1000
+  },
+  {
+    "id": "1911ee6d-d3de-4bb3-ba86-e2914bc1a72d",
+    "NAME": "综合科",
+    "PARENT_ID": "a926d6f6-48b3-4f2b-834d-c8e0346116e5",
+    "SORT": 1000
+  },
+  {
+    "id": "a31825e7-f198-4775-8c34-40e6643f4a3d",
+    "NAME": "办公室",
+    "PARENT_ID": "375b508f-f1f1-4c6f-972c-128db1abf1ce",
+    "SORT": 1000
+  },
+  {
+    "id": "fb75ce02-21ab-414b-8155-81552ca07fdf",
+    "NAME": "综合科",
+    "PARENT_ID": "3ee8b8f1-1849-4e45-8636-9c1c08560149",
+    "SORT": 1000
+  },
+  {
+    "id": "6e88273c-fe92-44b3-873a-823948a18442",
+    "NAME": "办公室",
+    "PARENT_ID": "aacec04d-b466-4c0f-a2ee-9acef877e8cb",
+    "SORT": 1000
+  },
+  {
+    "id": "ae21f15f-1a09-455f-8be4-e3d53f6993b3",
+    "NAME": "安全生产基础管理和综合协调科",
+    "PARENT_ID": "ad2851dd-338d-423b-90ac-37a33b0f803a",
+    "SORT": 1000
+  },
+  {
+    "id": "bc7821c7-8f7e-473c-a7db-85495945b237",
+    "NAME": "办公室",
+    "PARENT_ID": "ad2851dd-338d-423b-90ac-37a33b0f803a",
+    "SORT": 1000
+  },
+  {
+    "id": "ca1c374c-bb15-4ddb-98b0-e6c66a230118",
+    "NAME": "边防工作科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "391f2df3-5420-448e-9d57-5f1e7270408a",
+    "NAME": "行政科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "15b04656-93a1-4a50-87c5-9a5a3b06511f",
+    "NAME": "行政效能监督科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "3b0c4c4e-8698-4980-a369-72491838dc1c",
+    "NAME": "纪检组",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "96ff8a84-b370-4c9e-86b9-69f883dd736f",
+    "NAME": "建议提案办理科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "ebb48144-4813-4ee0-902a-c4a57548c302",
+    "NAME": "文电科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "1ebd9c71-5dad-4bd3-83a5-eda859138d77",
+    "NAME": "信息科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "151c8541-1d9d-4815-8d01-36571d8eb4da",
+    "NAME": "政府网站管理科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "e9844347-8273-4c0e-860d-8ccaf84646c6",
+    "NAME": "政务督查科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "b9d57c45-52c3-432d-8b96-411132dc192f",
+    "NAME": "政务二科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "a6357de7-f55d-4937-9270-874f99822c6b",
+    "NAME": "政务六科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "40ccdbe6-ee8e-47a6-96e3-a6d1b5e62706",
+    "NAME": "政务七科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "5ed8f1ab-f684-413f-8840-3c33e5649433",
+    "NAME": "政务三科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "7395e614-a416-4606-9c34-a485d59962fb",
+    "NAME": "政务四科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "d0624d16-5744-409e-a85f-1a79822f22b4",
+    "NAME": "政务五科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "2f223453-055e-4ce9-8da9-927c0b0fe92a",
+    "NAME": "政务一科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "f003cc71-ce17-4f8e-a021-50a7d2e1efd4",
+    "NAME": "综合二科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "d7a25ff3-25bc-4ac0-8bdb-c3cfb86bd559",
+    "NAME": "综合一科",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "036f4baa-f677-4097-9e43-8f889e78b441",
+    "NAME": "总值班室",
+    "PARENT_ID": "72c6eb3a-8639-4711-8307-b6dd045a21ef",
+    "SORT": 1000
+  },
+  {
+    "id": "903e7f91-6ceb-4b9b-ab49-93616223df8d",
+    "NAME": "综合科",
+    "PARENT_ID": "a0bd535f-fc84-41d3-a5fe-d089458aabe3",
+    "SORT": 1000
+  },
+  {
+    "id": "21706efc-4c26-4f42-8092-a35214e24376",
+    "NAME": "综合科",
+    "PARENT_ID": "be4d7ee9-1c6f-4f42-8dbd-dd767126dda8",
+    "SORT": 1000
+  },
+  {
+    "id": "f2a3e255-337e-4832-ace9-c628920f7613",
+    "NAME": "综合科",
+    "PARENT_ID": "09e73fd2-b195-43bc-ba64-a76b73e98aed",
+    "SORT": 1000
+  },
+  {
+    "id": "07309cd2-8e45-488d-89af-6c588e74e445",
+    "NAME": "综合科",
+    "PARENT_ID": "20a14fab-943b-461b-806e-b21a33c3cf7a",
+    "SORT": 1000
+  },
+  {
+    "id": "b78e3571-b516-4e1e-a136-2eebf2ec70ab",
+    "NAME": "办公室",
+    "PARENT_ID": "8c157903-365f-41c2-983a-054911bffb80",
+    "SORT": 1000
+  },
+  {
+    "id": "94a508f9-fcf0-436d-a492-ca7d72054b00",
+    "NAME": "办公室",
+    "PARENT_ID": "98b2f791-e2ed-4784-a8a5-4a526087c3f5",
+    "SORT": 1000
+  },
+  {
+    "id": "9683b36b-7ece-4da9-8998-c3e77361405b",
+    "NAME": "办公室",
+    "PARENT_ID": "f11d3ef1-1fb9-409f-95e7-8ba7aa2dbf3d",
+    "SORT": 1000
+  },
+  {
+    "id": "eab49425-8ea8-4f08-a9b8-81ade9788485",
+    "NAME": "办公室",
+    "PARENT_ID": "7b0facbc-eca3-4b2b-9ba8-4041b46dc851",
+    "SORT": 1000
+  },
+  {
+    "id": "f1e80597-e8d9-4113-a917-850da2f7c689",
+    "NAME": "测绘地理信息科",
+    "PARENT_ID": "7b0facbc-eca3-4b2b-9ba8-4041b46dc851",
+    "SORT": 1000
+  },
+  {
+    "id": "96a5ad0e-8f47-42fd-91d1-cbd0f187044c",
+    "NAME": "调查监测科",
+    "PARENT_ID": "7b0facbc-eca3-4b2b-9ba8-4041b46dc851",
+    "SORT": 1000
+  },
+  {
+    "id": "93a13afe-726f-4233-a0f5-7de1d5bb5e5a",
+    "NAME": "确权登记科",
+    "PARENT_ID": "7b0facbc-eca3-4b2b-9ba8-4041b46dc851",
+    "SORT": 1000
+  },
+  {
+    "id": "6e6560fa-4cd5-430b-ba8c-f194c766bd7c",
+    "NAME": "市政协办",
+    "PARENT_ID": "d7d5b05f-6668-4d51-9054-7d1435358ab6",
+    "SORT": 1000
+  },
+  {
+    "id": "3dba4d9c-ee5c-47a7-a253-4eca428823c6",
+    "NAME": "文档科",
+    "PARENT_ID": "6e6560fa-4cd5-430b-ba8c-f194c766bd7c",
+    "SORT": 1000
+  },
+  {
+    "id": "9989c850-6045-4ad3-a9ae-14019bc42933",
+    "NAME": "综合科",
+    "PARENT_ID": "6e6560fa-4cd5-430b-ba8c-f194c766bd7c",
+    "SORT": 1000
+  },
+  {
+    "id": "9ec6a565-0095-4fda-910f-31e497f37b5d",
+    "NAME": "肃北县委办",
+    "PARENT_ID": "49786c96-afa2-4bd3-9b63-c9bb99c495a2",
+    "SORT": 1000
+  },
+  {
+    "id": "695a8a37-0801-4e2e-89ab-4ab9df63a54d",
+    "NAME": "肃北县政府办",
+    "PARENT_ID": "49786c96-afa2-4bd3-9b63-c9bb99c495a2",
+    "SORT": 1000
+  },
+  {
+    "id": "9388f98b-21e2-4b2b-9c04-692c8a1a0f32",
+    "NAME": "机要保密股",
+    "PARENT_ID": "9ec6a565-0095-4fda-910f-31e497f37b5d",
+    "SORT": 1000
+  },
+  {
+    "id": "d77e37a6-2b6b-44a1-ac40-690ff621b63e",
+    "NAME": "政务股",
+    "PARENT_ID": "695a8a37-0801-4e2e-89ab-4ab9df63a54d",
+    "SORT": 1000
+  },
+  {
+    "id": "e34fbe12-1635-4cc4-9d4e-689bf53f717a",
+    "NAME": "肃州区委办",
+    "PARENT_ID": "e6a38f2d-877b-4063-b1a2-aebd69fb093d",
+    "SORT": 1000
+  },
+  {
+    "id": "d4745a7f-8769-43f5-8bd7-67d66f6756ff",
+    "NAME": "肃州区政府办",
+    "PARENT_ID": "e6a38f2d-877b-4063-b1a2-aebd69fb093d",
+    "SORT": 1000
+  },
+  {
+    "id": "bcd6fd86-f964-404a-8e67-87807b6e21c6",
+    "NAME": "文档股",
+    "PARENT_ID": "e34fbe12-1635-4cc4-9d4e-689bf53f717a",
+    "SORT": 1000
+  },
+  {
+    "id": "d87184a3-8a4e-4a52-a44a-9b6941d24bbe",
+    "NAME": "文印室",
+    "PARENT_ID": "e34fbe12-1635-4cc4-9d4e-689bf53f717a",
+    "SORT": 1000
+  },
+  {
+    "id": "2b229024-5d3e-44bc-bc90-4d8a5dcc09bc",
+    "NAME": "文档股",
+    "PARENT_ID": "d4745a7f-8769-43f5-8bd7-67d66f6756ff",
+    "SORT": 1000
+  },
+  {
+    "id": "1a7d7e35-cdd2-4f66-8703-e5ae05c9a59e",
+    "NAME": "文印室",
+    "PARENT_ID": "d4745a7f-8769-43f5-8bd7-67d66f6756ff",
+    "SORT": 1000
+  },
+  {
+    "id": "652981dc-49dc-4508-874c-aef4d0733c75",
+    "NAME": "玉门市委办",
+    "PARENT_ID": "1fa030a7-2b6e-4ee5-ae1f-f2ef07102209",
+    "SORT": 1000
+  },
+  {
+    "id": "cb4cb49c-805f-480a-8ab0-3d3e0237cf04",
+    "NAME": "玉门市政府办",
+    "PARENT_ID": "1fa030a7-2b6e-4ee5-ae1f-f2ef07102209",
+    "SORT": 1000
+  },
+  {
+    "id": "3c854e6c-2d52-4be2-80e4-411b53808e90",
+    "NAME": "打字室",
+    "PARENT_ID": "652981dc-49dc-4508-874c-aef4d0733c75",
+    "SORT": 1000
+  },
+  {
+    "id": "03eee64f-1d44-410a-94cc-dbbc1c5b6fe8",
+    "NAME": "文档室",
+    "PARENT_ID": "652981dc-49dc-4508-874c-aef4d0733c75",
+    "SORT": 1000
+  },
+  {
+    "id": "493b7f41-bb9b-4764-9ebc-883ce0da8387",
+    "NAME": "打字室",
+    "PARENT_ID": "cb4cb49c-805f-480a-8ab0-3d3e0237cf04",
+    "SORT": 1000
+  },
+  {
+    "id": "2976135b-248d-4ea5-8579-14f502581c9f",
+    "NAME": "机要室",
+    "PARENT_ID": "cb4cb49c-805f-480a-8ab0-3d3e0237cf04",
+    "SORT": 1000
+  },
+  {
+    "id": "202204081102498385352",
+    "NAME": "测试办公室单位",
+    "PARENT_ID": "202204081101593325345",
+    "SORT": 0
+  },
+  {
+    "id": "202204061758125765200",
+    "NAME": "测试部门",
+    "PARENT_ID": "202204061757305425193",
+    "SORT": 0
+  },
+  {
+    "id": "202204081101593325345",
+    "NAME": "测试市委办公室",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 0
+  },
+  {
+    "id": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "NAME": "酒泉市委",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 1000
+  },
+  {
+    "id": "a7e7f739-8ce9-4d9e-b96f-13915428d29b",
+    "NAME": "市委政研室",
+    "PARENT_ID": "83484f5d-54a6-48b1-bbb9-0d581e629b7a",
+    "SORT": 1000
+  },
+  {
+    "id": "202204061757305425193",
+    "NAME": "测试单位",
+    "PARENT_ID": "482fe5f0-1203-408a-9e36-102d26f36560",
+    "SORT": 2
+  }
+]

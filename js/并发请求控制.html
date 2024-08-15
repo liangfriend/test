@@ -1,0 +1,75 @@
+<div>
+
+    <button onClick="test(request1,'1')">请求1</button>
+    <button onClick="test(request2,'2')">请求2</button>
+</div>
+<script>
+    //模拟异步请求
+    function request1 ()
+    {
+
+        return new Promise( res =>
+        {
+            setTimeout( () =>
+            {
+                console.log( "请求1" )
+                res()
+            }, 1000 )
+
+        } )
+    }
+    function request2 ()
+    {
+
+        return new Promise( res =>
+        {
+            setTimeout( () =>
+            {
+                console.log( "请求2" )
+                res()
+            }, 1000 )
+
+        } )
+    }
+    //请求控制函数
+    function apiController ()
+    {
+
+        const limit = 5
+        const requestList = new Map()
+        let currentRequestCount = 0
+
+        return ( request, mark ) =>
+        {
+
+
+
+
+            //如果请求数太多，不做操作
+            if ( currentRequestCount > limit ) return
+         
+            const isHas= !requestList.has(mark)
+            
+            if ( isHas && requestList.size < limit )
+            {
+                requestList.set( mark, request  )
+                
+                requestList.get(mark)().then( e =>
+                {
+                    requestList.delete( mark )
+                    currentRequestCount--
+                } )
+
+
+                currentRequestCount++
+
+
+
+
+            }
+        }
+    }
+
+    const test = apiController()
+
+</script>

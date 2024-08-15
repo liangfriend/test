@@ -1,0 +1,34 @@
+<body>
+    <p>
+        <hr>
+
+    <p>
+
+</body>
+
+<style>
+    root {}
+
+    hr {
+        border: 5ch solid#25834A;
+        margin: -64% 42 45;
+        /* --s: */
+    }
+
+    p {
+        border: 48q solid#48BF7D;
+        margin: 130 37% 141;
+        /* border-radius: 50% /55%55%17%17%; */
+    }
+
+    * {
+        background: #024817;
+        /* border-radius: 50% var(--s, /55%55%17%17%); */
+
+    }
+
+    /*
+变量使用时，第二个值表示变量不存在时设置的备用值。
+这里只有hr存在--s。所以p标签继承了border-radius: 50% /55%55%17%17%;
+而hr标签继承了 border-radius: 50%; 因为--s是空值 */
+</style>

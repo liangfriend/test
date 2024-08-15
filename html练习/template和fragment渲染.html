@@ -1,0 +1,23 @@
+<body>
+<div class="foo">
+s
+</div>
+<template class="bar">
+    <p>p</p>
+</template>
+</body>
+<script>
+/*template和Fragment都是转移节点的
+可以通过new Fragment()方式，一次性添加要添加的节点，
+再使用appendChild()添加到页面中
+也可以标记template，通过content属性获取到template中的节点再appchild到页面中
+*/
+let foo=document.querySelector(".foo");
+let bar=document.querySelector(".bar");
+let barFragment=bar.content;
+
+foo.appendChild(barFragment)
+</script>
+<style>
+
+</style>

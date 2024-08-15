@@ -1,0 +1,40 @@
+<body>
+    <canvas id="myCanvas">
+    </canvas>
+    
+
+</body>
+<script>
+const channel = new BroadcastChannel('music')
+const sendmessage=()=>{
+ 
+    channel.postMessage("你好");
+}
+
+const canvas = document.getElementById('myCanvas');
+const context = canvas.getContext('2d');
+const ox=canvas.width/2
+const oy=canvas.height/2
+// 开始一条新路径
+context.beginPath();
+// 设置箭头的起点
+
+context.moveTo(ox, oy);
+// 设置线的终点
+context.lineTo(ox+100, oy);
+// 绘制箭头的一部分
+context.lineTo(ox+50, oy+20);
+// 移动到线的终点，为绘制箭头的另一部分做准备
+context.moveTo(ox+100, oy);
+context.lineTo(ox+50, oy-20);
+// 设置线宽
+context.lineWidth = 5;
+// 设置线的颜色
+context.strokeStyle = '#ff0000';
+// 画出线条
+context.stroke();
+
+</script>
+<style>
+
+</style>

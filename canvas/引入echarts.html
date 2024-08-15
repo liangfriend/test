@@ -1,0 +1,46 @@
+<body>
+    <div class="echart"></div>
+</body>
+
+<script src="../库/echarts.min.js"></script>
+<script>
+    window.onload=function(){
+        drawEchart()
+    }
+    function drawEchart(){
+        const dom = document.querySelector( ".echart" )
+        const myChart = echarts.init( dom );
+        var option;
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip:{
+                show:true
+            },
+            series: [
+                {
+                    
+                    data: [ 150, 230, 224, 218, 135, 147, 260 ],
+                    type: 'line'
+                }
+            ]
+        };
+
+        option && myChart.setOption( option );
+        console.log( myChart )
+    }
+
+</script>
+<style>
+.echart{
+    width:1000px;
+    height:400px;
+    border: 1px solid;
+}
+</style>

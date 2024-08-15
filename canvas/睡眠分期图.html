@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Bar Chart</title>
+</head>
+<body>
+<canvas id="barChart" width="800" height="300"></canvas>
+<script>
+   const data = [
+    { name: '离床', value: [[1, 2], [3, 4], [4.5, 4.7], [6, 7]], color: '#ff7f0e' },
+    { name: '清醒', value: [[4, 4.5], [4.7, 5], [5.5, 6]], color: '#2ca02c' },
+    { name: '浅睡', value: [[2, 3], [5, 5.5], [7, 8.1]], color: '#1f77b4' }
+];
+
+    function drawBarChart(data, canvas,settings) {
+        
+        const ctx = canvas.getContext('2d');
+        const barHeight = 20; // 每个条形的高度
+        
+        const left=settings.left?settings.left:10
+        const right=settings.right?settings.right:10
+        const bottom=settings.bottom?settings.bottom:10
+        const top=settings.top?settings.top:10
+        const xInterval = settings.xInterval || 1;
+        //y轴高度
+        const yHeight=canvas.height-20
+        //x轴宽度
+        const xWidth=canvas.width-right-left
+
+        //计算出x最大值
+        let maxValue=0
+        data.forEach(item => {
+            item.value.forEach(range => {
+            if (range[1] > maxValue) { // 只比较区间的结束值，因为它大于开始值
+                maxValue = range[1];
+            }
+            });
+        });
+        //计算出最小值
+        let minValue=data[0].value[0][0]
+        data.forEach(item => {
+            item.value.forEach(range => {
+            if (range[0] < minValue) {
+                minValue = range[0];
+            }
+            });
+        });
+        const xConstant = xWidth/(maxValue-minValue); // 条形x方向分量
+        // let yOffset = 10; // 初始 Y 偏移量
+        //绘制坐标轴
+        ctx.beginPath()
+       
+        ctx.moveTo(canvas.width-right,canvas.height-bottom)
+        ctx.lineTo(left,canvas.height-bottom)
+        ctx.stroke()
+        ctx.beginPath()
+        
+        ctx.moveTo(left,canvas.height-bottom)
+        ctx.lineTo(left,top)
+        ctx.stroke()
+        //每项高度
+        const perHeight=(canvas.height-bottom-top)/(data.length+1)
+        
+        data.forEach((item, index) => {
+            // 设置颜色
+            ctx.fillStyle = item.color;
+            const yOffset=yHeight-perHeight*(index+1)-barHeight/2
+            ctx.beginPath()
+            ctx.moveTo(left,yHeight-perHeight*(index+0.5))
+            ctx.lineTo(left-20,yHeight-perHeight*(index+0.5))
+            
+            const text=item.name
+            const metrics=ctx.measureText(text)
+            // ctx.moveTo(left-metrics.width,perHeight*(index+0.5))
+            ctx.fillText(item.name,left-metrics.width-25,yHeight-perHeight*(index+1)+5)
+            console.log()
+            ctx.stroke()
+            // ctx.moveTo()
+            // 绘制每个时间区间
+            item.value.forEach(interval => {
+                const xStart = (interval[0]-minValue) * xConstant+settings.left; 
+                const xEnd = (interval[1]-minValue) * xConstant+settings.left; 
+                ctx.fillRect(xStart, yOffset, xEnd - xStart, barHeight);
+            });
+            ctx.beginPath()
+            ctx.moveTo(left,yHeight-perHeight*(data.length+0.5))
+            ctx.lineTo(left-20,yHeight-perHeight*(data.length+0.5))
+            ctx.stroke()
+            //绘制x轴标签
+            const xMaxValue = Math.ceil(maxValue); // 最大值向上取整
+            ctx.fillStyle = '#000'; // 设置标签的颜色
+         
+            for (let i = minValue; i <= xMaxValue; i += xInterval) {
+                const x = left + ((i-minValue) * xConstant);
+                const y = canvas.height - 5; // 设置标签的 Y 坐标
+                if(x<=canvas.width-right){
+                    ctx.beginPath()
+                    ctx.moveTo(x, y-bottom+5)
+                    ctx.lineTo(x,y-bottom-10)
+                    ctx.stroke()
+                    let text=i.toString()
+                    if(settings.formatterX){
+                        text=settings.formatterX({value:i})
+                    }
+                 
+                    const metrics=ctx.measureText(text)
+                    ctx.fillText(text, x-metrics.width/2, y-bottom+20); // 绘制标签文本
+                }
+                
+            }
+                
+
+        });
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const canvas = document.getElementById('barChart');
+      
+        drawBarChart(data, canvas,{left:70,right:100,top:10,bottom:30,xInterval:1,formatterX:(params)=>{return params.value}});
+    });
+</script>
+<style>
+    #barChart {
+       
+    }
+</style>
+</body>
+</html>

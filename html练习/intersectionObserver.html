@@ -1,0 +1,26 @@
+<!-- 交叉观察器 -->
+
+<body>
+    <div id="box">
+        a
+    </div>
+</body>
+<script>
+    const io = new IntersectionObserver( ( e ) =>
+    {
+        console.log( "进入" )
+    } )
+    const target = document.getElementById( 'box' )
+    io.observe( target )
+</script>
+<style>
+    #box {
+        width: 200px;
+        height: 200px;
+        border: 1px solid;
+    }
+
+    body {
+        height: 5000px;
+    }
+</style>

@@ -1,31 +1,33 @@
 <body>
-    <h1>文字跟随背景颜色变化</h1>
-   
+    <div>
+        <h1>文字跟随背景颜色变化</h1>
+    </div>
+
+
 </body>
 <script>
 
 </script>
 <style>
+    body {
+        /* text-align: center; */
+        mix-blend-mode: difference;
+        background: linear-gradient(70deg, #fff 49.9%, #000 50.1%);
+        position: relative;
 
-body{
-    /* text-align: center; */
-    mix-blend-mode:difference;
-    background: linear-gradient(70deg,#fff 49.9%,#000  50.1%);
-   position: relative;
+    }
 
-}
-h1{
-    position: absolute;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
- 
-    color:#fff;
-}
-h1:hover{
-    transition:width 1s ease;
-    transform: translateX(-100px);
-}
+    h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
 
+        color: #fff;
+    }
 
+    div:hover h1 {
+        transition: all 1s ease;
+        transform: translateX(-100px);
+    }
 </style>

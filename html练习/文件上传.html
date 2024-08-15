@@ -1,0 +1,99 @@
+<body>
+    <div class="upload" draggable="true">
+        请选择文件上传
+    </div>
+
+    <div>
+        <!-- <input type="file" webkitdirectory mozidrectory odircectory /> -->
+        <input type="file" multiple />
+    </div>
+</body>
+<script>
+    const div = document.getElementsByClassName( 'upload' ).item( 0 )
+    console.log( div )
+
+    div.ondragenter = ( e ) =>
+    {
+        e.preventDefault();
+        console.log( "enter" )
+
+    }
+    div.ondragover = ( e ) =>
+    {
+        e.preventDefault()
+        console.log( "over" )
+    }
+    div.ondrop = async ( e ) =>
+    {
+
+        e.preventDefault()
+
+        let length = e.dataTransfer.items.length
+        let files = []
+        function getFileFromDirectory ( entry )
+        {
+
+
+            console.log( entry )
+            if ( entry.isDirectory )
+            {
+
+                //创建一个目录读取器
+                const reader = entry.createReader()
+                reader.readEntries( entries =>
+                {
+                    console.log( entries )
+                    entries.forEach( element =>
+                    {
+                        getFileFromDirectory( element )
+                    } );
+                    //得到文件下所有的entry
+
+                } )
+            } else
+            {
+
+
+                //文件
+                //当把entry的数据读出来，会把这个file传递给回调，是异步的
+
+                entry.file( ( f ) =>
+                {
+                    files.push( f )
+                } )
+            }
+        }
+
+        function init ()
+        {
+            for ( const item of e.dataTransfer.items )
+            {//webkitGetAsEntry()用于得到一个entry对象，就是更详细的信息。操作系统句柄？
+                //把dataTransferItem转化成FileEntity对象
+                const entry = item.webkitGetAsEntry()  //不存在兼容性问题。但是未来可能会改成GetAsEntry()
+
+                getFileFromDirectory( entry )
+
+            }
+
+
+        }
+        init()
+
+
+
+
+
+    }
+</script>
+<style>
+    .upload {
+        border: 1px solid;
+        height: 300px;
+        font-size: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: #ccc;
+    }
+</style>

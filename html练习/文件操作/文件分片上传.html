@@ -1,0 +1,37 @@
+<body>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" accept="image/*,video/*" multiple />
+        <button type="submit">Upload</button>
+    </form>
+    <div id="previewContainer"></div>
+</body>
+<script>
+    // 例子：使用 JavaScript 实现文件分块上传
+    const file = document.getElementById('fileInput').files[0];
+    const chunkSize = 5 * 1024 * 1024; // 5MB
+    let start = 0;
+
+    function uploadChunk(start, end) {
+        const chunk = file.slice(start, end);
+        const formData = new FormData();
+        formData.append('file', chunk, file.name);
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (end < file.size) {
+                    // 上传下一块
+                    uploadChunk(end, Math.min(end + chunkSize, file.size));
+                } else {
+                    console.log('上传完成');
+                }
+            })
+            .catch((error) => console.error('上传错误:', error));
+    }
+
+    // 开始上传第一个块
+    uploadChunk(0, chunkSize);
+</script>
