@@ -1,0 +1,42 @@
+<body>
+    <div>
+        <h3>默认fill</h3>
+        <img src="../resources//images//巴厘岛.webp" alt="" />
+        <h3>fill：改变比例来填充</h3>
+        <img src="../resources//images//巴厘岛.webp" alt="" />
+        <h3>cover： 不改变比例，通过重复覆盖，</h3>
+        <img src="../resources//images//巴厘岛.webp" alt="" />
+        <h3>contain：不改变比例，包含在父级中</h3>
+        <img src="../resources//images//巴厘岛.webp" alt="" />
+        <h3>none：保持内容原始大小</h3>
+        <img src="../resources//images//巴厘岛.webp" alt="" />
+        <h3>scale-down：如果内容比容器小，则保持原始大小，否则用contain缩放</h3>
+        <img src="../resources//images//巴厘岛.webp" alt="" />
+    </div>
+</body>
+<script></script>
+<style>
+    /* nth-child 意思是选择其其父类的第n个子元素 */
+    img {
+        border: 1px solid;
+        width: 400px;
+        height: 150px;
+    }
+    img:nth-child(2) {
+    }
+    img:nth-child(4) {
+        object-fit: fill;
+    }
+    img:nth-child(6) {
+        object-fit: cover;
+    }
+    img:nth-child(8) {
+        object-fit: contain;
+    }
+    img:nth-child(10) {
+        object-fit: none;
+    }
+    img:nth-child(12) {
+        object-fit: scale-down;
+    }
+</style>

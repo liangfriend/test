@@ -1,0 +1,132 @@
+<body>
+    <div class="container">
+        <video src="../../resources/videos/test.mp4"></video>
+        <div class="controls">
+            <div class="play_btn"></div>
+
+            <div class="progress">
+                <div class="play_progress"></div>
+                <div class="played_progress"></div>
+                <div class="thumb"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const video = document.querySelector('video');
+    const btn = document.querySelector('.play_btn');
+    const thumb = document.querySelector('.thumb');
+    const play_progress = document.querySelector('.play_progress');
+    const played_progress = document.querySelector('.played_progress');
+    let isDragging = false;
+    video.addEventListener('timeupdate', () => {
+        const percentage = (video.currentTime / video.duration) * 100;
+        thumb.style.left = `${percentage}%`;
+        played_progress.style.width = `${percentage}%`;
+    });
+    btn.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    });
+    play_progress.addEventListener('click', (e) => {
+        const rect = play_progress.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+
+        const newTime = (clickX / rect.width) * video.duration;
+        video.currentTime = newTime;
+    });
+    played_progress.addEventListener('click', (e) => {
+        const rect = play_progress.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const newTime = (clickX / rect.width) * video.duration;
+        video.currentTime = newTime;
+    });
+    thumb.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', onStopDrag);
+    });
+
+    // 拖动过程中
+    function onDrag(e) {
+        const rect = play_progress.getBoundingClientRect();
+        let newLeft = e.clientX - rect.left;
+
+        // 限制 thumb 在 progress bar 内
+        if (newLeft < 0) {
+            newLeft = 0;
+        } else if (newLeft > rect.width) {
+            newLeft = rect.width;
+        }
+
+        const percentage = (newLeft / rect.width) * 100;
+        thumb.style.left = `${percentage}%`;
+        played_progress.style.width = `${percentage}%`;
+
+        // 同时更新视频的当前时间
+        video.currentTime = (newLeft / rect.width) * video.duration;
+    }
+
+    // 结束拖动
+    function onStopDrag() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onDrag);
+        document.removeEventListener('mouseup', onStopDrag);
+    }
+</script>
+<style>
+    * {
+        --thumbWith: 5px;
+    }
+    .container {
+        width: 150px;
+        height: 150px;
+    }
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+    }
+    .controls {
+        display: flex;
+        height: 10px;
+        justify-content: space-between;
+        padding-right: var(--thumbWith);
+        align-items: center;
+    }
+    .play_btn {
+        width: 10px;
+        height: 10px;
+        background-color: #ff0000;
+    }
+    .progress {
+        align-items: center;
+        position: relative;
+        display: flex;
+        width: 100px;
+    }
+    .play_progress {
+        position: absolute;
+        background-color: blanchedalmond;
+        width: 100%;
+        left: calc(var(--thumbWith) / 2);
+        height: 5px;
+    }
+    .thumb {
+        position: absolute;
+        background-color: #4096ff;
+        /* border: 1px solid; */
+        width: var(--thumbWith);
+        height: 10px;
+    }
+    .played_progress {
+        position: absolute;
+        width: 0;
+        left: calc(var(--thumbWith) / 2);
+        height: 5px;
+        background-color: #000;
+    }
+</style>
