@@ -1,57 +1,8 @@
 <body>
-    <div class="s-shape"></div>
+    <div></div>
 </body>
 <script></script>
 <style>
-    body {
-        background-color: #335b72; /* 深蓝背景 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-
-    .s-shape {
-        width: 100px;
-        height: 200px;
-        background-color: transparent;
-        position: relative;
-    }
-
-    .s-shape::before,
-    .s-shape::after {
-        content: '';
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        background-color: #f2ae58; /* 黄色 */
-        border-radius: 50%;
-    }
-
-    .s-shape::before {
-        top: 0;
-        left: 0;
-        clip-path: polygon(
-            50% 0%,
-            50% 50%,
-            100% 50%,
-            100% 100%,
-            0% 100%,
-            0% 0%
-        );
-    }
-
-    .s-shape::after {
-        bottom: 0;
-        left: 0;
-        clip-path: polygon(
-            0% 0%,
-            0% 50%,
-            50% 50%,
-            50% 100%,
-            100% 100%,
-            100% 0%
-        );
-    }
+    *{background:radial-gradient(64q,var(--r,#DE817E 99%),#7E6293)fixed;
+    *{height:142;--r:#7E6293 99%,#E8BA79 0 35vh}
 </style>
