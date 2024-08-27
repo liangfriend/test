@@ -1,0 +1,146 @@
+<body>
+    <div>
+        <button onclick="draw()">画笔</button>
+        <button onclick="drag()">拖动</button>
+        <div class="container">
+            <svg id="svgCanvas" width="500" height="500" viewBox="0 0 500 500">
+                <!-- <rect></rect> -->
+                <path fill="none" stroke="#000" d="M 0,0 L 400,400 z"></path>
+            </svg>
+        </div>
+    </div>
+</body>
+<script>
+    //clietWidth 包括内容和padding的宽度
+    const svgCanvas = document.getElementById('svgCanvas');
+    const container = document.querySelector('.container');
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+    });
+    let mode = 'draw';
+    let down = false;
+    let startX = 0;
+    let startY = 0;
+
+    let startPoint = { x: 0, y: 0 };
+    let viewBox = { x: 0, y: 0, width: 500, height: 500 };
+    let path = null;
+    let scale = 1;
+    // 监听鼠标事件
+    svgCanvas.addEventListener('mousedown', (event) => {
+        startPoint.x = event.clientX;
+        startPoint.y = event.clientY;
+        down = true;
+        startX = event.offsetX;
+        startY = event.offsetY;
+
+        // 创建新的路径
+        path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', '#000');
+        path.setAttribute('stroke-width', 2);
+        path.setAttribute('d', `M${startX},${startY}`);
+        svgCanvas.appendChild(path);
+    });
+    svgCanvas.addEventListener('mousemove', (event) => {
+        if (down && mode === 'draw') {
+            console.log(event.offsetX, event.offsetY);
+            drawPath(path, event.offsetX, event.offsetY);
+        }
+        if (down && mode === 'drag') {
+            drageWH(event);
+        }
+    });
+    svgCanvas.addEventListener('wheel', function (e) {
+        e.preventDefault();
+
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const svgPoint = svgCanvas.createSVGPoint();
+        svgPoint.x = mouseX;
+        svgPoint.y = mouseY;
+        const cursorPoint = svgPoint.matrixTransform(
+            svgCanvas.getScreenCTM().inverse()
+        );
+
+        if (e.deltaY < 0) {
+            // 缩放放大
+            scale += 0.1;
+            svgCanvas.style.scale = scale;
+        } else {
+            // 缩放缩小
+            scale -= 0.1;
+            svgCanvas.style.scale = scale;
+        }
+
+        // viewBox.x =
+        //     cursorPoint.x - (mouseX / svgCanvas.clientWidth) * viewBox.width;
+        // viewBox.y =
+        //     cursorPoint.y - (mouseY / svgCanvas.clientHeight) * viewBox.height;
+
+        // svgCanvas.setAttribute(
+        //     'viewBox',
+        //     `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
+        // );
+    });
+    function drageWH(e) {
+        const dx = startPoint.x - e.clientX;
+        const dy = startPoint.y - e.clientY;
+
+        viewBox.x += dx;
+        viewBox.y += dy;
+        viewBox.width = viewBox.x + 500;
+        viewBox.height = viewBox.y + 500;
+        svgCanvas.setAttribute(
+            'viewBox',
+            `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
+        );
+        console.log(
+            `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
+        );
+        // startPoint.x = e.clientX;
+        // startPoint.y = e.clientY;
+    }
+    svgCanvas.addEventListener('mouseup', () => {
+        down = false;
+        path = null;
+    });
+    // 绘制线条
+    // function drawLine(x1, y1, x2, y2) {
+    //     const line = document.createElementNS(
+    //         'http://www.w3.org/2000/svg',
+    //         'line'
+    //     );
+    //     line.setAttribute('x1', x1);
+    //     line.setAttribute('y1', y1);
+    //     line.setAttribute('x2', x2);
+    //     line.setAttribute('y2', y2);
+    //     line.setAttribute('stroke', '#000');
+    //     line.setAttribute('stroke-width', 5);
+    //     svgCanvas.appendChild(line);
+    // }
+    function drawPath(path, x, y) {
+        const d = path.getAttribute('d');
+        path.setAttribute('d', `${d} L${x},${y}`);
+    }
+    function draw() {
+        mode = 'draw';
+    }
+    function drag() {
+        console.log('mode=drag');
+        mode = 'drag';
+    }
+</script>
+<style>
+    .container {
+        width: 600px;
+        height: 600px;
+        overflow: auto;
+        display: grid;
+        /* justify-content: center; */
+        border: 1px solid #000;
+    }
+    #svgCanvas {
+        background-color: beige;
+    }
+</style>
