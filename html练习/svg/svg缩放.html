@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <svg id="mySvg" width="20000" height="20000" viewBox="0 0 500 500" style="border: 1px solid black;">
+        <!-- 背景 -->
+  <rect width="100%" height="100%" fill="lightblue" />
+
+  <!-- 圆 -->
+  <circle cx="100" cy="100" r="80" fill="lightcoral" stroke="darkred" stroke-width="3" />
+
+  <!-- 矩形 -->
+  <rect x="30" y="30" width="140" height="60" fill="lightgreen" stroke="darkgreen" stroke-width="3" />
+
+  <!-- 线 -->
+  <line x1="20" y1="180" x2="180" y2="20" stroke="purple" stroke-width="4" />
+
+  <!-- 文本 -->
+  <text x="50" y="190" font-family="Arial" font-size="20" fill="black">Hello SVG</text>
+    </svg>
+</body>
+<script>
+    const svg = document.getElementById('mySvg');
+let scale = 1;
+let translate = { x: 0, y: 0 };
+let startDistance = 0;
+let startX = 0;
+let startY = 0;
+
+svg.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 2) {
+    startDistance = Math.hypot(
+      e.touches[1].clientX - e.touches[0].clientX,
+      e.touches[1].clientY - e.touches[0].clientY
+    );
+    startX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    startY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+  }
+});
+
+svg.addEventListener('touchmove', (e) => {
+  if (e.touches.length === 2) {
+    const currentDistance = Math.hypot(
+      e.touches[1].clientX - e.touches[0].clientX,
+      e.touches[1].clientY - e.touches[0].clientY
+    );
+    const scaleChange = currentDistance / startDistance;
+
+    scale *= scaleChange;
+
+    const currentX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    const currentY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+    translate.x += (currentX - startX) / scale;
+    translate.y += (currentY - startY) / scale;
+
+    svg.style.transform = `scale(${scale}) translate(${translate.x}px, ${translate.y}px)`;
+    startDistance = currentDistance;
+    startX = currentX;
+    startY = currentY;
+  }
+});
+
+svg.addEventListener('touchend', (e) => {
+  if (e.touches.length < 2) {
+    startDistance = 0;
+  }
+});
+
+</script>
+</html>

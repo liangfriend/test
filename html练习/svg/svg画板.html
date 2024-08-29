@@ -17,8 +17,22 @@
             border: 1px solid #000;
             background-color: #fff;
         }
+        .main{
+            display: flex;
+        }
         .toolbar {
             margin-bottom: 10px;
+        }
+        .thumnbnail{
+            width: 200px;
+            height:200px;
+            
+        }
+        img{
+            border: 1px solid;
+            width: 200px;
+            height:200px;
+           
         }
     </style>
 </head>
@@ -28,12 +42,21 @@
         <button onclick="changeColor('black')">Black</button>
         <button onclick="changeColor('red')">Red</button>
         <button onclick="changeColor('blue')">Blue</button>
+        <button onclick="getThumbnail()">获取缩略图</button>
     </div>
-    <svg id="svgCanvas" width="800" height="600"></svg>
+    <div class="main">
+        <div class="thumnbnail"><img class="thumbnail_img" src="../../resources/images/梧桐叶.webp" alt=""></div>
+        <svg viewBox="0 0 400 300" id="svgCanvas" width="800" height="600">
+            <circle cx="150" cy="50" r="100" />
+        </svg>
+    </div>
+    
     <script>
         // 获取 SVG 元素
 const svgCanvas = document.getElementById('svgCanvas');
 
+const img = document.querySelector('.thumbnail_img');
+console.log(img)
 // 设置默认绘图颜色
 let currentColor = 'black';
 let drawing = false;
@@ -77,7 +100,17 @@ function clearCanvas() {
         svgCanvas.removeChild(svgCanvas.firstChild);
     }
 }
+//获取缩略图
+function getThumbnail(){
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(svgCanvas);
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(svgBlob); 
+    
+    img.src = url;
+    console.log(img.src)
 
+}
 // 更改绘图颜色
 function changeColor(color) {
     currentColor = color;

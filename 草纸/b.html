@@ -1,70 +1,25 @@
 <body>
-    <div>
-        <canvas></canvas>
+    <div class="container">
+        <div class="bg"></div>
     </div>
 </body>
 <script>
-    const canvas = document.querySelector( 'canvas' )
-    const ctx = canvas.getContext( '2d' )
-    canvas.width = window.innerWidth * devicePixelRatio
-    canvas.height = window.innerHeight * devicePixelRatio
-
-
-    // ctx.moveTo( 700, 500 )
-    ctx.fillStyle = '#00ff00'
-    const anime = () =>
-    {
-        let x = 700
-        let y = 500
-        let xd = 1
-        const func = () =>
-        {
-
-            // 清除画布
-            ctx.clearRect( 0, 0, canvas.width, canvas.height );
-
-            ctx.beginPath()
-            ctx.strokeStyle = '#ff0000'
-            ctx.moveTo( 10, 0 )
-            ctx.lineTo( 500, 500 )
-            ctx.stroke()
-            ctx.closePath()
-
-            if ( x > 800 || x < 500 )
-            {
-                xd = -xd
-            }
-
-            x += xd * 1
-            // if ( y < 700 )
-            // {
-            //     y += 1
-            // } else if ( x >= 200 )
-            // {
-            //     y -= 1
-            // }
-            ctx.beginPath()
-            ctx.arc( x, y, 50, 0, 2 * Math.PI );
-            ctx.fill()
-            ctx.stroke()
-            ctx.closePath()
-
-
-            requestAnimationFrame( func )
-        }
-        return func
-    }
-
-    requestAnimationFrame( anime() )
-
+ 
 </script>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
+    .container{
+        width: 400px;
+        height:400px;
+        border: 1px solid;
+        overflow: scroll;
     }
-
-    canvas {
-        background: black;
+    .bg{
+        transform-origin: 400px 0;
+        width: 800px;
+        scale: width*scale-originX;
+        position: relative;
+        /* left:100px; */
+        height: 800px;
+        background: linear-gradient(295deg,#e66465 90%, #9198e5 10%);
     }
 </style>
