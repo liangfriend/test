@@ -63,37 +63,41 @@ let drawing = false;
 let startX = 0;
 let startY = 0;
 
-// 监听鼠标事件
-svgCanvas.addEventListener('mousedown', (event) => {
-    drawing = true;
-    startX = event.offsetX;
-    startY = event.offsetY;
-});
+            // 监听鼠标事件
+            svgCanvas.addEventListener('mousedown', (event) => {
+                drawing = true;
+                startX = event.offsetX;
+                startY = event.offsetY;
+            });
 
-svgCanvas.addEventListener('mousemove', (event) => {
-    if (drawing) {
-        drawLine(startX, startY, event.offsetX, event.offsetY);
-        startX = event.offsetX;
-        startY = event.offsetY;
-    }
-});
+            svgCanvas.addEventListener('mousemove', (event) => {
+                if (drawing) {
+                    drawLine(startX, startY, event.offsetX, event.offsetY);
+                    startX = event.offsetX;
+                    startY = event.offsetY;
+                }
+            });
 
-svgCanvas.addEventListener('mouseup', () => {
-    drawing = false;
-});
+            svgCanvas.addEventListener('mouseup', () => {
+                drawing = false;
+            });
 
-// 绘制线条
-function drawLine(x1, y1, x2, y2) {
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', x1);
-    line.setAttribute('y1', y1);
-    line.setAttribute('x2', x2);
-    line.setAttribute('y2', y2);
-    line.setAttribute('stroke', currentColor);
-    line.setAttribute('stroke-width', 5);
-    svgCanvas.appendChild(line);
-}
+            // 绘制线条
+            function drawLine(x1, y1, x2, y2) {
+                const line = document.createElementNS(
+                    'http://www.w3.org/2000/svg',
+                    'line'
+                );
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                line.setAttribute('stroke', currentColor);
+                line.setAttribute('stroke-width', 5);
+                svgCanvas.appendChild(line);
+            }
 
+<<<<<<< HEAD
 // 清除画布
 function clearCanvas() {
     while (svgCanvas.firstChild) {
@@ -118,6 +122,21 @@ function changeColor(color) {
 
     </script>
 </body>
+=======
+            // 清除画布
+            function clearCanvas() {
+                while (svgCanvas.firstChild) {
+                    svgCanvas.removeChild(svgCanvas.firstChild);
+                }
+            }
+
+            // 更改绘图颜色
+            function changeColor(color) {
+                currentColor = color;
+            }
+        </script>
+    </body>
+>>>>>>> b644bb45f2d3cdb13564c09e1bf3e83176b6f376
 </html>
 
 <!-- 
