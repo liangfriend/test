@@ -1,0 +1,27 @@
+<body>
+    <div class="container">
+        <div class="item1"></div>
+        <div class="item2"></div>
+    </div>
+</body>
+<script></script>
+<style>
+    .container {
+        display: grid;
+        grid-template-columns: 5fr 100px 1fr 700px 5fr;
+    }
+    .item1 {
+        background-color: brown;
+        height: 200px;
+        width: 100px;
+        grid-column: 2 / 3;
+    }
+    .item2 {
+        box-sizing: border-box;
+
+        background-color: aqua;
+        height: 200px;
+        width: 700px;
+        grid-column: 4 / 5;
+    }
+</style>
