@@ -1,5 +1,9 @@
-const a =1
-const b=(function(){
-    return a
-})
-console.log(a)
+const obj={
+    b:{
+        c:1
+    }
+}
+const l=obj.b
+obj.b=null
+console.log(l)
+console.log(obj)
