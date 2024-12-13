@@ -1,9 +1,4 @@
-const obj={
-    b:{
-        c:1
-    }
+const a ={0:0,1:1,2:3}
+for(let item in  a){
+    console.log(item)
 }
-const l=obj.b
-obj.b=null
-console.log(l)
-console.log(obj)

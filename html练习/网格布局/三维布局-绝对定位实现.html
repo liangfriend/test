@@ -1,0 +1,81 @@
+<body>
+    <div class="stack">
+        <div class="container stackItem" onclick="clickContainer()"></div>
+        <div class="toolbar stackItem" onclick="clickToolbar()"></div>
+        <div class="tip stackItem" onclick="clickTip()" >提示</div>
+        <div class="mask stackItem" onclick="clickMask()" comment="遮罩"></div>
+    </div>
+</body>
+<script>
+function clickContainer(){
+        console.log("container")
+}
+function clickToolbar(){
+    console.log("toolbar")
+}
+function clickTip(){
+    console.log("tip")
+}
+function clickMask(){
+    console.log("mask")
+}
+</script>
+<style>
+    /* 这些可以被预编译器复用 */
+    .omit{
+        text-overflow: ellipsis;
+        white-space: nowrap;    
+    }
+    /*  */
+    .stack{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+    .stackItem{
+        position: absolute;
+    }
+    /* height和width不加也不会影响布局，但是这是个习惯，可以作为标记，知道这个是100%，改的话也要保持好习惯，不删，改值，因为删有时候是不起作用的 */
+    .container{
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background-color: blueviolet;
+    }
+    .toolbar{
+        left: 0;
+        top: 0;
+        width: 400px;
+        height: 100%;    
+        background-color: bisque;
+    }
+    .tip{
+        width: 200px;
+        height: 200px;
+        left: 0;
+        top: 0;
+        background-color: aliceblue;
+        
+    }
+    .mask{
+        left: 10%;
+        top: 10%;
+        width: 80%; 
+        height: 80%; 
+        pointer-events: none;
+        background-color: rgba(100,100,100,0.5);
+   
+    }
+    document{
+        display: none;
+    }
+</style>
+<document>
+    利用绝对布局堆叠的特性实现z轴上的堆叠
+    子类全部使用grid和absolute布局:
+    不需要事件的元素采用pointer-events
+
+    注意事项：
+        绝对布局元素会脱离文档流，不再参与网格布局的行列计算
+</document>

@@ -1,0 +1,75 @@
+<body>
+    <!-- <div class="head"><div class="text">固定头部</div></div> -->
+    <div class="bg blue"><div class="text fixPosition"></div></div>
+    <div class="bg red"><div class="text  fixPosition"></div></div>
+    <div class="bg pink"><div class="text  fixPosition" ></div></div>
+    <div class="bg green"><div class="text  fixPosition" ></div></div>
+    <div class="bg yellow"><div class="text  fixPosition" ></div></div>
+</body>
+<script>
+    
+    function fixDomPosition(targetTop, targetLeft){
+        const targetList = document.querySelectorAll('.fixPosition')
+    
+        window.addEventListener('scroll',(e)=>{
+            console.log()
+            targetList.forEach(item=>{
+                const geometry = item.getBoundingClientRect()
+                item.style.top = geometry.top 
+            })
+            
+        })
+    }
+    const targetTop = 200
+    const targetLeft = 500
+    fixDomPosition(targetTop, targetLeft)
+    
+</script>
+<style>
+    .text{
+        width: 100vw;
+        top: calc(50% - 50px);
+        text-align: center;
+        font-size: 8rem;
+        height: 150px;
+        object-fit: fill;
+        background-image: url("../resources/images/logos.png");
+    }
+    .bg{
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+    }
+    .blue{
+        background-color: blue;
+    }
+    
+    .red{
+        background-color: red;
+    }
+    .pink{
+        background-color: pink;
+    }
+    .green{
+        background-color: green;
+    }
+    .yellow{
+        background-color: yellow;
+    }
+    .blue .text{
+        background-position: 0 0px;
+    }
+    .red .text{
+        background-position: 0 -150px;
+    }
+    .pink .text{
+        background-position: 0 -300px;
+    }
+    .green .text{
+        background-position: 0 -450px;
+    }
+    .yellow .text{
+        background-position: 0 -600px;
+    }
+    
+</style>

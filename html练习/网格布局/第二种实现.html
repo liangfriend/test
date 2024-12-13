@@ -1,0 +1,54 @@
+<body>
+    <div class="item head"></div>
+    <div class="item left"></div>
+    <div class="item main1"></div>
+    <div class="item main2"></div>
+    <div class="item main3"></div>
+    <div class="item main4"></div>
+    <div class="item main5"></div>
+    <div class="item main6"></div>
+    <div class="item right"></div>
+    <div class="item bottom"></div>
+</body>
+<style>
+    * {
+        outline: 1px solid red;
+    }
+    body{
+        display: grid;
+        grid-template-areas: 
+        "head head head head head"
+        "left main1 main2 main3 right"
+        "left main4 main5 main6 right"
+        "bottom bottom bottom bottom bottom";
+        grid-template-rows: 100px 1fr 1fr 100px;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        gap: 5px;
+    }
+    .head{
+        grid-area: head;
+    }
+    .left{
+        grid-area: left;
+    }
+    .main1{
+        grid-area: main1;
+    }.main2{
+        grid-area: main2;
+    }.main3{
+        grid-area: main3;
+    }.main4{
+        grid-area: main4;
+    }.main5{
+        grid-area: main5;
+    }.main6{
+        grid-area: main6;
+    }
+    .right{
+        grid-area: right;
+    }
+    .bottom{
+        grid-area: bottom;
+    }
+    
+</style>

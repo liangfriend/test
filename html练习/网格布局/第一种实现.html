@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Grid Layout Example</title>
+        <style>
+            body {
+                display: grid;
+                grid-template-columns: auto 1fr auto auto; /* 第一列和第三、四列固定宽度，中间列自适应 */
+                grid-template-rows: auto 1fr auto; /* 三行布局 */
+                gap: 10px; /* 网格间距 */
+                height: 100vh; /* 占满整个视窗高度 */
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            .header-left {
+                grid-column: 1 / 2; /* 占第一列 */
+                grid-row: 1; /* 第一行 */
+                border: 2px solid red;
+                width: 100px; /* 固定宽度 */
+                height: 50px;
+                justify-self: start; /* 靠左对齐 */
+            }
+
+            .header-right-one {
+                grid-column: 3 / 4; /* 占第三列 */
+                grid-row: 1; /* 第一行 */
+                border: 2px solid red;
+                width: 100px; /* 固定宽度 */
+                height: 50px;
+                justify-self: end; /* 靠右对齐 */
+            }
+
+            .header-right-two {
+                grid-column: 4 / 5; /* 占第四列 */
+                grid-row: 1; /* 第一行 */
+                border: 2px solid red;
+                width: 100px; /* 固定宽度 */
+                height: 50px;
+                justify-self: end; /* 靠右对齐 */
+            }
+
+            .main {
+                grid-column: 1 / 5; /* 占满四列 */
+                grid-row: 2 / 3; /* 第二行 */
+                border: 2px solid red;
+                height: 300px;
+            }
+
+            .footer-right {
+                grid-column: 3 / 5; /* 占第三和第四列 */
+                grid-row: 3; /* 第三行 */
+                border: 2px solid red;
+                width: 100px;
+                height: 50px;
+                justify-self: end; /* 靠右对齐 */
+                align-self: end; /* 将元素对齐到底部 */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header-left"></div>
+        <div class="header-right-one"></div>
+        <div class="header-right-two"></div>
+        <div class="main"></div>
+        <div class="footer-right"></div>
+    </body>
+</html>

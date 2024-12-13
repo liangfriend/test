@@ -1,0 +1,31 @@
+<body>
+    <div class="ball"></div>
+</body>
+<script>
+    document.addEventListener('mousedown', (e)=>{
+    })
+    const ball = document.querySelector('.ball')
+    ball.addEventListener('mousedown', (e)=>{
+        console.log(e, e.clientY)
+    })
+</script>
+<document>
+    缩放会缩小body的分辨率。仅此而已，需要乘dpr乘回来
+
+    clientXY和pageXY是相对视口的
+    offsetXY是相对元素本身的
+    使用scale后，offsetXY是等比放大的结果，比如ball的宽高是100，即使使用了scale,也不会超过100,offset的像素被同步缩放了
+    clientXY和pageXY不变
+</document>
+<style>
+    document{
+        display: none;
+    }
+    .ball{
+
+        width: 100px;
+        height: 100px;
+        scale:2;
+        background-color: red;
+    }
+</style>
