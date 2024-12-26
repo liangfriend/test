@@ -1,38 +1,45 @@
 <script>
-     async function a() {
+    async function a() {
         // console.log("a")
-        await new Promise((resolve) => resolve())
-        .then(res=>{console.log("100")});
+        await new Promise((resolve) => resolve()).then((res) => {
+            console.log('100');
+        });
 
-        await new Promise((resolve) => resolve())
-        .then(res=>{console.log("300")});
-        
-        await new Promise((resolve) => resolve())
-        .then(res=>{console.log("500")});
+        await new Promise((resolve) => resolve()).then((res) => {
+            console.log('300');
+        });
+
+        await new Promise((resolve) => resolve()).then((res) => {
+            console.log('500');
+        });
     }
-   
-    function b(){
-        new Promise((resolve)=>{
-        // console.log("a")
-        resolve()
-    }).then((res)=>{
-        console.log("200")
-    }).then((res)=>{
-        console.log("400")
-    }).then((res)=>{
-        console.log("600")
-    })
+
+    function b() {
+        new Promise((resolve) => {
+            // console.log("a")
+            resolve();
+        })
+            .then((res) => {
+                console.log('200');
+            })
+            .then((res) => {
+                console.log('400');
+            })
+            .then((res) => {
+                console.log('600');
+            });
     }
-   
-    a();
-    b();
-    
-    
+
+    async function c() {
+        return 'test';
+    }
+
+    // a();
+    // b();
+    c();
+    console.log('a');
 
     // function b(){
     //     console.log("400")
     // }
-
-    
-    
 </script>

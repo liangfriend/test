@@ -1,23 +1,38 @@
 <body>
-    <div class="container" onclick="cl()"></div>
-    <div class="mask"></div>
+    <div class="container">
+        <div class="btn"></div>
+        <!-- <div class="btn2"></div> -->
+        <div class="bottom"></div>
+    </div>
 </body>
-<script>
-    function cl() {
-        console.log('嗲及');
-    }
-</script>
+<script></script>
 <style>
-    .container {
-        height: 200px;
-        background-color: aqua;
+    body {
     }
-    .mask {
-        pointer-events: none;
-        top: 0;
+    .container {
+        width: 400px;
         height: 200px;
-        aspect-ratio: 1;
-        position: absolute;
-        background: url('../resources/images/少女.jpg');
+    }
+    .btn {
+        width: 200px;
+        height: 200px;
+        background-color: #ff6347;
+        clip-path: polygon(50% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
+    }
+    .btn2 {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 100px;
+        height: 80px;
+        background-color: #fff;
+
+        color: #000;
+    }
+    .bottom {
+        width: 400px;
+        height: 100px;
+        background-color: #fff;
     }
 </style>
