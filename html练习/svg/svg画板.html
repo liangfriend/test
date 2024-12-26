@@ -1,44 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SVG Drawing Board</title>
-        <style>
-            body {
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                height: 100vh;
-                background-color: #f0f0f0;
-            }
-            #svgCanvas {
-                border: 1px solid #000;
-                background-color: #fff;
-            }
-            .toolbar {
-                margin-bottom: 10px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="toolbar">
-            <button onclick="clearCanvas()">Clear</button>
-            <button onclick="changeColor('black')">Black</button>
-            <button onclick="changeColor('red')">Red</button>
-            <button onclick="changeColor('blue')">Blue</button>
-        </div>
-        <svg id="svgCanvas" width="800" height="600"></svg>
-        <script>
-            // 获取 SVG 元素
-            const svgCanvas = document.getElementById('svgCanvas');
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Drawing Board</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #svgCanvas {
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+        .main{
+            display: flex;
+        }
+        .toolbar {
+            margin-bottom: 10px;
+        }
+        .thumnbnail{
+            width: 200px;
+            height:200px;
+            
+        }
+        img{
+            border: 1px solid;
+            width: 200px;
+            height:200px;
+           
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <button onclick="clearCanvas()">Clear</button>
+        <button onclick="changeColor('black')">Black</button>
+        <button onclick="changeColor('red')">Red</button>
+        <button onclick="changeColor('blue')">Blue</button>
+        <button onclick="getThumbnail()">获取缩略图</button>
+    </div>
+    <div class="main">
+        <div class="thumnbnail"><img class="thumbnail_img" src="../../resources/images/梧桐叶.webp" alt=""></div>
+        <svg viewBox="0 0 400 300" id="svgCanvas" width="800" height="600">
+            <circle cx="150" cy="50" r="100" />
+        </svg>
+    </div>
+    
+    <script>
+        // 获取 SVG 元素
+const svgCanvas = document.getElementById('svgCanvas');
 
-            // 设置默认绘图颜色
-            let currentColor = 'black';
-            let drawing = false;
-            let startX = 0;
-            let startY = 0;
+const img = document.querySelector('.thumbnail_img');
+console.log(img)
+// 设置默认绘图颜色
+let currentColor = 'black';
+let drawing = false;
+let startX = 0;
+let startY = 0;
 
             // 监听鼠标事件
             svgCanvas.addEventListener('mousedown', (event) => {
@@ -74,6 +97,35 @@
                 svgCanvas.appendChild(line);
             }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+// 清除画布
+function clearCanvas() {
+    while (svgCanvas.firstChild) {
+        svgCanvas.removeChild(svgCanvas.firstChild);
+    }
+}
+//获取缩略图
+function getThumbnail(){
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(svgCanvas);
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(svgBlob); 
+    
+    img.src = url;
+    console.log(img.src)
+
+}
+// 更改绘图颜色
+function changeColor(color) {
+    currentColor = color;
+}
+
+    </script>
+</body>
+=======
+>>>>>>> cf397a9827c558efef3376f26bd3f34edad1c03f
             // 清除画布
             function clearCanvas() {
                 while (svgCanvas.firstChild) {
@@ -87,6 +139,10 @@
             }
         </script>
     </body>
+<<<<<<< HEAD
+=======
+>>>>>>> b644bb45f2d3cdb13564c09e1bf3e83176b6f376
+>>>>>>> cf397a9827c558efef3376f26bd3f34edad1c03f
 </html>
 
 <!-- 
