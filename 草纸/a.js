@@ -1,4 +1,18 @@
-const a ={0:0,1:1,2:3}
-for(let item in  a){
-    console.log(item)
+const a = {
+    b: 1,
+    c: function () {
+        console.log(this);
+    },
+};
+function cl() {
+    console.log('嗲及');
 }
+const p = new Proxy(a, {
+    set() {
+        console.log(that);
+    },
+});
+function s() {
+    p.a = 5;
+}
+s();

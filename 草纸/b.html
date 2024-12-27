@@ -1,58 +1,58 @@
 <body>
-  <input type="number">
+    <div class="container">
+        <div class="bg"></div>
+    </div>
 </body>
-<script>
-  window.addEventListener("mousewheel",(e)=>{
-   
-    console.log("触发")
-  })
-  document.addEventListener('wheel', function(event) {
-    if (event.ctrlKey) {
-      event.preventDefault()
-      notifyMe()
-    }
-}, { passive: false });
-  function notifyMe() {
-  if (!("Notification" in window)) {
-    // 检查浏览器是否支持通知
-    alert("当前浏览器不支持桌面通知");
-  } else if (Notification.permission === "granted") {
-    // 检查是否已授予通知权限；如果是的话，创建一个通知
-    const notification = new Notification("你好！");
-    // …
-  } else if (Notification.permission !== "denied") {
-    // 我们需要征求用户的许可
-    Notification.requestPermission().then((permission) => {
-      // 如果用户接受，我们就创建一个通知
-      if (permission === "granted") {
-        const notification = new Notification("你好！");
-        // …
-      }
-    });
-  }
-
-  // 最后，如果用户拒绝了通知，并且你想尊重用户的选择，则无需再打扰他们
-}
-</script>
+<script></script>
 <style>
-    *{
-        outline: 1px solid;
+    .container {
+        width: 400px;
+        height: 400px;
+        border: 1px solid;
+        overflow: scroll;
     }
-   .container{
-    width: 800px;
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-   }
-   .item{
-    width: 200px;
-    height: 200px;
-    justify-self: center;
-    background-color: red;
-   }
-   input {
-    -webkit-appearance: textfield;
-  }
-  
+    .bg {
+        transform-origin: 400px 0;
+        width: 800px;
+        scale: width * scale-originX;
+        position: relative;
+        /* left:100px; */
+        height: 800px;
+        background: linear-gradient(295deg, #e66465 90%, #9198e5 10%);
+    }
+    .container {
+        display: flex;
+    }
+    .aside {
+        width: 200px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .scroll {
+        overflow: auto;
+        flex: 1;
+    }
+    .btn {
+        width: 200px;
+        height: 200px;
+        background-color: #ff6347;
+        clip-path: polygon(50% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
+    }
+    .btn2 {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 100px;
+        height: 80px;
+        background-color: #fff;
 
-
+        color: #000;
+    }
+    .bottom {
+        width: 400px;
+        height: 100px;
+        background-color: #fff;
+    }
 </style>
