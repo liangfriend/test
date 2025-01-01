@@ -1,24 +1,31 @@
 <body>
 <div class="father">
     <div class="kid"></div>
+    <div class="kid2"></div>
 </div>
 </body>
 <script>
 
 </script>
 <style>
-.father{
+.kid{
     width: 200px;
     height: 200px;
     background-color: aquamarine;
-    /* z-index: 10;        
-    position: relative; */
+    position: relative;
 }
-.kid{
+.kid2{
+    margin-top: -20px;
     width: 100px;
     height: 100px;
     background-color: antiquewhite;
-    position: relative;
-    z-index: -1;
+    z-index: 0;
+}
+document{
+    display: none;
 }
 </style>
+<document>
+    只有兄弟元素才能比较层级
+    没有设置定位的元素，设置z-index是无效的，默认为0但是会小于设置了定位的z-index: 0.(利用网格布局grid-template-area同名会堆叠的特性实现的布局有所差别)
+</document>

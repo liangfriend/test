@@ -1,0 +1,90 @@
+<body>
+    <div class="stack">
+        <div class="container stackItem" onclick="clickContainer()"></div>
+        <div class="toolbar stackItem" onclick="clickToolbar()"></div>
+        <div class="tip stackItem" onclick="clickTip()" >提示</div>
+        <div class="mask stackItem" onclick="clickMask()" comment="遮罩"></div>
+    </div>
+</body>
+<script>
+function clickContainer(){
+        console.log("container")
+}
+function clickToolbar(){
+    console.log("toolbar")
+}
+function clickTip(){
+    console.log("tip")
+}
+function clickMask(){
+    console.log("mask")
+}
+</script>
+<style>
+    /* 这些可以被预编译器复用 */
+    .omit{
+        text-overflow: ellipsis;
+        white-space: nowrap;    
+    }
+    /*  */
+    .stack{
+        display: grid;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        grid-template-areas: 'stackItem';
+    }
+    .stackItem{
+        grid-area: stackItem;
+    }
+    /* height和width不加也不会影响布局，但是这是个习惯，可以作为标记，知道这个是100%，改的话也要保持好习惯，不删，改值，因为删有时候是不起作用的 */
+    .container{
+        height: 100%;
+        width: 100%;
+        background-color: blueviolet;
+        z-index: 0;
+    }
+    .toolbar{
+        width: 400px;
+        height: 100%;    
+        background-color: bisque;
+        z-index: 0;
+    }
+    .tip{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: aliceblue;
+        z-index: 0;
+        
+    }
+    .mask{
+        width: 80%; 
+        height: 80%; 
+        pointer-events: none;
+        background-color: rgba(100,100,100,0.5);
+        justify-self: center;
+        align-self: center;
+        z-index: 0;
+    }
+    document{
+        display: none;
+    }
+</style>
+<document>
+    利用网格布局grid-template-area同名会堆叠的特性(可以用absolute替代，区别在于定位方式)实现z轴上的堆叠
+    子类使用grid布局，需要浮动的额外设置absolute布局:
+        absolute用left和top可以控制定位
+        grid布可以用justify-self和align-self来控制布局，不必加一个外壳
+    stack父类设置position: relative, 方便像tip这种要使用绝对布局的元素
+    不需要事件的元素采用pointer-events
+
+    注意事项：
+        绝对布局元素会脱离文档流，不再参与网格布局的行列计算
+        针对通过grid-template-area同名会堆叠实现的三维布局，即使没有设置定位，也可以使用z-index,这个比较特殊
+            当三维布局子元素未设置z-index时，等同于普通元素，默认z-index:0 但是小于有定位元素的z-index:0,
+            当设置了z-index:0后会生效，等同于有定位元素的z-index:0.
+            所以为了方便管理，此三维布局所有子元素皆设置默认z-index
+</document>

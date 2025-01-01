@@ -1,0 +1,47 @@
+<body>
+
+</body>
+<script>
+  function setAudioList(val){
+    console.log(val)
+  }
+   //获取音频列表
+  const getSpeakerList = () => {
+    navigator.mediaDevices.getUserMedia({audio:true,video:true})
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then(function (devices) {
+        let list = [];
+        console.log(devices)
+        devices.forEach(function (device) {
+          if (device.kind === 'audiooutput') {
+            device.value=device.deviceId
+            list.push(device);
+          }
+        });
+        setAudioList(list);
+      })
+      .catch(function (err) {
+        console.log(err.name + ': ' + err.message);
+      });
+  };  
+  getSpeakerList()
+
+  //然后用setSinkId 设置扬声器
+</script>
+<style>
+    *{
+        outline: 1px solid;
+    }
+   .container{
+    width: 800px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+   }
+   .item{
+    width: 200px;
+    height: 200px;
+    justify-self: center;
+    background-color: red;
+   }
+</style>
