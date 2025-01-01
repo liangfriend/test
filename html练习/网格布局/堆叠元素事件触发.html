@@ -1,0 +1,64 @@
+<body>
+    <div class="stack">
+        <div class="stackItem">
+            <div class="container1">
+                <div class="item1"></div>
+            </div>
+        </div>
+        <div class="stackItem two">
+            <div class="container2">
+                <div class="item2"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const container1 = document.querySelector('.container1');
+    const item1 = document.querySelector('.item1');
+    container1.addEventListener('click', () => {
+        console.log('container1');
+    });
+    item1.addEventListener('click', () => {
+        console.log('item1');
+    });
+    const container2 = document.querySelector('.container2');
+    const item2 = document.querySelector('.item2');
+    container2.addEventListener('click', () => {
+        console.log('container2');
+    });
+    item2.addEventListener('click', () => {
+        console.log('item2');
+    });
+</script>
+<style>
+    .stack {
+        position: relative;
+    }
+    .stackItem {
+        position: absolute;
+    }
+    .container1 {
+        width: 800px;
+        height: 800px;
+    }
+    .item1 {
+        width: 400px;
+        height: 400px;
+
+        background-color: green;
+    }
+    .container2 {
+        width: 800px;
+        height: 800px;
+    }
+    .item2 {
+        margin-left: 400px;
+        width: 400px;
+        height: 400px;
+        background-color: rgb(36, 157, 238);
+        pointer-events: all;
+    }
+    .two {
+        pointer-events: none;
+    }
+</style>
