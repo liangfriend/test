@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="a" onclick="clicked(event)"></div>
+<DIV class="b"></DIV>
+</body>
+</html>
+<script>
+    function clicked(e){
+        console.log(e.offsetX)
+    }
+</script>
+<style>
+    *{
+      margin: 0;
+        padding: 0;
+    }
+    .a{
+        width: 100px;
+        height: 100px;
+        background-color: coral;
+        transform: scale(2);
+    }
+    .b{
+        width: 100px;
+        height: 100px;
+        background-color: green;
+    }
+</style>
