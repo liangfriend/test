@@ -1,0 +1,19 @@
+<script>
+let workers = [];
+let maxWorkers = 0;
+//测试最大线程数
+function createWorker() {
+    console.log("进入")
+    try {
+        let worker = new Worker(URL.createObjectURL(new Blob(["onmessage = () => {}"], { type: "application/javascript" })));
+        workers.push(worker);
+        maxWorkers++;
+        setTimeout(createWorker, 10);  // 递归创建 Worker
+    } catch (e) {
+        console.log("最大 Worker 线程数:", maxWorkers);
+        workers.forEach(w => w.terminate()); // 关闭所有 Worker
+    }
+}
+
+createWorker();
+</script>

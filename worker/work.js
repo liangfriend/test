@@ -1,11 +1,6 @@
-const worker = new Worker( 'self.js' );
-worker.onmessage = ( e ) =>
-{
-    const data = e.data;
-    console.log( 'Receive self message' )
-}
-function work ()
-{
-    worker.postMessage( Math.floor( Math.random() * 10 ) );
-}
-window.start = work
+console.log("work执行")
+onmessage = (e) => {
+    console.log("接收",e.data[0]);
+
+    postMessage(e.data[0]);
+};

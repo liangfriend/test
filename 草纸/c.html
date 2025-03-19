@@ -1,16 +1,19 @@
 
-<!DOCTYPE html>
-<html lang="zh-cn">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FPS Test Page</title>
-  </head>
-  <body>
-    <script>
-      // 创建 fps 面板展示元素
-      
-    </script>
-  </body>
-</html>
+<body>
+    <button onclick="c()">点击播放</button>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/tone@next"></script>
+
+<script>
+    const audio = new Audio()
+    audio.src =  '../resources/audios/low.wav'
+    function c(){
+        audio.play()
+
+        setTimeout(()=>{
+            console.log("进入")
+            c()
+        },100)
+
+    }
+</script>

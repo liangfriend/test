@@ -1,0 +1,27 @@
+<div class="masked-element"></div>
+
+<svg width="0" height="0" style="position: absolute">
+    <defs>
+      <mask id="custom-mask">
+        <!-- 用黑白色填充决定透明度：黑色完全透明，白色完全可见 -->
+        <rect width="100%" height="100%" fill="white"/>
+        <path d="M 50 50 L 200 50 L 200 200 L 50 200 Z" fill="black"/>
+      </mask>
+    </defs>
+  </svg>
+
+<style>
+.masked-element {
+  width: 100%;
+  height: 100%;
+  background-image: url('../resources/images/巴厘岛.webp');
+  mask-border-mode: alpha;
+  /* 应用 SVG 路径遮罩 */
+  mask: url('../resources/images/少女-切图.png');
+  /* -webkit-mask: url(#custom-mask); */
+  
+  /* 控制遮罩显示范围 */
+  /* mask-size: contain;
+  -webkit-mask-size: contain; */
+}
+</style>

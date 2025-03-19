@@ -1,17 +1,29 @@
-<script src="./work.js"></script>
-<script src="./self.js"></script>
+<body>
+  <button>可以点击</button>
+</body>
+<script src="./runWorker.js"></script>
+<script src="./runWorker.js"></script>
 <script>
-function delay(time) {
-  return new Promise(function(resolve, reject) {
-    setTimeout(resolve, time);
-  });
-}
+this.a = {a:1}
+// const worker = new Worker( 'work.js' );
+runWorker((a)=>{
+  console.log("aaa")
+  a.v=2
+  return a
+},this.a).then(res=>{
+  console.log(res)
+})
+//斐波那契函数
+// function fibonacci(n) {
+//     if (n <= 1) return n;
+//     return fibonacci(n - 1) + fibonacci(n - 2);
+// }
+// 主线程执行
+// const res = fibonacci(43)
+// console.log(res)
+// 在 Worker 线程执行
+// runWorker(fibonacci, 43).then(console.log); // 102334155
 
-delay(2000).then(
-    function() {
-        console.log('2 seconds have passed!');
-    }
-    );
 
 
 </script>
