@@ -1,0 +1,32 @@
+<body>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M 10,30
+                 A 20,20 0,0,1 50,30
+                "
+        />
+    </svg>
+</body>
+<script>
+    /*
+M（移动到）
+L（直线到）
+H（水平线到）
+V（垂直线到）
+C（三次贝塞尔曲线）
+S（光滑曲线）
+Q（二次贝塞尔曲线）
+T（光滑二次贝塞尔曲线）
+A（圆弧） x轴半径,y轴半径 绕x轴旋转的角度, 是否选择较大的弧段（0 = 小弧，1 = 大弧）,线的绘制方向（0 = 逆时针，1 = 顺时针） 终点X坐标,终点y坐标
+Z（闭合路径）
+*/
+
+    //贝塞尔曲线计算
+    function quadraticBezier(t, P0, P1, P2) {
+        const x =
+            (1 - t) * (1 - t) * P0.x + 2 * (1 - t) * t * P1.x + t * t * P2.x;
+        const y =
+            (1 - t) * (1 - t) * P0.y + 2 * (1 - t) * t * P1.y + t * t * P2.y;
+        return { x, y };
+    }
+</script>
