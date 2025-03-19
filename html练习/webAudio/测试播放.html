@@ -1,11 +1,14 @@
+<head><meta http-equiv="Content-Type" content="text/html;charset=utf-8"></head>
 <body>
-    <button onclick="playSound()">播放</button>
+<button onclick="playSound()">播放</button>
+<button onclick="stopSound()">停止</button>
 </body>
 <script>
 
     window.addEventListener('load', init, false);
-    let dogBarkingBuffer = null;
     let context = new AudioContext();
+    let source = context.createBufferSource();
+    source.connect(context.destination);
     function init() {
         function loadDogSound(url) {
             let request = new XMLHttpRequest();
@@ -17,7 +20,7 @@
                 context.decodeAudioData(
                     request.response,
                     function (buffer) {
-                        dogBarkingBuffer = buffer;
+                        source.buffer = buffer;
                     },
 
                 );
@@ -29,9 +32,12 @@
     }
 
     function playSound() {
-        let source = context.createBufferSource(); // creates a sound source
-        source.buffer = dogBarkingBuffer; // tell the source which sound to play
-        source.connect(context.destination); // connect the source to the context's destination (the speakers)
-        source.noteOn(0); // play the source now
+         // creates a sound source
+        // tell the source which sound to play
+        // connect the source to the context's destination (the speakers)
+        source.start() // play the source now
+    }
+    function stopSound(){
+        source.stop()
     }
 </script>

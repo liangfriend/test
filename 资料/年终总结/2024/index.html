@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>梁友谊的2024年终总结报告</title>
+  <style comment="整体布局">
+    *{
+      font-size: 50px;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-size: 100px;
+      margin: 0;
+      overflow: hidden;
+    }
+    .container {
+      overflow: hidden;
+      height: 100vh;
+
+    }
+    .page {
+      width: 100vw;
+      height: 100vh;
+
+    }
+    .page:nth-child(odd) {
+      background-color: #f0f0f0;
+    }
+    .page:nth-child(even) {
+      background-color: #d0d0d0;
+    }
+  </style>
+  <style comment="第一页">
+    @keyframes  a1{
+      from{
+
+      }
+      to{
+        transform: translate(10px,10px);
+      }
+    }
+
+    .page:nth-child(1) {
+      position: relative;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(45deg, pink, red);
+    }
+    .p1-title{
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="page"><div class="p1-title">梁友谊的2024年终总结报告</div></div>
+  <div class="page">步入公司的第一天,不知不觉五个月了</div>
+  <div class="page">2024的战绩</div>
+  <div class="page">2024的收获</div>
+  <div class="page">2025的规划</div>
+  <div class="page">致谢</div>
+</div>
+<script>
+  const container = document.querySelector('.container');
+  let currentPage = 0; // 当前页索引
+  const pages = document.querySelectorAll('.page'); // 所有页面
+
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+
+    // 获取页面高度
+    const pageHeight = window.innerHeight;
+
+    // 判断滚动方向
+    if (e.deltaY > 0) {
+      currentPage = Math.min(currentPage + 1, pages.length - 1);
+    } else {
+      currentPage = Math.max(currentPage - 1, 0);
+    }/
+
+    // 滚动到目标位置
+    container.scrollTo({
+      top: currentPage * pageHeight,
+      behavior: 'smooth'
+    });
+  }, { passive: false });
+  const p1Map = [[{target:''}]]
+  //页面点击动画
+  pages[0].addEventListener('click',(e)=>{
+    console.log("点击")
+  })
+</script>
+</body>
+</html>
