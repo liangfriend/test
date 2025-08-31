@@ -28,7 +28,7 @@ function clickMask(){
     }
     /*  */
     .stack{
-        position: absolute;
+        position: relative;
         height: 100%;
         width: 100%;
     }
@@ -78,4 +78,6 @@ function clickMask(){
 
     注意事项：
         绝对布局元素会脱离文档流，不再参与网格布局的行列计算
+    
+    嵌套结构，对于组件嵌套时，只需要最开始一层是relative就好了。组件可以同时加stack和stackItem，保证position:absolute就行
 </document>

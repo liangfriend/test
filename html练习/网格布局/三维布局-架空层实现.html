@@ -1,0 +1,116 @@
+<body>
+    <div class="stack">
+        <div class="bg stackItem" onclick="handleBg()"></div>
+        <div class="operation b-stackItem" onclick="handleOperation()">
+            <div class="anniu" onclick="hanleAnniu('operation')">operation按钮</div>
+        </div>
+        <div class="p-stackItem" onclick="handleBlank('blank')" comment="架空型堆叠层">
+            <div class="anniu" onclick="hanleAnniu()">按钮</div>
+        </div>
+    </div>
+</body>
+<script>
+function handleBg(){
+        console.log("bg层被点击到了")
+}
+function clickToolbar(){
+    console.log("toolbar")
+}
+function handleOperation(){
+    console.log("operation层触发，bg层被挡住")
+}
+function handleBlank(){
+    console.log("架空层即使设置了point-events也会被冒泡触发，所以不要给架空层绑定事件")
+}
+function hanleAnniu(type) {
+    if(type === 'operation') {
+        console.log("可以点击operation层按钮")
+
+    }else {
+        console.log("可以点击架空层按钮")
+
+    }
+}
+</script>
+<style>
+    /* 这些可以被预编译器复用 */
+    .omit{
+        text-overflow: ellipsis;
+        white-space: nowrap;    
+    }
+    /*  */
+    .stack{
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+    .stackItem{
+        position: absolute;
+    }
+    /* 普通架空层 需要额外把所有子元素point-events设置auto */
+    .b-stackItem {
+        pointer-events: none;
+        position: absolute;
+    }
+    /* 点状架空层， 不实用，难以操作绝对布局定位 */
+    .p-stackItem {    
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: visible;
+
+    }
+    
+    /* height和width不加也不会影响布局，但是这是个习惯，可以作为标记，知道这个是100%，改的话也要保持好习惯，不删，改值，因为删有时候是不起作用的 */
+    .bg{
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background-color: blueviolet;
+    }
+    .toolbar{
+        left: 0;
+        top: 0;
+        width: 400px;
+        height: 100%;    
+        background-color: bisque;
+    }
+    .operation{
+        left: 0;
+        top: 0;
+        height: 100%;
+        pointer-events: none;
+        width: 100%;
+        background-color: aliceblue;
+        direction: rtl;
+        
+        
+    }
+    .mask{
+        left: 10%;
+        top: 10%;
+        width: 80%; 
+        height: 80%; 
+        pointer-events: none;
+        background-color: rgba(100,100,100,0.5);
+   
+    }
+    document{
+        display: none;
+    }
+    .anniu {
+        background-color: burlywood;
+        color: #fff;
+        width: 100px;
+        height: 40px;
+    }
+</style>
+<document>
+    利用绝对布局堆叠的特性实现z轴上的堆叠
+    子类全部使用grid和absolute布局:
+    不需要事件的元素采用pointer-events
+
+    注意事项：
+        绝对布局元素会脱离文档流，不再参与网格布局的行列计算
+</document>
