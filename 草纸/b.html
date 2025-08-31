@@ -1,22 +1,54 @@
 <body>
-<div class="instrument_3d_container">
-    <div><div class="item"></div></div>
-    <div>sss</div>
-    <div></div>
-    <div></div>
+<div class="container" id="container">
+  <div class="middle"><div class="symbol" id="symbol"></div></div>
 </div>
 </body>
-<style >
-    .instrument_3d_container {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 10fr 3fr 1fr 3fr;
-        grid-template-rows: 1fr;
-        height: 270px;
+<style>
+  .container {
+    width: 300px;
+    height: 300px;
+    outline: 1px solid black;
+    position: relative;
+  }
 
-    }
-    .item{
-        width: 100%;
-        outline: 1px solid black;
-    }
+  .symbol {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: absolute;
+  }
+  .middle {
+    width: 20px;
+    height:300px;
+    outline: 1px solid black;
+  }
 </style>
+
+<script>
+  const container = document.getElementById('container');
+  const symbol = document.getElementById('symbol');
+
+  let lock = false;
+
+  // 鼠标按下 symbol → 开始拖动
+  container.addEventListener('mousedown', (e) => {
+    lock = true;
+  });
+
+  // 鼠标移动 symbol，如果锁定中 → 拖动
+  container.addEventListener('mousemove', (e) => {
+    if (!lock) return;
+    // 相对于 container 的位置
+    const rect = container.getBoundingClientRect();
+    // const x = e.clientX - rect.left - symbol.offsetWidth / 2;
+    const y = e.clientY - rect.top - symbol.offsetHeight / 2;
+
+    // symbol.style.left = `${x}px`;
+    symbol.style.top = `${y}px`;
+  });
+
+  // 鼠标抬起 container → 停止拖动
+  container.addEventListener('mouseup', () => {
+    lock = false;
+  });
+</script>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>中文语音颜色切换</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .output {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .hints span {
+      padding: 4px 8px;
+      margin: 2px;
+      display: inline-block;
+      border-radius: 4px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>语音颜色切换器</h1>
+  <p>点击页面并说出颜色（例如：“红色”、“蓝色”）来改变背景颜色。</p>
+  <div>
+    <p class="output"><em>等待语音输入...</em></p>
+  </div>
+  <div class="hints"></div>
+
+  <script>
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    // 颜色映射：中文 => CSS颜色名
+    const colorMap = {
+      "红色": "red",
+      "蓝色": "blue",
+      "黄色": "yellow",
+      "绿色": "green",
+      "黑色": "black",
+      "白色": "white",
+      "紫色": "purple",
+      "橙色": "orange",
+      "粉色": "pink"
+    };
+
+    const colors = Object.keys(colorMap);
+    const diagnostic = document.querySelector(".output");
+    const bg = document.querySelector("html");
+    const hints = document.querySelector(".hints");
+
+    // 设置语音识别语言为中文
+    recognition.lang = "zh-CN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    // 显示颜色提示
+    hints.innerHTML = colors.map(color => {
+      return `<span style="background-color:${colorMap[color]};">${color}</span>`;
+    }).join("");
+
+    // 点击页面开始识别
+    document.body.onclick = () => {
+      recognition.start();
+      diagnostic.textContent = "正在监听，请说出颜色...";
+    };
+
+    recognition.onresult = (event) => {
+      const spoken = event.results[0][0].transcript.trim();
+      diagnostic.textContent = `识别结果：${spoken}`;
+      const cssColor = colorMap[spoken];
+      if (cssColor) {
+        bg.style.backgroundColor = cssColor;
+        diagnostic.textContent += " ✅ 已变更颜色。";
+      } else {
+        diagnostic.textContent += " ❌ 无法识别该颜色。";
+      }
+    };
+
+    recognition.onspeechend = () => {
+      recognition.stop();
+    };
+
+    recognition.onerror = (event) => {
+      diagnostic.textContent = `❌ 识别出错：${event.error}`;
+    };
+
+    recognition.onnomatch = () => {
+      diagnostic.textContent = "❌ 没听清你说的颜色，请再试一次。";
+    };
+  </script>
+</body>
+</html>
