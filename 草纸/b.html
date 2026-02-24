@@ -1,71 +1,54 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <title>SVG g(0x0) center test</title>
-  <style>
-      body {
-          margin: 0;
-          background: #f5f5f5;
-      }
-  </style>
-</head>
 <body>
+<div class="container" id="container">
+  <div class="middle"><div class="symbol" id="symbol"></div></div>
+</div>
+</body>
+<style>
+  .container {
+    width: 300px;
+    height: 300px;
+    outline: 1px solid black;
+    position: relative;
+  }
 
-<svg
-  width="600"
-  height="400"
-  style="border:1px solid #999; background:#fff"
->
-
-
-  <!-- ① 宽高为 0 的 g，本身没有尺寸 -->
-  <g id="zero-g"
-     transform="translate(300,200)"
-     style="pointer-events:visiblePainted">
-
-    <!-- ② 内部 svg，平移使 g 的位置成为 svg 的中心点 -->
-    <!-- svg 自身尺寸 100x60，所以向左上平移一半 -->
-    <svg
-      id="inner-svg"
-      x="-50"
-      y="-30"
-      width="100"
-      height="60"
-      style="overflow:visible; background:rgba(0,0,255,0.08)">
-
-      <!-- ③ 实际可点击的 rect -->
-      <rect
-        x="0"
-        y="0"
-        width="100"
-        height="60"
-        fill="skyblue"
-        stroke="blue"
-        stroke-width="2"
-      />
-    </svg>
-  </g>
-</svg>
+  .symbol {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: absolute;
+  }
+  .middle {
+    width: 20px;
+    height:300px;
+    outline: 1px solid black;
+  }
+</style>
 
 <script>
-  const g = document.getElementById('zero-g');
-  const innerSvg = document.getElementById('inner-svg');
+  const container = document.getElementById('container');
+  const symbol = document.getElementById('symbol');
 
-  // 绑定到 g
-  g.addEventListener('click', (e) => {
-    console.log('[g click]');
-    console.log('target:', e.target.tagName);
-    console.log('currentTarget:', e.currentTarget.tagName);
+  let lock = false;
+
+  // 鼠标按下 symbol → 开始拖动
+  container.addEventListener('mousedown', (e) => {
+    lock = true;
   });
 
-  // 绑定到 svg
-  innerSvg.addEventListener('click', (e) => {
-    console.log('[svg click]');
-    console.log('target:', e.target.tagName);
-    console.log('currentTarget:', e.currentTarget.tagName);
+  // 鼠标移动 symbol，如果锁定中 → 拖动
+  container.addEventListener('mousemove', (e) => {
+    if (!lock) return;
+    // 相对于 container 的位置
+    const rect = container.getBoundingClientRect();
+    // const x = e.clientX - rect.left - symbol.offsetWidth / 2;
+    const y = e.clientY - rect.top - symbol.offsetHeight / 2;
+
+    // symbol.style.left = `${x}px`;
+    symbol.style.top = `${y}px`;
+  });
+
+  // 鼠标抬起 container → 停止拖动
+  container.addEventListener('mouseup', () => {
+    lock = false;
   });
 </script>
-
-</body>
-</html>
