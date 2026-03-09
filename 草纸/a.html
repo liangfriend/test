@@ -1,300 +1,79 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>WebAudio Segment Demo</title>
-    <style>
-      :root {
-        --bg: #f6f3ee;
-        --bg-accent: #efe1cf;
-        --ink: #1b1a17;
-        --accent: #c26b2c;
-        --accent-dark: #8b4a20;
-        --panel: rgba(255, 255, 255, 0.86);
-        --border: rgba(27, 26, 23, 0.2);
-      }
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .room {
+        position: absolute;
+        top: 100px;
+        left: 1000px;
+        transform-style: preserve-3d;
+        transform: rotateX(50deg) rotateZ(50deg);
+    }
+    .floor{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 500px;
+        height:500px;
+        background-color: aqua;
 
-      * {
-        box-sizing: border-box;
-      }
+    }
+    .wall-back {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        width: 500px;
+        height: 100px;
+        background-color: #9b59b6;
+        transform-origin: bottom center;
 
-      body {
-        margin: 0;
-        font-family: "Cambria", "Georgia", serif;
-        color: var(--ink);
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at 10% 20%, rgba(194, 107, 44, 0.18), transparent 55%),
-          radial-gradient(circle at 90% 10%, rgba(27, 26, 23, 0.08), transparent 40%),
-          repeating-linear-gradient(
-            135deg,
-            rgba(27, 26, 23, 0.03),
-            rgba(27, 26, 23, 0.03) 12px,
-            transparent 12px,
-            transparent 24px
-          ),
-          linear-gradient(160deg, var(--bg), var(--bg-accent));
-        padding: 32px 20px 64px;
-      }
+        transform: rotateX(-90deg) ;
+    }
+    .wall-left {
+        position: absolute;
+        transform-origin: right center;
+        top: 0;
+        left: -100px;
+        width: 100px;
+        height: 500px;
+        transform: rotateY(90deg) ;
+        background-color: #4caf50;
+    }
+    .wall-right {
+        position: absolute;
+        top: 0;
+        left: 500px;
+        width: 100px;
+        transform-origin: left center;
+        transform: rotateY(-90deg) ;
+        height: 500px;
+        background-color: #a12f1d;
+    }
+    .wall-front {
+        position: absolute;
+        top: 500px;
+        left: 0px;
+        width: 500px;
+        height: 100px;
+        background-color: #f1c40f;
+        transform-origin: top center;
 
-      main {
-        max-width: 860px;
-        margin: 0 auto;
-        padding: 32px;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        box-shadow: 0 18px 40px rgba(27, 26, 23, 0.14);
-      }
+        transform: rotateX(90deg) ;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="room">
+      <div class="floor"></div>
+      <div class="wall-back"></div>
+      <div class="wall-left"></div>
+      <div class="wall-right"></div>
+      <div class="wall-front"></div>
+    </div>
+  </div>
 
-      h1 {
-        margin: 0 0 8px;
-        font-size: clamp(2rem, 3vw, 2.6rem);
-        letter-spacing: 0.02em;
-      }
-
-      p {
-        margin: 0 0 24px;
-        line-height: 1.6;
-        color: rgba(27, 26, 23, 0.78);
-      }
-
-      .controls {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 16px;
-        align-items: end;
-      }
-
-      label {
-        display: grid;
-        gap: 8px;
-        font-size: 0.95rem;
-        letter-spacing: 0.02em;
-      }
-
-      input[type="number"] {
-        appearance: none;
-        padding: 10px 12px;
-        font-size: 1rem;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.9);
-      }
-
-      button {
-        padding: 12px 18px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-        background: var(--accent);
-        color: #fff;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      button.secondary {
-        background: transparent;
-        color: var(--accent-dark);
-        border-color: var(--accent-dark);
-      }
-
-      button:active {
-        transform: translateY(1px);
-      }
-
-      button:disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
-      }
-
-      .actions {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-
-      .meta {
-        margin-top: 20px;
-        padding: 16px;
-        border-radius: 12px;
-        background: rgba(27, 26, 23, 0.04);
-        display: grid;
-        gap: 8px;
-        font-size: 0.92rem;
-      }
-
-      .status {
-        font-weight: 600;
-      }
-
-      .status.error {
-        color: #a12f1d;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>WebAudio Segment Player</h1>
-      <p>
-        Play a slice of <code>resources/audios/fanchang.mp3</code> with the Web
-        Audio API. Adjust the start and end times to audition a segment.
-      </p>
-
-      <section class="controls">
-        <label>
-          Start (seconds)
-          <input id="startTime" type="number" min="0" step="0.1" value="0" />
-        </label>
-        <label>
-          End (seconds)
-          <input id="endTime" type="number" min="0" step="0.1" placeholder="auto" />
-        </label>
-        <div class="actions">
-          <button id="playBtn">Play Segment</button>
-          <button id="stopBtn" class="secondary" type="button">Stop</button>
-        </div>
-      </section>
-
-      <div class="meta">
-        <div>Audio file: <span id="audioPath"></span></div>
-        <div>Duration: <span id="duration">--</span> sec</div>
-        <div>
-          Status: <span id="status" class="status">Ready</span>
-        </div>
-      </div>
-    </main>
-
-    <script>
-      const audioUrl = "../resources/audios/fanchang.mp3";
-      const startInput = document.getElementById("startTime");
-      const endInput = document.getElementById("endTime");
-      const playBtn = document.getElementById("playBtn");
-      const stopBtn = document.getElementById("stopBtn");
-      const statusEl = document.getElementById("status");
-      const durationEl = document.getElementById("duration");
-      const audioPathEl = document.getElementById("audioPath");
-
-      audioPathEl.textContent = audioUrl;
-
-      // Edit these values to change the default segment (in seconds).
-      const defaultSegment = {
-        start: 0,
-        end: 12,
-      };
-
-      if (Number.isFinite(defaultSegment.start)) {
-        startInput.value = defaultSegment.start;
-      }
-      if (Number.isFinite(defaultSegment.end)) {
-        endInput.value = defaultSegment.end;
-      }
-
-      let audioCtx = null;
-      let audioBuffer = null;
-      let currentSource = null;
-
-      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-      const setStatus = (message, isError = false) => {
-        statusEl.textContent = message;
-        statusEl.classList.toggle("error", isError);
-      };
-
-      const stopCurrent = () => {
-        if (!currentSource) {
-          return;
-        }
-        try {
-          currentSource.stop();
-        } catch (err) {
-          // Ignore stop errors if already stopped.
-        }
-        currentSource.disconnect();
-        currentSource = null;
-      };
-
-      const ensureBuffer = async () => {
-        if (audioBuffer) {
-          return audioBuffer;
-        }
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        setStatus("Loading audio...");
-        const response = await fetch(audioUrl);
-        if (!response.ok) {
-          throw new Error(`Failed to load: ${response.status}`);
-        }
-        const arrayBuffer = await response.arrayBuffer();
-        audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-        durationEl.textContent = audioBuffer.duration.toFixed(2);
-        const duration = audioBuffer.duration;
-        endInput.max = duration.toFixed(2);
-        startInput.max = duration.toFixed(2);
-
-        const currentStart = Number.parseFloat(startInput.value);
-        const currentEnd = Number.parseFloat(endInput.value);
-        if (Number.isFinite(currentStart)) {
-          startInput.value = clamp(currentStart, 0, duration).toFixed(2);
-        }
-        if (Number.isFinite(currentEnd) && currentEnd > 0) {
-          endInput.value = clamp(currentEnd, 0, duration).toFixed(2);
-        } else {
-          endInput.value = duration.toFixed(2);
-        }
-        return audioBuffer;
-      };
-
-      playBtn.addEventListener("click", async () => {
-        playBtn.disabled = true;
-        try {
-          const buffer = await ensureBuffer();
-          const startValue = Number.parseFloat(startInput.value);
-          const endValue = Number.parseFloat(endInput.value);
-          const startTime = Number.isFinite(startValue) ? startValue : 0;
-          const endTime = Number.isFinite(endValue) && endValue > 0 ? endValue : buffer.duration;
-
-          const clampedStart = clamp(startTime, 0, buffer.duration);
-          const clampedEnd = clamp(endTime, clampedStart, buffer.duration);
-          const segmentDuration = clampedEnd - clampedStart;
-
-          if (segmentDuration <= 0.01) {
-            setStatus("End time must be greater than start time.", true);
-            return;
-          }
-
-          await audioCtx.resume();
-          stopCurrent();
-
-          const source = audioCtx.createBufferSource();
-          source.buffer = buffer;
-          source.connect(audioCtx.destination);
-          source.start(0, clampedStart, segmentDuration);
-          currentSource = source;
-          setStatus(
-            `Playing ${clampedStart.toFixed(2)}s - ${clampedEnd.toFixed(2)}s`
-          );
-
-          source.onended = () => {
-            if (currentSource === source) {
-              currentSource = null;
-              setStatus("Finished.");
-            }
-          };
-        } catch (err) {
-          setStatus("Error: unable to play audio.", true);
-          console.error(err);
-        } finally {
-          playBtn.disabled = false;
-        }
-      });
-
-      stopBtn.addEventListener("click", () => {
-        stopCurrent();
-        setStatus("Stopped.");
-      });
-    </script>
-  </body>
+</body>
 </html>
