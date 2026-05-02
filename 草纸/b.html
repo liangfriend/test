@@ -2,6 +2,7 @@
 <div class="container" id="container">
   <div class="middle"><div class="symbol" id="symbol"></div></div>
 </div>
+<p>top: <input type="number" id="topInput" value="0" /></p>
 </body>
 <style>
   .container {
@@ -27,28 +28,33 @@
 <script>
   const container = document.getElementById('container');
   const symbol = document.getElementById('symbol');
+  const topInput = document.getElementById('topInput');
+
+  // 唯一数据源
+  let top = 0;
+
+  // 数据 → 视图（写一个函数，两处都用）
+  function apply() {
+    symbol.style.top = top + 'px';
+    topInput.value = top;
+  }
+
+  // 输入框变化 → 数据 → 视图
+  topInput.addEventListener('input', () => {
+    top = +topInput.value || 0;
+    apply();
+  });
 
   let lock = false;
+  container.addEventListener('mousedown', () => { lock = true; });
+  container.addEventListener('mouseup', () => { lock = false; });
 
-  // 鼠标按下 symbol → 开始拖动
-  container.addEventListener('mousedown', (e) => {
-    lock = true;
-  });
-
-  // 鼠标移动 symbol，如果锁定中 → 拖动
   container.addEventListener('mousemove', (e) => {
     if (!lock) return;
-    // 相对于 container 的位置
     const rect = container.getBoundingClientRect();
-    // const x = e.clientX - rect.left - symbol.offsetWidth / 2;
-    const y = e.clientY - rect.top - symbol.offsetHeight / 2;
-
-    // symbol.style.left = `${x}px`;
-    symbol.style.top = `${y}px`;
+    top = Math.round(e.clientY - rect.top - symbol.offsetHeight / 2);
+    apply();
   });
 
-  // 鼠标抬起 container → 停止拖动
-  container.addEventListener('mouseup', () => {
-    lock = false;
-  });
+  apply(); // 初始化
 </script>

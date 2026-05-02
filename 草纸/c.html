@@ -1,19 +1,8 @@
-
-<body>
-    <button onclick="c()">点击播放</button>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/tone@next"></script>
-
-<script>
-    const audio = new Audio()
-    audio.src =  '../resources/audios/low.wav'
-    function c(){
-        audio.play()
-
-        setTimeout(()=>{
-            console.log("进入")
-            c()
-        },100)
-
-    }
-</script>
+<svg  height="1400" viewBox="0 0 800 1400" width="800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" music-score="">
+    <path
+            d="M39.6836 39.941C44.1108 34.3597 56.6663 39.6271 39.6836 50.2217M39.6836 39.941C41.2414 38.4368 45.5825 35.9737 46.9165 40.0869C48.1652 43.937 43.0033 48.4515 39.6836 50.2217M39.6836 39.941C43.5534 36.8878 46.0949 37.9243 46.7436 39.6271C48.2747 43.6464 42.7809 48.2894 39.6836 50.2217M39.6836 50.2217V20.7969"
+            stroke="black"
+            fill="transparent"
+            stroke-width="1.52124"
+    />
+</svg>

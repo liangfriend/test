@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG 路径偏移纠正工具</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #1a1a2e;
+      color: #eaeaea;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #00d9ff;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #8892a0;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .panel {
+      background: #16213e;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #2a3a5a;
+    }
+    .panel h2 {
+      font-size: 1rem;
+      color: #00d9ff;
+      margin: 0 0 16px 0;
+      font-weight: 600;
+    }
+    .svg-container {
+      background: #0f1629;
+      border-radius: 8px;
+      padding: 24px;
+      overflow: auto;
+      min-height: 300px;
+      position: relative;
+    }
+    .svg-wrapper {
+      display: inline-block;
+    }
+    .svg-wrapper svg {
+      display: block;
+    }
+    /*  bounding box 辅助线 */
+    .bbox-overlay {
+      fill: none;
+      stroke: #ff6b6b;
+      stroke-width: 1;
+      stroke-dasharray: 4 4;
+      opacity: 0.8;
+    }
+    .bbox-label {
+      font-size: 11px;
+      fill: #ff6b6b;
+      font-family: monospace;
+    }
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      background: #0f1629;
+      border: 1px solid #2a3a5a;
+      border-radius: 8px;
+      color: #eaeaea;
+      resize: vertical;
+      margin-bottom: 12px;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #00d9ff;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .info-item {
+      background: #0f1629;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #2a3a5a;
+    }
+    .info-item label {
+      display: block;
+      font-size: 0.75rem;
+      color: #8892a0;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .info-item .value {
+      font-family: monospace;
+      font-size: 1rem;
+      color: #00d9ff;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      min-width: 120px;
+    }
+    .btn-primary {
+      background: #00d9ff;
+      color: #1a1a2e;
+      margin-right: 8px;
+    }
+    .btn-primary:hover {
+      background: #33e1ff;
+    }
+    .btn-secondary {
+      background: #2a3a5a;
+      color: #eaeaea;
+    }
+    .btn-secondary:hover {
+      background: #3a4a6a;
+    }
+    .output-code {
+      margin-top: 16px;
+      padding: 12px;
+      background: #0f1629;
+      border-radius: 8px;
+      font-family: 'Consolas', monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      border: 1px solid #2a3a5a;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .output-code .comment {
+      color: #6a9955;
+    }
+    .output-code .tag {
+      color: #569cd6;
+    }
+    .output-code .attr {
+      color: #9cdcfe;
+    }
+    .output-code .string {
+      color: #ce9178;
+    }
+    .buttons {
+      margin-top: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 44px;
+    }
+  </style>
+</head>
+<body>
+  <h1>SVG 路径偏移纠正工具</h1>
+  <p class="subtitle">获取 path、g、rect 等 SVG 元素的 x/y 偏移，生成带 translate 的 g 包裹代码</p>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>1. 输入 SVG 内容</h2>
+      <textarea id="inputSvg" placeholder="粘贴 path、g、rect 或完整 SVG 代码"></textarea>
+      <div class="buttons">
+        <button class="btn btn-primary" id="btnParse">解析并显示</button>
+        <button class="btn btn-secondary" id="btnCorrect">生成纠正代码</button>
+      </div>
+
+      <h2 style="margin-top: 24px;">2. 预览</h2>
+      <div class="svg-container">
+        <div class="svg-wrapper" id="svgPreview"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Bounding Box 信息</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>X 偏移</label>
+          <div class="value" id="valX">-</div>
+        </div>
+        <div class="info-item">
+          <label>Y 偏移</label>
+          <div class="value" id="valY">-</div>
+        </div>
+        <div class="info-item">
+          <label>Width</label>
+          <div class="value" id="valW">-</div>
+        </div>
+        <div class="info-item">
+          <label>Height</label>
+          <div class="value" id="valH">-</div>
+        </div>
+      </div>
+
+      <h2>Translate 参数</h2>
+      <p style="font-size: 0.9rem; color: #8892a0; margin: 0 0 12px 0;">
+        用于纠正偏移：<code style="color: #00d9ff;">translate(-x, -y)</code>
+      </p>
+      <div class="output-code" id="outputCode">点击「解析并显示」或「生成纠正代码」</div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', init);
+
+    function init() {
+    const defaultSvg = `<g>
+    <rect id="Rectangle 1264" x="40.1074" y="14.6406" width="1.48319" height="28.5514" fill="black"/>
+    <rect id="Rectangle 1265" x="46.4102" y="13.1562" width="1.48319" height="28.5514" fill="black"/>
+    <path id="Rectangle 1266" d="M37.8828 21.6815L50.1191 19.0859V23.5355L37.8828 26.1311V21.6815Z" fill="black"/>
+    <path id="Rectangle 1267" d="M37.8828 33.9237L50.1191 31.3281V35.7777L37.8828 38.3733V33.9237Z" fill="black"/>
+</g>`;
+
+    const inputSvg = document.getElementById('inputSvg');
+    const svgPreview = document.getElementById('svgPreview');
+    const valX = document.getElementById('valX');
+    const valY = document.getElementById('valY');
+    const valW = document.getElementById('valW');
+    const valH = document.getElementById('valH');
+    const outputCode = document.getElementById('outputCode');
+
+    // 初始填充示例
+    if (!inputSvg.value.trim()) inputSvg.value = defaultSvg;
+
+    function parseInput() {
+      let html = inputSvg.value.trim();
+      if (!html) return null;
+
+      // 如果是纯 path，包装成 svg
+      if (!html.toLowerCase().startsWith('<svg')) {
+        html = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${html}</svg>`;
+      }
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'image/svg+xml');
+        const svg = doc.documentElement;
+        if (svg && svg.tagName === 'svg') return svg;
+      } catch (e) {
+        console.warn('DOMParser fallback:', e);
+      }
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.firstElementChild;
+    }
+
+    function getContentBBox(el) {
+      if (!el || typeof el.getBBox !== 'function') return null;
+      try {
+        const b = el.getBBox();
+        return { x: b.x, y: b.y, width: b.width, height: b.height };
+      } catch (e) {
+        console.warn('getBBox failed:', e);
+        return null;
+      }
+    }
+
+    function updateBBoxDisplay(bbox) {
+      if (!bbox) {
+        valX.textContent = valY.textContent = valW.textContent = valH.textContent = '-';
+        return;
+      }
+      valX.textContent = bbox.x.toFixed(4);
+      valY.textContent = bbox.y.toFixed(4);
+      valW.textContent = bbox.width.toFixed(4);
+      valH.textContent = bbox.height.toFixed(4);
+    }
+
+    function renderPreview(svgEl, showBBox = true) {
+      svgPreview.innerHTML = '';
+      if (!svgEl) return null;
+
+      const clone = svgEl.cloneNode(true);
+      svgPreview.appendChild(clone);
+      const ns = 'http://www.w3.org/2000/svg';
+      const bbox = getContentBBox(clone);
+
+      if (showBBox && bbox) {
+        const g = document.createElementNS(ns, 'g');
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('class', 'bbox-overlay');
+        rect.setAttribute('x', bbox.x);
+        rect.setAttribute('y', bbox.y);
+        rect.setAttribute('width', bbox.width);
+        rect.setAttribute('height', bbox.height);
+        g.appendChild(rect);
+        const label = document.createElementNS(ns, 'text');
+        label.setAttribute('class', 'bbox-label');
+        label.setAttribute('x', bbox.x);
+        label.setAttribute('y', bbox.y - 4);
+        label.textContent = `x:${bbox.x.toFixed(2)} y:${bbox.y.toFixed(2)}`;
+        g.appendChild(label);
+        clone.insertBefore(g, clone.firstChild);
+      }
+
+      return bbox;
+    }
+
+    function generateCorrectedCode(rootEl) {
+      const bbox = getContentBBox(rootEl);
+      if (!bbox) return '无法获取 Bounding Box';
+
+      const tx = (-bbox.x).toFixed(4);
+      const ty = (-bbox.y).toFixed(4);
+      const content = rootEl.innerHTML.trim();
+      return `<g transform="translate(${tx}, ${ty})">
+    ${content.split('\n').map(l => '    ' + l).join('\n')}
+</g>`;
+    }
+
+    document.getElementById('btnParse').addEventListener('click', () => {
+      try {
+      const svgEl = parseInput();
+      if (!svgEl) {
+        outputCode.textContent = '请输入有效的 SVG 或 path 代码';
+        return;
+      }
+      const bbox = renderPreview(svgEl, true);
+      updateBBoxDisplay(bbox);
+      outputCode.textContent = `Bounding Box:
+  x: ${bbox ? bbox.x.toFixed(4) : '-'}
+  y: ${bbox ? bbox.y.toFixed(4) : '-'}
+  width: ${bbox ? bbox.width.toFixed(4) : '-'}
+  height: ${bbox ? bbox.height.toFixed(4) : '-'}
+
+translate(-x, -y) = translate(${bbox ? (-bbox.x).toFixed(4) : '?'}, ${bbox ? (-bbox.y).toFixed(4) : '?'})`;
+      } catch (e) {
+        outputCode.textContent = '解析出错: ' + (e.message || e);
+        console.error(e);
+      }
+    });
+
+    document.getElementById('btnCorrect').addEventListener('click', () => {
+      try {
+        const svgEl = parseInput();
+        if (!svgEl) {
+          outputCode.textContent = '请输入有效的 SVG 或 path 代码';
+          return;
+        }
+        renderPreview(svgEl, false);
+        const clone = svgPreview.firstElementChild;
+        const bbox = clone ? getContentBBox(clone) : null;
+        updateBBoxDisplay(bbox);
+        outputCode.textContent = clone ? generateCorrectedCode(clone) : '解析失败';
+      } catch (e) {
+        outputCode.textContent = '解析出错: ' + (e.message || e);
+        console.error(e);
+      }
+    });
+
+    // 初始解析
+    try {
+      document.getElementById('btnParse').click();
+    } catch (e) {
+      outputCode.textContent = '解析出错: ' + (e.message || e);
+      console.error(e);
+    }
+    }
+  </script>
+</body>
+</html>
