@@ -1,0 +1,29 @@
+.stack {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .stackItem {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+  /* 架空型b 不要绑定事件 */
+  .b-stackItem { 
+    pointer-events: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+  .b-stackItem > * {
+    pointer-events: auto;
+  }
+  /* 点状架空型 不要绑定事件 */
+  .p-stackItem { 
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: visible;
+  
+  }

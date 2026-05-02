@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .room {
+        position: absolute;
+        top: 100px;
+        left: 1000px;
+        transform-style: preserve-3d;
+        transform: rotateX(50deg) rotateZ(50deg);
+    }
+    .floor{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 500px;
+        height:500px;
+        background-color: aqua;
+
+    }
+    .wall-back {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        width: 500px;
+        height: 100px;
+        background-color: #9b59b6;
+        transform-origin: bottom center;
+
+        transform: rotateX(-90deg) ;
+    }
+    .wall-left {
+        position: absolute;
+        transform-origin: right center;
+        top: 0;
+        left: -100px;
+        width: 100px;
+        height: 500px;
+        transform: rotateY(90deg) ;
+        background-color: #4caf50;
+    }
+    .wall-right {
+        position: absolute;
+        top: 0;
+        left: 500px;
+        width: 100px;
+        transform-origin: left center;
+        transform: rotateY(-90deg) ;
+        height: 500px;
+        background-color: #a12f1d;
+    }
+    .wall-front {
+        position: absolute;
+        top: 500px;
+        left: 0px;
+        width: 500px;
+        height: 100px;
+        background-color: #f1c40f;
+        transform-origin: top center;
+
+        transform: rotateX(90deg) ;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="room">
+      <div class="floor"></div>
+      <div class="wall-back"></div>
+      <div class="wall-left"></div>
+      <div class="wall-right"></div>
+      <div class="wall-front"></div>
+    </div>
+  </div>
+
+</body>
+</html>

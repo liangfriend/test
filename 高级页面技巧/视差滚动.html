@@ -1,0 +1,113 @@
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+
+    }
+
+    div {
+        width: 100%;
+    }
+
+
+
+
+    h1 {
+
+
+        font-size: 5rem;
+
+
+    }
+
+    section {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+
+
+    }
+
+    section:nth-child(1) {
+        background-image: url("../resources/images/巴厘岛.webp");
+        height: 100%;
+        background-size: cover;
+        width: 100%;
+
+    }
+
+    section:nth-child(2) {
+        background-image: url("../resources/images/梧桐叶.webp");
+        height: 100%;
+        background-size: cover;
+        width: 100%;
+    }
+
+    section:nth-child(3) {
+        background-image: url("../resources/images/沥青路.webp");
+        height: 100%;
+        background-size: cover;
+        width: 100%;
+    }
+
+    section:nth-child(4) {
+        background-image: url("../resources/images/湖面.webp");
+        height: 100%;
+        background-size: cover;
+        width: 100%;
+    }
+
+    section:nth-child(5) {
+        background-image: url("../resources/images/草原.webp");
+        height: 100%;
+        background-size: cover;
+        width: 100%;
+    }
+</style>
+
+<body>
+    <div class="container">
+
+        <section>
+
+            <h1>adsa</h1>
+        </section>
+        <section>
+            <h1>Lorem.</h1>
+        </section>
+        <section>
+            <h1>Lorem.</h1>
+        </section>
+        <section>
+            <h1>Lorem.</h1>
+        </section>
+        <section>
+            <h1>Lorem.</h1>
+        </section>
+
+    </div>
+</body>
+<script>
+    const sections = document.querySelectorAll( 'section' )
+    gsap.registerPlugin( ScrollTrigger )
+    sections.forEach( section =>
+    {
+        gsap.fromTo( section, {
+            backgroundPositionY: `-${ window.innerHeight / 2 }px`
+        }, {
+            backgroundPositionY: `${ window.innerHeight / 2 }px`,
+            // duration: 3,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: section,
+                scrub: true
+            }
+        } )
+        console.log( sections )
+    } );
+</script>
