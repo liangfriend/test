@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>彩虹糖</title>
+  <style>
+    * { margin: 0; box-sizing: border-box; }
+    body {
+      overflow: hidden;
+      background: #1a1a2e;
+      font-family: system-ui, sans-serif;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+    .hint {
+      position: fixed;
+      left: 16px;
+      bottom: 14px;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 13px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hint b { color: rgba(255, 255, 255, 0.75); }
+    .hint .on { color: #ff9de2; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <p class="hint">按住 <b>A</b> 从横线向上喷出彩虹糖 · <b>双击</b> 清屏</p>
+
+  <script>
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+
+    let w, h, lineY
+    const pieces = []
+    const keys = new Set()
+    let hueBase = 0
+
+    const SHAPES = ['circle', 'ring', 'star', 'heart', 'diamond', 'pill', 'triangle', 'cross']
+
+    function resize() {
+      w = window.innerWidth
+      h = window.innerHeight
+      lineY = h * 0.78
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      drawBg()
+    }
+
+    function drawBg() {
+      const g = ctx.createLinearGradient(0, 0, 0, h)
+      g.addColorStop(0, '#1a1a2e')
+      g.addColorStop(1, '#16213e')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, w, h)
+      drawLine()
+    }
+
+    function drawLine() {
+      ctx.save()
+      ctx.shadowColor = 'rgba(255, 120, 200, 0.5)'
+      ctx.shadowBlur = 12
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)'
+      ctx.lineWidth = 3
+      ctx.lineCap = 'round'
+      ctx.beginPath()
+      ctx.moveTo(w * 0.08, lineY)
+      ctx.lineTo(w * 0.92, lineY)
+      ctx.stroke()
+      ctx.restore()
+    }
+
+    class CandyPiece {
+      constructor(x) {
+        this.x = x
+        this.y = lineY
+        this.shape = SHAPES[(Math.random() * SHAPES.length) | 0]
+        this.size = 8 + Math.random() * 14
+        this.hue = (hueBase + Math.random() * 80) % 360
+        this.rotation = Math.random() * Math.PI * 2
+        this.spin = (Math.random() - 0.5) * 0.18
+
+        const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.1
+        const speed = 7 + Math.random() * 11
+        this.vx = Math.cos(angle) * speed
+        this.vy = Math.sin(angle) * speed
+
+        this.travel = 0
+        this.maxTravel = 120 + Math.random() * 220
+        this.born = performance.now()
+      }
+
+      get alpha() {
+        const t = this.travel / this.maxTravel
+        if (t < 0.15) return t / 0.15
+        return 1 - (t - 0.15) / 0.85
+      }
+
+      get dead() {
+        return this.travel >= this.maxTravel || this.alpha <= 0
+      }
+
+      step() {
+        const prevX = this.x
+        const prevY = this.y
+        this.vy += 0.22
+        this.vx *= 0.995
+        this.x += this.vx
+        this.y += this.vy
+        this.rotation += this.spin
+        this.travel += Math.hypot(this.x - prevX, this.y - prevY)
+      }
+
+      drawShape() {
+        const s = this.size
+        const fill = `hsla(${this.hue}, 92%, 62%, ${this.alpha})`
+        const stroke = `hsla(${this.hue}, 100%, 78%, ${this.alpha * 0.9})`
+
+        ctx.fillStyle = fill
+        ctx.strokeStyle = stroke
+        ctx.lineWidth = 2
+
+        switch (this.shape) {
+          case 'circle':
+            ctx.beginPath()
+            ctx.arc(0, 0, s, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.stroke()
+            break
+
+          case 'ring':
+            ctx.beginPath()
+            ctx.arc(0, 0, s, 0, Math.PI * 2)
+            ctx.lineWidth = s * 0.35
+            ctx.stroke()
+            break
+
+          case 'star':
+            ctx.beginPath()
+            for (let i = 0; i < 10; i++) {
+              const a = (i / 10) * Math.PI * 2 - Math.PI / 2
+              const r = i % 2 === 0 ? s : s * 0.45
+              const px = Math.cos(a) * r
+              const py = Math.sin(a) * r
+              if (i === 0) ctx.moveTo(px, py)
+              else ctx.lineTo(px, py)
+            }
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            break
+
+          case 'heart':
+            ctx.beginPath()
+            ctx.moveTo(0, s * 0.35)
+            ctx.bezierCurveTo(0, -s * 0.2, -s, -s * 0.2, -s, s * 0.15)
+            ctx.bezierCurveTo(-s, s * 0.7, 0, s * 0.95, 0, s * 1.15)
+            ctx.bezierCurveTo(0, s * 0.95, s, s * 0.7, s, s * 0.15)
+            ctx.bezierCurveTo(s, -s * 0.2, 0, -s * 0.2, 0, s * 0.35)
+            ctx.fill()
+            break
+
+          case 'diamond':
+            ctx.beginPath()
+            ctx.moveTo(0, -s)
+            ctx.lineTo(s * 0.7, 0)
+            ctx.lineTo(0, s)
+            ctx.lineTo(-s * 0.7, 0)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            break
+
+          case 'pill':
+            ctx.beginPath()
+            ctx.roundRect(-s * 0.55, -s * 0.35, s * 1.1, s * 0.7, s * 0.35)
+            ctx.fill()
+            ctx.stroke()
+            break
+
+          case 'triangle':
+            ctx.beginPath()
+            ctx.moveTo(0, -s)
+            ctx.lineTo(s * 0.9, s * 0.7)
+            ctx.lineTo(-s * 0.9, s * 0.7)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            break
+
+          case 'cross':
+            ctx.lineWidth = s * 0.38
+            ctx.lineCap = 'round'
+            ctx.beginPath()
+            ctx.moveTo(-s, 0)
+            ctx.lineTo(s, 0)
+            ctx.moveTo(0, -s)
+            ctx.lineTo(0, s)
+            ctx.stroke()
+            break
+        }
+      }
+
+      draw() {
+        if (this.alpha <= 0) return
+        ctx.save()
+        ctx.translate(this.x, this.y)
+        ctx.rotate(this.rotation)
+        ctx.shadowColor = `hsla(${this.hue}, 100%, 70%, ${this.alpha * 0.6})`
+        ctx.shadowBlur = 10
+        this.drawShape()
+        ctx.restore()
+      }
+    }
+
+    function spawnBurst() {
+      const count = 2 + (Math.random() * 3 | 0)
+      const xMin = w * 0.1
+      const xMax = w * 0.9
+      for (let i = 0; i < count; i++) {
+        const x = xMin + Math.random() * (xMax - xMin)
+        pieces.push(new CandyPiece(x))
+      }
+      hueBase = (hueBase + 18 + Math.random() * 24) % 360
+    }
+
+    let spawnAcc = 0
+    function frame(now) {
+      drawBg()
+
+      if (keys.has('a') || keys.has('A')) {
+        spawnAcc += 1
+        if (spawnAcc >= 2) {
+          spawnBurst()
+          spawnAcc = 0
+        }
+        document.querySelector('.hint b').classList.add('on')
+      } else {
+        document.querySelector('.hint b').classList.remove('on')
+      }
+
+      for (let i = pieces.length - 1; i >= 0; i--) {
+        pieces[i].step()
+        pieces[i].draw()
+        if (pieces[i].dead) pieces.splice(i, 1)
+      }
+
+      requestAnimationFrame(frame)
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.repeat) return
+      keys.add(e.key)
+      if (e.key === 'a' || e.key === 'A') e.preventDefault()
+    })
+    window.addEventListener('keyup', (e) => keys.delete(e.key))
+    window.addEventListener('blur', () => keys.clear())
+    canvas.addEventListener('dblclick', () => {
+      pieces.length = 0
+      drawBg()
+    })
+    window.addEventListener('resize', resize)
+
+    resize()
+    requestAnimationFrame(frame)
+  </script>
+</body>
+</html>

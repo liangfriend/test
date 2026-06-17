@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>琴键 SVG 展示</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1e1e24;
+      color: #eee;
+      padding: 24px;
+      min-height: 100vh;
+    }
+    h1 { font-size: 1.2rem; margin-bottom: 8px; }
+    .desc { color: #999; font-size: 0.9rem; margin-bottom: 24px; }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 28px;
+      padding: 16px;
+      background: #2a2a32;
+      border-radius: 10px;
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: #bbb;
+    }
+    input[type="number"] {
+      width: 88px;
+      padding: 6px 8px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: #1a1a20;
+      color: #fff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #2a2a32;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .card h3 { font-size: 0.9rem; color: #ccc; font-weight: 500; }
+    .key-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      min-height: 140px;
+      padding: 12px;
+      background: #15151a;
+      border-radius: 8px;
+      width: 100%;
+    }
+    .key-wrap svg { display: block; }
+    .demo {
+      margin-top: 32px;
+      padding: 24px;
+      background: #2a2a32;
+      border-radius: 12px;
+    }
+    .demo h2 { font-size: 1rem; margin-bottom: 16px; }
+    .keyboard {
+      position: relative;
+      display: inline-flex;
+      align-items: flex-start;
+      user-select: none;
+    }
+    .white-row { display: flex; align-items: flex-start; }
+    .black-row {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      pointer-events: none;
+    }
+    .black-slot {
+      position: absolute;
+      top: 0;
+      pointer-events: auto;
+      cursor: pointer;
+      transform: translateX(-50%);
+    }
+    .white-slot { cursor: pointer; line-height: 0; flex-shrink: 0; }
+    .white-slot svg, .black-slot svg { display: block; }
+    .size-tag {
+      font-size: 0.75rem;
+      color: #777;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>琴键 SVG 展示</h1>
+  <p class="desc">
+    略带俯视的顶视图：可见键面、前沿侧面与左右棱边。白键默认 20×100；黑键 = 白键 × 0.6。
+  </p>
+
+  <div class="controls">
+    <label>白键宽 <input type="number" id="whiteW" value="20" min="8" max="80"></label>
+    <label>白键高 <input type="number" id="whiteH" value="100" min="40" max="300"></label>
+    <label>黑键比例 <input type="number" id="blackRatio" value="0.6" min="0.3" max="0.9" step="0.05"></label>
+  </div>
+
+  <div class="grid" id="showcase"></div>
+
+  <div class="demo">
+    <h2>交互演示（点击按下）</h2>
+    <div class="keyboard" id="keyboard"></div>
+  </div>
+
+  <script>
+    /** 计算黑键尺寸 */
+    function getKeySizes(whiteW = 20, whiteH = 100, blackRatio = 0.6) {
+      return {
+        white: { w: whiteW, h: whiteH },
+        black: { w: whiteW * blackRatio, h: whiteH * blackRatio },
+        blackRatio,
+      }
+    }
+
+    function uid(prefix) {
+      return prefix + Math.random().toString(36).slice(2, 8)
+    }
+
+    /**
+     * 白键 SVG（未按下）
+     * 顶面：0~82 满宽矩形；前沿：同宽 82~100，仅底端圆角；3D 用前沿左右竖条
+     */
+    function whiteKeySvg(w, h) {
+      const id = uid('wk')
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 20 100" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="${id}-top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#efeff4"/>
+    </linearGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e2e2ea"/>
+      <stop offset="100%" stop-color="#b8b8c6"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#d6d6e0"/>
+      <stop offset="100%" stop-color="#c4c4d0"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ceced8"/>
+      <stop offset="100%" stop-color="#bcbcc8"/>
+    </linearGradient>
+  </defs>
+  <!-- 前沿侧面（与顶面同宽，仅底部圆角） -->
+  <path d="M0 82 H20 V96.5 Q20 100 17 100 H3 Q0 100 0 96.5 Z" fill="url(#${id}-front)"/>
+  <rect x="0" y="82" width="1.3" height="18" fill="url(#${id}-edgeL)"/>
+  <rect x="18.7" y="82" width="1.3" height="18" fill="url(#${id}-edgeR)"/>
+  <!-- 顶面：满宽矩形，无描边、无渐变缩边 -->
+  <rect x="0" y="0" width="20" height="82" fill="url(#${id}-top)"/>
+  <!-- 键缝 -->
+  <line x1="20" y1="0" x2="20" y2="100" stroke="rgba(0,0,0,0.12)" stroke-width="0.5"/>
+  <!-- 顶底分界线 -->
+  <line x1="0" y1="82" x2="20" y2="82" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
+</svg>`
+    }
+
+    /** 白键 SVG（按下）— 外轮廓与未按下相同，仅顶面下沉、前沿变薄 */
+    function whiteKeyPressedSvg(w, h) {
+      const id = uid('wkp')
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 20 100" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="${id}-top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8e8ee"/>
+      <stop offset="100%" stop-color="#d0d0da"/>
+    </linearGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c4c4d0"/>
+      <stop offset="100%" stop-color="#b0b0be"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#b8b8c4"/>
+      <stop offset="100%" stop-color="#acacb8"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b0b0bc"/>
+      <stop offset="100%" stop-color="#a4a4b0"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 87 H20 V96.5 Q20 100 17 100 H3 Q0 100 0 96.5 Z" fill="url(#${id}-front)"/>
+  <rect x="0" y="87" width="1.3" height="13" fill="url(#${id}-edgeL)"/>
+  <rect x="18.7" y="87" width="1.3" height="13" fill="url(#${id}-edgeR)"/>
+  <rect x="0" y="0" width="20" height="87" fill="url(#${id}-top)"/>
+  <line x1="20" y1="0" x2="20" y2="100" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+  <line x1="0" y1="87" x2="20" y2="87" stroke="rgba(0,0,0,0.12)" stroke-width="0.5"/>
+</svg>`
+    }
+
+    /** 黑键 SVG（未按下） */
+    function blackKeySvg(w, h) {
+      const id = uid('bk')
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 12 60" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="${id}-top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#585860"/>
+      <stop offset="100%" stop-color="#34343c"/>
+    </linearGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e2e34"/>
+      <stop offset="100%" stop-color="#101014"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#28282e"/>
+      <stop offset="100%" stop-color="#1a1a20"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#242428"/>
+      <stop offset="100%" stop-color="#141418"/>
+    </linearGradient>
+    <filter id="${id}-shadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="0.8" stdDeviation="0.6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#${id}-shadow)">
+    <path d="M0 46 H12 V57 Q12 59.5 10 59.5 H2 Q0 59.5 0 57 Z" fill="url(#${id}-front)"/>
+    <rect x="0" y="46" width="0.9" height="13.5" fill="url(#${id}-edgeL)"/>
+    <rect x="11.1" y="46" width="0.9" height="13.5" fill="url(#${id}-edgeR)"/>
+    <rect x="0" y="0" width="12" height="46" fill="url(#${id}-top)"/>
+    <rect x="0.6" y="1" width="0.5" height="42" fill="rgba(255,255,255,0.1)"/>
+    <line x1="0" y1="46" x2="12" y2="46" stroke="rgba(0,0,0,0.2)" stroke-width="0.35"/>
+  </g>
+</svg>`
+    }
+
+    /** 黑键 SVG（按下）— 外轮廓不变，下沉更深、更暗、前沿更薄 */
+    function blackKeyPressedSvg(w, h) {
+      const id = uid('bkp')
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 12 60" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="${id}-top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e2e36"/>
+      <stop offset="100%" stop-color="#16161c"/>
+    </linearGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a20"/>
+      <stop offset="100%" stop-color="#020204"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#18181e"/>
+      <stop offset="100%" stop-color="#0a0a0e"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#141418"/>
+      <stop offset="100%" stop-color="#060608"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 52 H12 V57 Q12 59.5 10 59.5 H2 Q0 59.5 0 57 Z" fill="url(#${id}-front)"/>
+  <rect x="0" y="52" width="0.9" height="7.5" fill="url(#${id}-edgeL)"/>
+  <rect x="11.1" y="52" width="0.9" height="7.5" fill="url(#${id}-edgeR)"/>
+  <rect x="0" y="0" width="12" height="52" fill="url(#${id}-top)"/>
+  <rect x="0" y="50" width="12" height="2.5" fill="rgba(0,0,0,0.22)"/>
+  <line x1="0" y1="52" x2="12" y2="52" stroke="rgba(0,0,0,0.55)" stroke-width="0.55"/>
+  <line x1="0" y1="52.5" x2="12" y2="52.5" stroke="rgba(255,255,255,0.06)" stroke-width="0.35"/>
+</svg>`
+    }
+
+    const showcase = document.getElementById('showcase')
+    const keyboard = document.getElementById('keyboard')
+    const whiteWInput = document.getElementById('whiteW')
+    const whiteHInput = document.getElementById('whiteH')
+    const blackRatioInput = document.getElementById('blackRatio')
+
+    const pressed = new Set()
+
+    function readParams() {
+      const whiteW = +whiteWInput.value || 20
+      const whiteH = +whiteHInput.value || 100
+      const blackRatio = +blackRatioInput.value || 0.6
+      return getKeySizes(whiteW, whiteH, blackRatio)
+    }
+
+    function renderShowcase() {
+      const { white, black } = readParams()
+      const items = [
+        { title: '白键', fn: whiteKeySvg, size: white },
+        { title: '白键（按下）', fn: whiteKeyPressedSvg, size: white },
+        { title: '黑键', fn: blackKeySvg, size: black },
+        { title: '黑键（按下）', fn: blackKeyPressedSvg, size: black },
+      ]
+      showcase.innerHTML = items.map(item => `
+        <div class="card">
+          <h3>${item.title}</h3>
+          <div class="key-wrap">${item.fn(item.size.w, item.size.h)}</div>
+          <span class="size-tag">${item.size.w.toFixed(1)} × ${item.size.h.toFixed(1)}</span>
+        </div>
+      `).join('')
+    }
+
+  // 一个八度：C D E F G A B + 黑键位置
+    const WHITE_NOTES = 7
+    const BLACK_LAYOUT = [
+      { after: 0, name: 'C#' },
+      { after: 1, name: 'D#' },
+      { after: 3, name: 'F#' },
+      { after: 4, name: 'G#' },
+      { after: 5, name: 'A#' },
+    ]
+
+    function renderKeyboard() {
+      const { white, black } = readParams()
+      pressed.clear()
+
+      let whiteHtml = '<div class="white-row">'
+      for (let i = 0; i < WHITE_NOTES; i++) {
+        const id = 'w' + i
+        whiteHtml += `<div class="white-slot" data-key="${id}" data-type="white">${whiteKeySvg(white.w, white.h)}</div>`
+      }
+      whiteHtml += '</div>'
+
+      let blackHtml = '<div class="black-row">'
+      for (const b of BLACK_LAYOUT) {
+        const id = 'b' + b.after
+        const left = (b.after + 1) * white.w - white.w * 0.5
+        blackHtml += `<div class="black-slot" data-key="${id}" data-type="black" style="left:${left}px">${blackKeySvg(black.w, black.h)}</div>`
+      }
+      blackHtml += '</div>'
+
+      keyboard.innerHTML = whiteHtml + blackHtml
+      keyboard.style.height = white.h + 'px'
+
+      keyboard.querySelectorAll('[data-key]').forEach(el => {
+        const down = () => setKeyState(el, true)
+        const up = () => setKeyState(el, false)
+        el.addEventListener('mousedown', down)
+        el.addEventListener('mouseup', up)
+        el.addEventListener('mouseleave', up)
+        el.addEventListener('touchstart', e => { e.preventDefault(); down() }, { passive: false })
+        el.addEventListener('touchend', up)
+      })
+    }
+
+    function setKeyState(el, isPressed) {
+      const { white, black } = readParams()
+      const type = el.dataset.type
+      const id = el.dataset.key
+      if (isPressed) pressed.add(id)
+      else pressed.delete(id)
+
+      if (type === 'white') {
+        el.innerHTML = isPressed
+          ? whiteKeyPressedSvg(white.w, white.h)
+          : whiteKeySvg(white.w, white.h)
+      } else {
+        el.innerHTML = isPressed
+          ? blackKeyPressedSvg(black.w, black.h)
+          : blackKeySvg(black.w, black.h)
+      }
+    }
+
+    function render() {
+      renderShowcase()
+      renderKeyboard()
+    }
+
+    ;[whiteWInput, whiteHInput, blackRatioInput].forEach(inp => {
+      inp.addEventListener('input', render)
+    })
+
+    render()
+
+    // 导出供虚拟钢琴使用
+    window.PianoKeySvg = {
+      getKeySizes,
+      whiteKeySvg,
+      whiteKeyPressedSvg,
+      blackKeySvg,
+      blackKeyPressedSvg,
+    }
+  </script>
+</body>
+</html>

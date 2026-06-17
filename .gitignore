@@ -1,0 +1,2 @@
+# 钢琴 AudioBuffer 缓存（~124MB，本地用 scripts/convert-piano-to-audiobuffers.mjs 生成）
+resources/others/acoustic_grand_piano_audio_buffers.json

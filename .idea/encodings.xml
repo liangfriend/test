@@ -2,5 +2,6 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/html练习/webAudio/测试播放.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/html练习/无阻塞定时播放音频.html" charset="GBK" />
   </component>
 </project>
