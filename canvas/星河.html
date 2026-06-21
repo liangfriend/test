@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星河</title>
+  <style>
+    * { margin: 0; box-sizing: border-box; }
+    body {
+      overflow: hidden;
+      background: #030014;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    const dpr = Math.min(devicePixelRatio || 1, 2)
+
+    let w, h, cx, cy
+    let stars = [], nebulae = [], dust = [], clusters = []
+
+    const BAND_ANGLE = 0.38
+
+    function resize() {
+      w = innerWidth
+      h = innerHeight
+      cx = w / 2
+      cy = h / 2
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      initScene()
+    }
+
+    function rand(a, b) {
+      return a + Math.random() * (b - a)
+    }
+
+    function wrap(x, y, margin = 80) {
+      if (x < -margin) x += w + margin * 2
+      if (x > w + margin) x -= w + margin * 2
+      if (y < -margin) y += h + margin * 2
+      if (y > h + margin) y -= h + margin * 2
+      return { x, y }
+    }
+
+    function bandFactor(x, y) {
+      const nx = x / w - 0.5
+      const ny = y / h - 0.5
+      const along = nx * Math.cos(BAND_ANGLE) + ny * Math.sin(BAND_ANGLE)
+      const perp = -nx * Math.sin(BAND_ANGLE) + ny * Math.cos(BAND_ANGLE)
+      const core = Math.exp(-perp * perp * 16)
+      const fade = 0.3 + 0.7 * Math.exp(-along * along * 1.6)
+      return core * fade
+    }
+
+    function pickBandPos() {
+      for (let i = 0; i < 16; i++) {
+        const x = Math.random() * w
+        const y = Math.random() * h
+        if (Math.random() < bandFactor(x, y) * 1.8 + 0.12) return { x, y }
+      }
+      return { x: Math.random() * w, y: Math.random() * h }
+    }
+
+    function createStar(x, y, inBand, clusterBoost = 1) {
+      const depth = rand(0.15, 1)
+      const layer = depth < 0.35 ? 0 : depth < 0.6 ? 1 : depth < 0.85 ? 2 : 3
+      const warm = Math.random() < 0.18 + inBand * 0.25
+      const sat = warm ? 70 : 40 + inBand * 40
+      return {
+        x, y, depth, layer,
+        vx: rand(-0.12, 0.12) * (0.4 + depth * 0.6),
+        vy: rand(-0.12, 0.12) * (0.4 + depth * 0.6),
+        size: rand(0.15, 1.1) * (0.45 + inBand * 1.1) * depth * clusterBoost,
+        base: rand(0.25, 1),
+        twinkle: rand(0, Math.PI * 2),
+        twSpeed: rand(0.006, 0.035),
+        hue: inBand > 0.35 ? rand(200, 285) : rand(0, 60) > 30 ? rand(180, 225) : rand(38, 58),
+        warm,
+        lightBase: warm ? 85 : 75,
+        lightRange: warm ? 15 : 25,
+        sat,
+      }
+    }
+
+    const starLayers = [[], [], [], []]
+
+    function addStar(star) {
+      stars.push(star)
+      starLayers[star.layer].push(star)
+    }
+
+    function initScene() {
+      stars = []
+      starLayers[0].length = 0
+      starLayers[1].length = 0
+      starLayers[2].length = 0
+      starLayers[3].length = 0
+      nebulae = []
+      dust = []
+      clusters = []
+
+      const clusterCount = 8 + (w * h / 220000 | 0)
+      for (let i = 0; i < clusterCount; i++) {
+        const { x, y } = pickBandPos()
+        const r = rand(50, 160)
+        clusters.push({
+          x, y, r,
+          vx: rand(-0.05, 0.05),
+          vy: rand(-0.05, 0.05),
+        })
+
+        const clusterStarCount = 35 + (Math.random() * 50 | 0)
+        for (let j = 0; j < clusterStarCount; j++) {
+          const ang = Math.random() * Math.PI * 2
+          const dist = Math.pow(Math.random(), 1.8) * r
+          const sx = x + Math.cos(ang) * dist
+          const sy = y + Math.sin(ang) * dist
+          const inBand = bandFactor(sx, sy)
+          addStar(createStar(sx, sy, Math.max(inBand, 0.5), 1.1 + (1 - dist / r) * 0.6))
+        }
+      }
+
+      const starCount = Math.min(3800, Math.floor(w * h / 220))
+      for (let i = 0; i < starCount; i++) {
+        const { x, y } = pickBandPos()
+        addStar(createStar(x, y, bandFactor(x, y)))
+      }
+
+      const nebColors = [
+        ['rgba(120,40,180,', 'rgba(60,20,120,'],
+        ['rgba(40,80,200,', 'rgba(20,40,100,'],
+        ['rgba(200,60,140,', 'rgba(100,30,80,'],
+        ['rgba(40,180,200,', 'rgba(20,80,100,'],
+        ['rgba(255,120,60,', 'rgba(120,50,30,'],
+      ]
+      const nebCount = 7 + (w * h / 150000 | 0)
+      for (let i = 0; i < nebCount; i++) {
+        const { x, y } = pickBandPos()
+        const c = nebColors[i % nebColors.length]
+        nebulae.push({
+          x, y,
+          r: rand(200, 480),
+          vx: rand(-0.04, 0.04),
+          vy: rand(-0.04, 0.04),
+          rot: rand(0, Math.PI * 2),
+          rotSpeed: rand(-0.00015, 0.00015),
+          alpha: rand(0.05, 0.16),
+          c0: c[0], c1: c[1],
+          pulse: rand(0, Math.PI * 2),
+        })
+      }
+
+      for (let i = 0; i < 8; i++) {
+        const { x, y } = pickBandPos()
+        dust.push({
+          x, y,
+          w: rand(350, 800),
+          h: rand(45, 100),
+          angle: BAND_ANGLE + rand(-0.18, 0.18),
+          alpha: rand(0.04, 0.1),
+          vx: rand(-0.03, 0.03),
+          vy: rand(-0.03, 0.03),
+        })
+      }
+    }
+
+    const shooters = []
+    function maybeShoot() {
+      if (Math.random() < 0.003 && shooters.length < 2) {
+        shooters.push({
+          x: rand(0, w),
+          y: rand(0, h * 0.55),
+          len: rand(90, 220),
+          angle: rand(0.6, 1.1),
+          life: 1,
+          speed: rand(10, 18),
+        })
+      }
+    }
+
+    function updateMotion() {
+      for (const c of clusters) {
+        c.x += c.vx
+        c.y += c.vy
+        const p = wrap(c.x, c.y)
+        c.x = p.x
+        c.y = p.y
+      }
+
+      for (const s of stars) {
+        s.x += s.vx
+        s.y += s.vy
+        const p = wrap(s.x, s.y)
+        s.x = p.x
+        s.y = p.y
+      }
+
+      for (const n of nebulae) {
+        n.x += n.vx
+        n.y += n.vy
+        n.rot += n.rotSpeed
+        const p = wrap(n.x, n.y)
+        n.x = p.x
+        n.y = p.y
+      }
+
+      for (const d of dust) {
+        d.x += d.vx
+        d.y += d.vy
+        const p = wrap(d.x, d.y)
+        d.x = p.x
+        d.y = p.y
+      }
+    }
+
+    function drawBackground() {
+      const g = ctx.createRadialGradient(cx, cy * 0.9, 0, cx, cy, Math.max(w, h) * 0.85)
+      g.addColorStop(0, '#0c0824')
+      g.addColorStop(0.35, '#060418')
+      g.addColorStop(0.7, '#030010')
+      g.addColorStop(1, '#010008')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, w, h)
+    }
+
+    function drawClusterGlow() {
+      for (const c of clusters) {
+        const g = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.r * 1.6)
+        g.addColorStop(0, 'rgba(180,160,255,0.07)')
+        g.addColorStop(0.35, 'rgba(120,100,220,0.04)')
+        g.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = g
+        ctx.beginPath()
+        ctx.arc(c.x, c.y, c.r * 1.6, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+
+    function drawNebulae(t) {
+      for (const n of nebulae) {
+        const pulse = 0.85 + Math.sin(t * 0.001 + n.pulse) * 0.15
+        const r = n.r * pulse
+
+        ctx.save()
+        ctx.translate(n.x, n.y)
+        ctx.rotate(n.rot)
+        ctx.globalCompositeOperation = 'screen'
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r)
+        const a = n.alpha * pulse
+        g.addColorStop(0, n.c0 + a + ')')
+        g.addColorStop(0.4, n.c1 + (a * 0.5) + ')')
+        g.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = g
+        ctx.scale(1.6, 0.7)
+        ctx.fillRect(-r, -r, r * 2, r * 2)
+        ctx.restore()
+      }
+      ctx.globalCompositeOperation = 'source-over'
+    }
+
+    function drawDust() {
+      for (const d of dust) {
+        ctx.save()
+        ctx.translate(d.x, d.y)
+        ctx.rotate(d.angle)
+        const g = ctx.createLinearGradient(-d.w / 2, 0, d.w / 2, 0)
+        g.addColorStop(0, 'rgba(0,0,0,0)')
+        g.addColorStop(0.3, `rgba(0,0,10,${d.alpha})`)
+        g.addColorStop(0.5, `rgba(0,0,20,${d.alpha * 1.4})`)
+        g.addColorStop(0.7, `rgba(0,0,10,${d.alpha})`)
+        g.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = g
+        ctx.fillRect(-d.w / 2, -d.h / 2, d.w, d.h)
+        ctx.restore()
+      }
+    }
+
+    function drawStars() {
+      for (let li = 0; li < 4; li++) {
+        const layer = starLayers[li]
+        for (let i = 0; i < layer.length; i++) {
+          const s = layer[i]
+          s.twinkle += s.twSpeed
+          const tw = 0.55 + Math.sin(s.twinkle) * 0.45
+          const alpha = s.base * tw
+          const x = s.x
+          const y = s.y
+          const light = s.lightBase + tw * s.lightRange
+          const sz = s.size
+
+          if (sz > 0.9 && alpha > 0.55) {
+            ctx.beginPath()
+            ctx.arc(x, y, sz * 2.8, 0, Math.PI * 2)
+            ctx.fillStyle = `hsla(${s.hue}, ${s.sat}%, ${light}%, ${alpha * 0.12})`
+            ctx.fill()
+          }
+
+          ctx.beginPath()
+          ctx.arc(x, y, sz, 0, Math.PI * 2)
+          ctx.fillStyle = `hsla(${s.hue}, ${s.sat}%, ${light}%, ${alpha})`
+          ctx.fill()
+        }
+      }
+    }
+
+    function drawShooters() {
+      for (let i = shooters.length - 1; i >= 0; i--) {
+        const s = shooters[i]
+        s.life -= 0.025
+        s.x += Math.cos(s.angle) * s.speed
+        s.y += Math.sin(s.angle) * s.speed
+        if (s.life <= 0) { shooters.splice(i, 1); continue }
+
+        const g = ctx.createLinearGradient(
+          s.x, s.y,
+          s.x - Math.cos(s.angle) * s.len,
+          s.y - Math.sin(s.angle) * s.len
+        )
+        g.addColorStop(0, `rgba(255,255,255,${s.life * 0.9})`)
+        g.addColorStop(0.3, `rgba(200,220,255,${s.life * 0.5})`)
+        g.addColorStop(1, 'rgba(200,220,255,0)')
+        ctx.strokeStyle = g
+        ctx.lineWidth = 1.5
+        ctx.beginPath()
+        ctx.moveTo(s.x, s.y)
+        ctx.lineTo(s.x - Math.cos(s.angle) * s.len, s.y - Math.sin(s.angle) * s.len)
+        ctx.stroke()
+      }
+    }
+
+    function frame(now) {
+      updateMotion()
+      drawBackground()
+      drawDust()
+      drawClusterGlow()
+      drawNebulae(now)
+      drawStars()
+      maybeShoot()
+      drawShooters()
+      requestAnimationFrame(frame)
+    }
+
+    window.addEventListener('resize', resize)
+    resize()
+    requestAnimationFrame(frame)
+  </script>
+</body>
+</html>

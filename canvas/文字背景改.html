@@ -1,0 +1,83 @@
+<body>
+<canvas></canvas>
+</body>
+<script>
+  const cvs = document.querySelector('canvas')
+  const ctx = cvs.getContext('2d')
+  const dpr = devicePixelRatio || 1
+
+  const CHARS = '0123456789abcdefghijklmnopqrstuvwxyz'
+  const fontSize = 14
+  let cols, rows, grid = []
+
+  function randomChar() {
+    return CHARS[Math.floor(Math.random() * CHARS.length)]
+  }
+
+  function buildGrid() {
+    cols = Math.ceil(cvs.width / (fontSize * dpr))
+    rows = Math.ceil(cvs.height / (fontSize * dpr))
+    grid = []
+    for (let r = 0; r < rows; r++) {
+      const row = []
+      for (let c = 0; c < cols; c++) {
+        row.push({
+          char: randomChar(),
+          opacity: Math.random(),
+          target: Math.random(),
+          speed: 0.02 + Math.random() * 0.06,
+        })
+      }
+      grid.push(row)
+    }
+  }
+
+  function init() {
+    cvs.width = window.innerWidth * dpr
+    cvs.height = window.innerHeight * dpr
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.font = `${fontSize}px "Roboto Mono", monospace`
+    ctx.textBaseline = 'top'
+    buildGrid()
+  }
+
+  function draw() {
+    const w = cvs.width / dpr
+    const h = cvs.height / dpr
+    ctx.fillStyle = '#000'
+    ctx.fillRect(0, 0, w, h)
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = grid[r][c]
+
+        // 朝目标透明度缓动
+        cell.opacity += (cell.target - cell.opacity) * cell.speed
+        if (Math.abs(cell.target - cell.opacity) < 0.02) {
+          cell.target = Math.random()
+          if (Math.random() < 0.15) cell.char = randomChar()
+        }
+
+        const alpha = 0.08 + cell.opacity * 0.92
+        ctx.fillStyle = `rgba(107, 228, 69, ${alpha})`
+        ctx.fillText(cell.char, c * fontSize, r * fontSize)
+      }
+    }
+  }
+
+  init()
+  setInterval(draw, 10)
+  window.addEventListener('resize', init)
+</script>
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+  }
+</style>

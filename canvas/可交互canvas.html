@@ -1,0 +1,45 @@
+<body>
+<canvas id="canvas" width="300" height="300"></canvas>
+</body>
+<script>
+
+  const canvas = document.getElementById('canvas');
+
+
+  let keydown = false
+  const ctx = canvas.getContext('2d');
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    // ctx.fillStyle="red"
+
+    ctx.fillStyle="black"
+    // 基准线
+    ctx.fillRect(0, 200, canvas.width, 2);
+    if(keydown) {
+      const height = 10
+      ctx.fillStyle="red"
+      ctx.fillRect(40, 200-height, 10, height);
+
+    }
+    ctx.closePath()
+    requestAnimationFrame(draw)
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    draw()
+  })
+  document.addEventListener("keydown", function(event){
+    if(event.code === 'KeyA') {
+      keydown = true
+    }
+  })
+  document.addEventListener("keyup", function(event){
+    if(event.code === 'KeyA') {
+      keydown = false
+    }
+  })
+</script>
+<style>
+
+</style>

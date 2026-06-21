@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>acoustic_grand_piano.json → AudioBuffer 内存测算</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 960px;
+      margin: 24px auto;
+      padding: 0 16px;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.25rem; margin-bottom: 8px; }
+    .hint { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+    button {
+      padding: 8px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .card .label { font-size: 0.8rem; color: #666; }
+    .card .value { font-size: 1.1rem; font-weight: 600; margin-top: 4px; }
+    progress { width: 100%; height: 8px; margin: 12px 0; }
+    #log { white-space: pre-wrap; font-size: 0.85rem; color: #444; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 16px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px 8px;
+      text-align: right;
+    }
+    th:first-child, td:first-child { text-align: left; }
+    th { background: #f0f0f0; position: sticky; top: 0; }
+    .table-wrap { max-height: 420px; overflow: auto; border: 1px solid #ddd; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>acoustic_grand_piano.json → AudioBuffer 内存测算</h1>
+  <p class="hint">
+    加载 88 个 MIDI 音符（21–108）的 data URL，逐个 <code>decodeAudioData</code> 成 AudioBuffer，统计各阶段体积与堆内存变化。
+    需通过本地 HTTP 服务打开（不能直接 file://）。
+  </p>
+
+  <button id="runBtn">开始加载并解码</button>
+  <progress id="progress" value="0" max="88" hidden></progress>
+  <div id="log"></div>
+
+  <div class="cards" id="summary" hidden></div>
+  <div class="table-wrap" id="tableWrap" hidden>
+    <table>
+      <thead>
+        <tr>
+          <th>音符</th>
+          <th>MP3 字节</th>
+          <th>采样率</th>
+          <th>声道</th>
+          <th>帧数</th>
+          <th>时长(s)</th>
+          <th>PCM 字节</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const PACK_URL = '../resources/others/acoustic_grand_piano.json'
+
+    function fmtBytes(n) {
+      if (n < 1024) return n + ' B'
+      if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB'
+      return (n / 1024 / 1024).toFixed(2) + ' MB'
+    }
+
+    function midiNoteName(n) {
+      const names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+      return names[n % 12] + Math.floor(n / 12 - 1)
+    }
+
+    function audioBufferBytes(buf) {
+      return buf.length * buf.numberOfChannels * 4
+    }
+
+    function heapInfo() {
+      const m = performance.memory
+      if (!m) return null
+      return {
+        used: m.usedJSHeapSize,
+        total: m.totalJSHeapSize,
+        limit: m.jsHeapSizeLimit,
+      }
+    }
+
+    function dataUrlToArrayBuffer(dataUrl) {
+      const comma = dataUrl.indexOf(',')
+      const meta = dataUrl.slice(0, comma)
+      const payload = dataUrl.slice(comma + 1)
+      if (meta.includes(';base64')) {
+        const bin = atob(payload)
+        const bytes = new Uint8Array(bin.length)
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i)
+        return bytes.buffer
+      }
+      return new TextEncoder().encode(decodeURIComponent(payload)).buffer
+    }
+
+    function card(label, value) {
+      return `<div class="card"><div class="label">${label}</div><div class="value">${value}</div></div>`
+    }
+
+    async function run() {
+      const btn = document.getElementById('runBtn')
+      const progress = document.getElementById('progress')
+      const log = document.getElementById('log')
+      const summary = document.getElementById('summary')
+      const tableWrap = document.getElementById('tableWrap')
+      const tbody = document.getElementById('tbody')
+
+      btn.disabled = true
+      progress.hidden = false
+      log.textContent = '正在 fetch JSON…\n'
+      summary.hidden = true
+      tableWrap.hidden = true
+      tbody.innerHTML = ''
+
+      const heapBefore = heapInfo()
+
+      const res = await fetch(PACK_URL)
+      const jsonText = await res.text()
+      const jsonBytes = new TextEncoder().encode(jsonText).byteLength
+      log.textContent += `JSON 下载完成：${fmtBytes(jsonBytes)}\n`
+
+      const pack = JSON.parse(jsonText)
+      const notes = Object.keys(pack).map(Number).sort((a, b) => a - b)
+      progress.max = notes.length
+
+      const ctx = new AudioContext()
+      await ctx.resume()
+
+      const buffers = []
+      let mp3Bytes = 0
+      let pcmBytes = 0
+      let totalDuration = 0
+      const rows = []
+
+      for (let i = 0; i < notes.length; i++) {
+        const note = notes[i]
+        const ab = dataUrlToArrayBuffer(pack[String(note)])
+        mp3Bytes += ab.byteLength
+
+        const buf = await ctx.decodeAudioData(ab.slice(0))
+        buffers.push(buf)
+
+        const pcm = audioBufferBytes(buf)
+        pcmBytes += pcm
+        totalDuration += buf.duration
+
+        rows.push({
+          note,
+          mp3: ab.byteLength,
+          sampleRate: buf.sampleRate,
+          channels: buf.numberOfChannels,
+          length: buf.length,
+          duration: buf.duration,
+          pcm,
+        })
+
+        progress.value = i + 1
+        log.textContent = `解码中 ${i + 1}/${notes.length}（${midiNoteName(note)} / MIDI ${note}）…`
+      }
+
+      // 防止被 GC，保留引用以便观察峰值内存
+      window.__pianoBuffers = buffers
+
+      const heapAfter = heapInfo()
+      const ratio = pcmBytes / jsonBytes
+
+      summary.innerHTML = [
+        card('JSON 文件体积', fmtBytes(jsonBytes)),
+        card('Base64 解码后 MP3 合计', fmtBytes(mp3Bytes)),
+        card('AudioBuffer PCM 合计', fmtBytes(pcmBytes)),
+        card('PCM / JSON 膨胀倍数', ratio.toFixed(1) + '×'),
+        card('88 个样本总时长', totalDuration.toFixed(2) + ' s'),
+        card('AudioBuffer 数量', String(buffers.length)),
+        heapBefore && heapAfter
+          ? card('JS 堆内存增量 (Chrome)', fmtBytes(heapAfter.used - heapBefore.used))
+          : card('JS 堆内存增量', '需 Chrome（performance.memory）'),
+        heapAfter ? card('当前 JS 堆已用', fmtBytes(heapAfter.used)) : '',
+      ].join('')
+      summary.hidden = false
+
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${midiNoteName(r.note)} (${r.note})</td>
+          <td>${fmtBytes(r.mp3)}</td>
+          <td>${r.sampleRate}</td>
+          <td>${r.channels}</td>
+          <td>${r.length.toLocaleString()}</td>
+          <td>${r.duration.toFixed(3)}</td>
+          <td>${fmtBytes(r.pcm)}</td>
+        </tr>
+      `).join('') + `
+        <tr style="font-weight:600;background:#f9f9f9">
+          <td>合计</td>
+          <td>${fmtBytes(mp3Bytes)}</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>${totalDuration.toFixed(3)}</td>
+          <td>${fmtBytes(pcmBytes)}</td>
+        </tr>`
+
+      tableWrap.hidden = false
+      log.textContent =
+        `完成。\n` +
+        `JSON ${fmtBytes(jsonBytes)} → MP3 ${fmtBytes(mp3Bytes)} → PCM ${fmtBytes(pcmBytes)}（约 ${ratio.toFixed(1)}×）\n` +
+        (heapBefore && heapAfter
+          ? `JS 堆：${fmtBytes(heapBefore.used)} → ${fmtBytes(heapAfter.used)}（+${fmtBytes(heapAfter.used - heapBefore.used)}）\n`
+          : '') +
+        `88 个 AudioBuffer 已挂在 window.__pianoBuffers，可在控制台进一步 inspect。`
+
+      btn.disabled = false
+    }
+
+    document.getElementById('runBtn').addEventListener('click', () => {
+      run().catch(err => {
+        document.getElementById('log').textContent = '失败：' + err.message + '\n请确认通过本地 HTTP 服务打开此页面。'
+        document.getElementById('runBtn').disabled = false
+        console.error(err)
+      })
+    })
+  </script>
+</body>
+</html>
