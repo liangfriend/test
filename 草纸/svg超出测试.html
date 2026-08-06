@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SVG g 嵌套超出展示 Demo</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; padding: 16px; }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; }
+    .title { font-weight: 600; margin: 0 0 8px; }
+    .note { color: #666; margin: 0 0 10px; font-size: 13px; }
+    svg { background: #fafafa; border: 1px dashed #bbb; }
+  </style>
+  <script>
+    function ca() {
+      console.log('small',)
+
+    }
+    function cl(e) {
+      console.log('big',e.target)
+
+    }
+  </script>
+</head>
+<body>
+<h2>SVG：大 g 套小 g，内容超出时会怎样？</h2>
+<p class="note">
+  左：没有裁剪（默认）。右：对父 g 应用 clipPath（显式裁剪）。
+</p>
+
+<div class="row">
+  <!-- 1) 默认：不会因为父 g 而裁剪 -->
+  <div class="card">
+    <p class="title">默认（不裁剪）</p>
+    <svg width="360" height="220" viewBox="0 0 360 220">
+      <!-- 大 g：只是做 transform/组织结构用，不是“有宽高的容器” -->
+      <g id="big" transform="translate(40,40)"  onClick="cl(event)">
+        <!-- 用一个 rect “画出大 g 的视觉边界”（只是辅助观察） -->
+        <rect x="0" y="0" width="160" height="110" fill="white" stroke="black" stroke-width="2"/>
+        <text x="0" y="-10" font-size="12">Big g 边界(160×110)——仅用于观察</text>
+
+        <!-- 小 g：内容故意画得更大，并且向右下偏移 -->
+        <g id="small" transform="translate(60,35)" onClick="ca()">
+          <!-- “小 g 的边界”同样用 rect 标出来 -->
+          <rect x="0" y="0" width="220" height="140" fill="rgba(0,128,255,0.08)" stroke="rgba(0,128,255,0.9)" stroke-width="2"/>
+          <text x="0" y="-10" font-size="12" fill="rgba(0,128,255,0.9)">Small g 内容(220×140)</text>
+
+          <!-- 额外画一些更夸张的内容，确保超出 -->
+          <circle cx="210" cy="120" r="35" fill="rgba(255,0,0,0.25)" stroke="red" stroke-width="2"/>
+          <line x1="-20" y1="70" x2="260" y2="70" stroke="orange" stroke-width="4"/>
+        </g>
+      </g>
+    </svg>
+    <p class="note">你会看到蓝色/红色内容会跑出黑色框（大 g）之外。</p>
+  </div>
+
+  <!-- 2) 用 clipPath：让“父 g”表现得像有裁剪边界 -->
+  <div class="card">
+    <p class="title">使用 clipPath（裁剪到大 g 的矩形范围）</p>
+    <svg width="360" height="220" viewBox="0 0 360 220">
+      <defs>
+        <!-- 注意：clipPath 定义的是裁剪区域，这里用与大 g 一样的矩形 -->
+        <clipPath id="clip-big">
+          <rect x="0" y="0" width="160" height="110"></rect>
+        </clipPath>
+      </defs>
+
+      <g transform="translate(40,40)">
+        <!-- 大 g 边界 -->
+        <rect x="0" y="0" width="160" height="110" fill="white" stroke="black" stroke-width="2"/>
+        <text x="0" y="-10" font-size="12">Big g 边界(160×110)</text>
+
+        <!-- 将 clipPath 应用到一个包裹 g 上（模拟“大 g 裁剪子内容”） -->
+        <g clip-path="url(#clip-big)">
+          <g transform="translate(60,35)">
+            <rect x="0" y="0" width="220" height="140" fill="rgba(0,128,255,0.08)" stroke="rgba(0,128,255,0.9)" stroke-width="2"/>
+            <text x="0" y="-10" font-size="12" fill="rgba(0,128,255,0.9)">Small g 内容(220×140)</text>
+
+            <circle cx="210" cy="120" r="35" fill="rgba(255,0,0,0.25)" stroke="red" stroke-width="2"/>
+            <line x1="-20" y1="70" x2="260" y2="70" stroke="orange" stroke-width="4"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <p class="note">超出黑色框的部分会被裁掉。</p>
+  </div>
+</div>
+
+<hr />
+
+<h3>你可以顺手改几个点观察差异</h3>
+<ul>
+  <li>改小 g 的 <code>transform="translate(60,35)"</code>，看超出位置变化。</li>
+  <li>改最外层 <code>&lt;svg viewBox&gt;</code> 或 <code>width/height</code>，看“SVG 视口”对最终可见区域的影响。</li>
+  <li>把右侧的 <code>clip-path</code> 去掉，就会回到默认不裁剪。</li>
+</ul>
+</body>
+</html>

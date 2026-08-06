@@ -1,0 +1,8 @@
+{
+  "name": "test-scripts",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "audio-decode": "^2.2.3"
+  }
+}

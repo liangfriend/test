@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>深海</title>
+  <style>
+    * { margin: 0; box-sizing: border-box; }
+    body {
+      overflow: hidden;
+      background: #020c1a;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    const dpr = Math.min(devicePixelRatio || 1, 2)
+
+    let w, h, time = 0
+    let particles = [], bubbles = [], rays = [], waves = []
+
+    function rand(a, b) {
+      return a + Math.random() * (b - a)
+    }
+
+    function resize() {
+      w = innerWidth
+      h = innerHeight
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      initScene()
+    }
+
+    function initScene() {
+      particles = []
+      bubbles = []
+      rays = []
+      waves = []
+
+      const count = Math.min(320, Math.floor(w * h / 3500))
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          depth: rand(0.2, 1),
+          size: rand(0.6, 2.8),
+          phase: rand(0, Math.PI * 2),
+          drift: rand(0.15, 0.55),
+          hue: rand(185, 215),
+          alpha: rand(0.08, 0.45),
+        })
+      }
+
+      const bubbleCount = 18 + (w * h / 80000 | 0)
+      for (let i = 0; i < bubbleCount; i++) {
+        bubbles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: rand(2, 14),
+          speed: rand(0.15, 0.7),
+          wobble: rand(0, Math.PI * 2),
+          wobbleSpeed: rand(0.01, 0.03),
+          alpha: rand(0.06, 0.22),
+        })
+      }
+
+      const rayCount = 5 + (w / 400 | 0)
+      for (let i = 0; i < rayCount; i++) {
+        rays.push({
+          x: w * (0.2 + Math.random() * 0.6),
+          width: rand(40, 140),
+          angle: rand(-0.12, 0.12),
+          alpha: rand(0.03, 0.09),
+          phase: rand(0, Math.PI * 2),
+        })
+      }
+
+      for (let i = 0; i < 4; i++) {
+        waves.push({
+          y: h * (0.15 + i * 0.22),
+          amp: rand(18, 45),
+          len: rand(0.004, 0.009),
+          speed: rand(0.0004, 0.001),
+          phase: rand(0, Math.PI * 2),
+          alpha: rand(0.025, 0.06),
+        })
+      }
+    }
+
+    function drawBackground() {
+      const g = ctx.createLinearGradient(0, 0, 0, h)
+      g.addColorStop(0, '#0e4d7a')
+      g.addColorStop(0.25, '#083a5e')
+      g.addColorStop(0.55, '#052845')
+      g.addColorStop(0.8, '#031a2e')
+      g.addColorStop(1, '#010d18')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, w, h)
+
+      const spot = ctx.createRadialGradient(w * 0.5, h * 0.05, 0, w * 0.5, h * 0.35, w * 0.7)
+      spot.addColorStop(0, 'rgba(80, 180, 255, 0.18)')
+      spot.addColorStop(0.4, 'rgba(30, 100, 180, 0.08)')
+      spot.addColorStop(1, 'rgba(0,0,0,0)')
+      ctx.fillStyle = spot
+      ctx.fillRect(0, 0, w, h)
+
+      const deep = ctx.createRadialGradient(w * 0.5, h, 0, w * 0.5, h, h * 0.9)
+      deep.addColorStop(0, 'rgba(0, 5, 15, 0.5)')
+      deep.addColorStop(1, 'rgba(0,0,0,0)')
+      ctx.fillStyle = deep
+      ctx.fillRect(0, 0, w, h)
+    }
+
+    function drawRays(t) {
+      for (const r of rays) {
+        const sway = Math.sin(t * 0.0006 + r.phase) * 0.08
+        const a = r.alpha * (0.8 + Math.sin(t * 0.0008 + r.phase) * 0.2)
+        ctx.save()
+        ctx.translate(r.x, -20)
+        ctx.rotate(r.angle + sway)
+        const g = ctx.createLinearGradient(0, 0, 0, h * 1.1)
+        g.addColorStop(0, `rgba(120, 210, 255, ${a * 1.2})`)
+        g.addColorStop(0.35, `rgba(60, 150, 220, ${a * 0.6})`)
+        g.addColorStop(0.7, `rgba(20, 80, 140, ${a * 0.2})`)
+        g.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = g
+        ctx.fillRect(-r.width / 2, 0, r.width, h * 1.1)
+        ctx.restore()
+      }
+    }
+
+    function drawWaves(t) {
+      for (const wave of waves) {
+        const offset = t * wave.speed + wave.phase
+        ctx.beginPath()
+        ctx.moveTo(0, wave.y)
+        for (let x = 0; x <= w; x += 8) {
+          const y = wave.y + Math.sin(x * wave.len + offset) * wave.amp
+            + Math.sin(x * wave.len * 2.3 + offset * 1.4) * wave.amp * 0.35
+          ctx.lineTo(x, y)
+        }
+        ctx.lineTo(w, h)
+        ctx.lineTo(0, h)
+        ctx.closePath()
+        ctx.fillStyle = `rgba(40, 140, 220, ${wave.alpha})`
+        ctx.fill()
+      }
+    }
+
+    function drawCaustics(t) {
+      ctx.save()
+      ctx.globalCompositeOperation = 'screen'
+      const cell = 90
+      for (let x = 0; x < w + cell; x += cell) {
+        for (let y = 0; y < h + cell; y += cell) {
+          const nx = x / w
+          const ny = y / h
+          const v = Math.sin(nx * 8 + t * 0.0012 + ny * 3)
+            * Math.cos(ny * 7 - t * 0.0009 + nx * 2)
+          if (v < 0.55) continue
+          const a = (v - 0.55) * 0.12
+          ctx.beginPath()
+          ctx.arc(
+            x + Math.sin(t * 0.0007 + y * 0.01) * 12,
+            y + Math.cos(t * 0.0006 + x * 0.01) * 10,
+            18 + v * 14,
+            0, Math.PI * 2
+          )
+          ctx.fillStyle = `rgba(100, 200, 255, ${a})`
+          ctx.fill()
+        }
+      }
+      ctx.restore()
+    }
+
+    function updateAndDrawParticles(t) {
+      particles.sort((a, b) => a.depth - b.depth)
+
+      for (const p of particles) {
+        const flowX = Math.sin(t * 0.0005 * p.depth + p.phase) * p.drift
+        const flowY = Math.cos(t * 0.0004 * p.depth + p.phase * 1.3) * p.drift * 0.6
+          + 0.08 * p.depth
+        p.x += flowX
+        p.y += flowY
+
+        if (p.x < -10) p.x = w + 10
+        if (p.x > w + 10) p.x = -10
+        if (p.y < -10) p.y = h + 10
+        if (p.y > h + 10) p.y = -10
+
+        const tw = 0.7 + Math.sin(t * 0.002 + p.phase) * 0.3
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.size * p.depth, 0, Math.PI * 2)
+        ctx.fillStyle = `hsla(${p.hue}, 80%, ${55 + p.depth * 25}%, ${p.alpha * tw})`
+        ctx.fill()
+      }
+    }
+
+    function updateAndDrawBubbles(t) {
+      for (const b of bubbles) {
+        b.wobble += b.wobbleSpeed
+        b.y -= b.speed
+        b.x += Math.sin(b.wobble) * 0.35
+
+        if (b.y < -b.r * 2) {
+          b.y = h + b.r
+          b.x = Math.random() * w
+        }
+
+        ctx.beginPath()
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2)
+        ctx.strokeStyle = `rgba(160, 230, 255, ${b.alpha})`
+        ctx.lineWidth = 1
+        ctx.stroke()
+
+        const g = ctx.createRadialGradient(
+          b.x - b.r * 0.3, b.y - b.r * 0.3, 0,
+          b.x, b.y, b.r
+        )
+        g.addColorStop(0, `rgba(200, 245, 255, ${b.alpha * 0.5})`)
+        g.addColorStop(1, 'rgba(100, 180, 220, 0)')
+        ctx.fillStyle = g
+        ctx.fill()
+      }
+    }
+
+    function drawVignette() {
+      const g = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.25, w / 2, h / 2, Math.max(w, h) * 0.75)
+      g.addColorStop(0, 'rgba(0,0,0,0)')
+      g.addColorStop(1, 'rgba(0, 8, 20, 0.45)')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, w, h)
+    }
+
+    function frame(now) {
+      time = now
+      drawBackground()
+      drawRays(now)
+      drawWaves(now)
+      drawCaustics(now)
+      updateAndDrawParticles(now)
+      updateAndDrawBubbles(now)
+      drawVignette()
+      requestAnimationFrame(frame)
+    }
+
+    window.addEventListener('resize', resize)
+    resize()
+    requestAnimationFrame(frame)
+  </script>
+</body>
+</html>

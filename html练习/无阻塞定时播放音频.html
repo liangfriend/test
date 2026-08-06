@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  const audioUrl = "../resources/audios/fanchang.mp3";
+
+
+  /** 阻塞主线程 N 毫秒（同步忙等）。只有这种写法才会让 setInterval 等定时器延后执行。 */
+  function blockMainThread(ms) {
+    const end = Date.now() + ms
+    while (Date.now() < end) {}
+  }
+  function initSource(context, gainNode, audioBuffer) {
+    const source = context.createBufferSource()
+    source.buffer = audioBuffer
+    source.connect(gainNode).connect(context.destination)
+    return source
+  }
+
+  /**
+   * 用 Web Audio 的时钟做精确定时：不依赖 setInterval。
+   * context.currentTime 由音频设备驱动，主线程阻塞不会拖慢它；
+   * source.start(when) 把播放时间交给音频线程，到点就播。
+   */
+  function schedulePeriodic(context, gainNode, audioBuffer, intervalSec, count) {
+    const startTime = context.currentTime
+    for (let i = 0; i < count; i++) {
+      const source = initSource(context, gainNode, audioBuffer)
+      source.start(startTime + i * intervalSec)
+      console.log('chicken',startTime + i * intervalSec)
+    }
+  }
+
+  async function test() {
+    const context = new AudioContext()
+    await context.resume()
+    const gainNode = context.createGain()
+    gainNode.gain.value = 1
+    const arrayBuffer = await (await fetch("../resources/audios/low.wav")).arrayBuffer()
+    const audioBuffer = await context.decodeAudioData(arrayBuffer)
+
+    schedulePeriodic(context, gainNode, audioBuffer, 1, 1000)
+    blockMainThread(5000)
+    console.log('主线程卡了 5 秒，但前 5 声应该已经按秒响过了')
+  }
+
+  // ========== 精准播放 + 变速/变调（每次排期读当前配置）==========
+
+  /** 可被用户随时修改，检查器每次排期时读取 */
+  const playbackState = { bpm: 120, detune: 0 } // detune 单位：音分
+
+  /**
+   * 根据当前 BPM 计算 [startTime, endTime) 内的节拍时间点（简单节拍器）
+   * 返回应在该区间内触发的精确 currentTime 数组
+   */
+  function getBeatTimesInRange(startTime, endTime, bpm) {
+    const intervalSec = 60 / bpm
+    const times = []
+    let t = Math.ceil(startTime / intervalSec) * intervalSec
+    if (t < startTime) t += intervalSec
+    while (t < endTime) {
+      times.push(t)
+      t += intervalSec
+    }
+    return times
+  }
+
+  function createSourceWithPitch(context, gainNode, audioBuffer, detuneCents) {
+    const source = context.createBufferSource()
+    source.buffer = audioBuffer
+    source.detune.value = detuneCents // 音分，变调
+    source.connect(gainNode).connect(context.destination)
+    return source
+  }
+
+  /**
+   * 精准排期：每 50ms 检查一次，对未来 100ms 窗口内、且尚未排期的音符执行 source.start。
+   * 每次排期时使用当前的 playbackState.bpm / playbackState.detune，所以用户中途变速/变调会在下一轮生效。
+   */
+  function startPreciseScheduler(context, gainNode, audioBuffer) {
+    const CHECK_INTERVAL_MS = 50
+    const LOOKAHEAD_SEC = 0.1  // 100ms
+    let scheduledUpTo = context.currentTime
+
+    function tick() {
+      const now = context.currentTime
+          , windowEnd = now + LOOKAHEAD_SEC
+      if (scheduledUpTo >= windowEnd) return
+      const bpm = playbackState.bpm
+      const detune = playbackState.detune
+      const times = getBeatTimesInRange(scheduledUpTo, windowEnd, bpm)
+      for (const t of times) {
+        const source = createSourceWithPitch(context, gainNode, audioBuffer, detune)
+        source.start(t)
+      }
+      scheduledUpTo = windowEnd
+    }
+
+    tick()
+    const tid = setInterval(tick, CHECK_INTERVAL_MS)
+    return () => clearInterval(tid)
+  }
+
+</script>
+</head>
+<body>
+<button onclick="test()">播放</button>
+<br><br>
+<label>BPM <input type="number" id="bpm" value="120" min="60" max="240" onchange="playbackState.bpm=+this.value"></label>
+<label> 变调(音分) <input type="number" id="detune" value="0" step="100" onchange="playbackState.detune=+this.value"></label>
+</body>
+</html>

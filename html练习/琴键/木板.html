@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>琴键 · 木板</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: system-ui, sans-serif; background: #251d12; color: #eee; padding: 24px; min-height: 100vh; }
+    h1 { font-size: 1.2rem; margin-bottom: 8px; }
+    .desc { color: #a89880; font-size: 0.9rem; margin-bottom: 24px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin-bottom: 28px; padding: 16px; background: #382c1e; border-radius: 10px; }
+    label { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; color: #cbb89a; }
+    input[type="number"] { width: 88px; padding: 6px 8px; border: 1px solid #5a4a38; border-radius: 6px; background: #201810; color: #fff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+    .card { background: #382c1e; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .card h3 { font-size: 0.9rem; color: #dcc8a8; font-weight: 500; }
+    .key-wrap { display: flex; align-items: flex-end; justify-content: center; min-height: 140px; padding: 12px; background: #18120a; border-radius: 8px; width: 100%; }
+    .demo { margin-top: 32px; padding: 24px; background: #382c1e; border-radius: 12px; }
+    .demo h2 { font-size: 1rem; margin-bottom: 16px; }
+    .keyboard { position: relative; display: inline-flex; align-items: flex-start; user-select: none; }
+    .white-row { display: flex; align-items: flex-start; }
+    .black-row { position: absolute; top: 0; left: 0; width: 100%; height: 60%; pointer-events: none; }
+    .black-slot { position: absolute; top: 0; pointer-events: auto; cursor: pointer; transform: translateX(-50%); }
+    .white-slot { cursor: pointer; line-height: 0; flex-shrink: 0; }
+    .white-slot svg, .black-slot svg { display: block; }
+    .size-tag { font-size: 0.75rem; color: #887868; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>琴键 · 木板</h1>
+  <p class="desc">真实木纹（湍流滤镜）+ 节疤、裂缝、做旧。白键=木板，黑键=木桩端面年轮。</p>
+
+  <div class="controls">
+    <label>白键宽 <input type="number" id="whiteW" value="20" min="8" max="80"></label>
+    <label>白键高 <input type="number" id="whiteH" value="100" min="40" max="300"></label>
+    <label>黑键比例 <input type="number" id="blackRatio" value="0.6" min="0.3" max="0.9" step="0.05"></label>
+  </div>
+
+  <div class="grid" id="showcase"></div>
+  <div class="demo">
+    <h2>交互演示（点击按下）</h2>
+    <div class="keyboard" id="keyboard"></div>
+  </div>
+
+  <script>
+    function getKeySizes(whiteW = 20, whiteH = 100, blackRatio = 0.6) {
+      return { white: { w: whiteW, h: whiteH }, black: { w: whiteW * blackRatio, h: whiteH * blackRatio }, blackRatio }
+    }
+    function uid(p) { return p + Math.random().toString(36).slice(2, 8) }
+    function ri(a, b) { return a + Math.random() * (b - a) }
+
+    /* 沿木板长向（竖向）的裂缝/木裂 */
+    function crackPath(x, yTop, yBot, segs, jitter) {
+      let d = `M${x.toFixed(1)} ${yTop}`
+      for (let i = 1; i <= segs; i++) {
+        const y = yTop + (yBot - yTop) * i / segs
+        const nx = x + (Math.random() - 0.5) * jitter
+        d += ` L${nx.toFixed(1)} ${y.toFixed(1)}`
+      }
+      return d
+    }
+
+    /* 白键：木板。turbulence 生成竖向木纹，叠节疤+裂缝+做旧 */
+    function whiteKeySvg(w, h) {
+      const id = uid('ww')
+      const seed = (Math.random() * 100) | 0
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 20 100" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="${id}-base" x1="0" y1="0" x2="1" y2="0.06">
+      <stop offset="0%" stop-color="#b98a4e"/>
+      <stop offset="45%" stop-color="#cf9f63"/>
+      <stop offset="78%" stop-color="#bd8d50"/>
+      <stop offset="100%" stop-color="#a87a42"/>
+    </linearGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a3753c"/><stop offset="100%" stop-color="#7d5628"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#9c7038"/><stop offset="100%" stop-color="#7a5428"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8e6630"/><stop offset="100%" stop-color="#6c481f"/>
+    </linearGradient>
+    <!-- 木纹：竖向高频湍流，映射为深棕半透明条纹 -->
+    <filter id="${id}-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="turbulence" baseFrequency="0.62 0.022" numOctaves="5" seed="${seed}" result="t"/>
+      <feColorMatrix in="t" type="matrix"
+        values="0 0 0 0 0.30
+                0 0 0 0 0.17
+                0 0 0 0 0.06
+                0 0 0 1.2 -0.5"/>
+    </filter>
+    <!-- 低频色块：让木色有深浅不均 -->
+    <filter id="${id}-blotch" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.03" numOctaves="2" seed="${seed + 7}" result="t"/>
+      <feColorMatrix in="t" type="matrix"
+        values="0 0 0 0 0.20
+                0 0 0 0 0.12
+                0 0 0 0 0.04
+                0 0 0 0.5 -0.18"/>
+    </filter>
+  </defs>
+  <path d="M0 82 H20 V96.5 Q20 100 17 100 H3 Q0 100 0 96.5 Z" fill="url(#${id}-front)"/>
+  <rect x="0" y="82" width="1.3" height="18" fill="url(#${id}-edgeL)"/>
+  <rect x="18.7" y="82" width="1.3" height="18" fill="url(#${id}-edgeR)"/>
+  <rect x="0" y="0" width="20" height="82" fill="url(#${id}-base)"/>
+  <rect x="0" y="0" width="20" height="82" filter="url(#${id}-blotch)"/>
+  <rect x="0" y="0" width="20" height="82" filter="url(#${id}-grain)"/>
+  <!-- 裂缝（做旧） -->
+  <path d="${crackPath(ri(3, 8), 2, 78, 9, 1.4)}" stroke="#2a1808" stroke-width="0.5" fill="none" opacity="0.55" stroke-linecap="round"/>
+  <path d="${crackPath(ri(12, 17), 6, 74, 8, 1.2)}" stroke="#341c0a" stroke-width="0.4" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <!-- 边缘磨损发暗 -->
+  <rect x="0" y="0" width="1.6" height="82" fill="rgba(40,22,8,0.28)"/>
+  <rect x="18.4" y="0" width="1.6" height="82" fill="rgba(40,22,8,0.34)"/>
+  <line x1="20" y1="0" x2="20" y2="100" stroke="rgba(40,22,8,0.35)" stroke-width="0.5"/>
+  <line x1="0" y1="82" x2="20" y2="82" stroke="rgba(40,22,8,0.25)" stroke-width="0.5"/>
+</svg>`
+    }
+
+    function whiteKeyPressedSvg(w, h) {
+      const id = uid('wwp')
+      const seed = (Math.random() * 100) | 0
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 20 100" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="${id}-base" x1="0" y1="0" x2="1" y2="0.06">
+      <stop offset="0%" stop-color="#9a7038"/>
+      <stop offset="50%" stop-color="#ad8048"/>
+      <stop offset="100%" stop-color="#8c6432"/>
+    </linearGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#80582a"/><stop offset="100%" stop-color="#5e3e1c"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#7c5630"/><stop offset="100%" stop-color="#5e3e1c"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#704c28"/><stop offset="100%" stop-color="#523619"/>
+    </linearGradient>
+    <filter id="${id}-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="turbulence" baseFrequency="0.62 0.022" numOctaves="5" seed="${seed}" result="t"/>
+      <feColorMatrix in="t" type="matrix"
+        values="0 0 0 0 0.22
+                0 0 0 0 0.12
+                0 0 0 0 0.04
+                0 0 0 1.2 -0.5"/>
+    </filter>
+  </defs>
+  <path d="M0 87 H20 V96.5 Q20 100 17 100 H3 Q0 100 0 96.5 Z" fill="url(#${id}-front)"/>
+  <rect x="0" y="87" width="1.3" height="13" fill="url(#${id}-edgeL)"/>
+  <rect x="18.7" y="87" width="1.3" height="13" fill="url(#${id}-edgeR)"/>
+  <rect x="0" y="0" width="20" height="87" fill="url(#${id}-base)"/>
+  <rect x="0" y="0" width="20" height="87" filter="url(#${id}-grain)"/>
+  <path d="${crackPath(ri(4, 9), 2, 84, 9, 1.4)}" stroke="#2a1808" stroke-width="0.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+  <rect x="0" y="0" width="1.6" height="87" fill="rgba(30,16,6,0.3)"/>
+  <rect x="18.4" y="0" width="1.6" height="87" fill="rgba(30,16,6,0.36)"/>
+  <rect x="0" y="84" width="20" height="3" fill="rgba(20,10,4,0.2)"/>
+  <line x1="20" y1="0" x2="20" y2="100" stroke="rgba(30,16,6,0.4)" stroke-width="0.5"/>
+  <line x1="0" y1="87" x2="20" y2="87" stroke="rgba(30,16,6,0.3)" stroke-width="0.5"/>
+</svg>`
+    }
+
+    /* 端面年轮（木桩顶面） */
+    function endRings(id, cx, cy, n, maxRx, ratio) {
+      let s = ''
+      let ox = 0, oy = 0
+      for (let i = 1; i <= n; i++) {
+        const rx = (maxRx * i) / n
+        ox += (Math.random() - 0.5) * 0.5
+        oy += (Math.random() - 0.5) * 0.3
+        const col = i % 2 ? '#321e0c' : '#5a3c1e'
+        s += `<ellipse cx="${(cx + ox).toFixed(1)}" cy="${(cy + oy).toFixed(1)}" rx="${rx.toFixed(1)}" ry="${(rx * ratio).toFixed(1)}" fill="none" stroke="${col}" stroke-width="${(0.55 - i * 0.03).toFixed(2)}" opacity="${(0.7 - i * 0.05).toFixed(2)}"/>`
+      }
+      return s
+    }
+
+    /* 黑键：木桩，端面年轮 + 树皮侧 + 放射裂纹 */
+    function blackKeySvg(w, h) {
+      const id = uid('ws')
+      const seed = (Math.random() * 100) | 0
+      const cx = 6, cy = 22
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 12 60" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <radialGradient id="${id}-top" cx="48%" cy="42%" r="62%">
+      <stop offset="0%" stop-color="#8a5e34"/>
+      <stop offset="55%" stop-color="#5e3c20"/>
+      <stop offset="100%" stop-color="#3e2814"/>
+    </radialGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3e2814"/><stop offset="100%" stop-color="#22140a"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#3a2412"/><stop offset="100%" stop-color="#1e1208"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#33200f"/><stop offset="100%" stop-color="#1a1006"/>
+    </linearGradient>
+    <filter id="${id}-rough" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9 0.9" numOctaves="3" seed="${seed}" result="t"/>
+      <feColorMatrix in="t" type="matrix"
+        values="0 0 0 0 0.20
+                0 0 0 0 0.12
+                0 0 0 0 0.05
+                0 0 0 0.6 -0.25"/>
+    </filter>
+    <filter id="${id}-bark" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="turbulence" baseFrequency="0.05 0.6" numOctaves="4" seed="${seed + 3}" result="t"/>
+      <feColorMatrix in="t" type="matrix"
+        values="0 0 0 0 0.14
+                0 0 0 0 0.08
+                0 0 0 0 0.03
+                0 0 0 1.4 -0.55"/>
+    </filter>
+    <filter id="${id}-shadow" x="-20%" y="-10%" width="140%" height="132%">
+      <feDropShadow dx="0" dy="1" stdDeviation="0.8" flood-color="#120a04" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <g filter="url(#${id}-shadow)">
+    <!-- 树皮侧面 -->
+    <path d="M0 46 H12 V57 Q12 59.5 10 59.5 H2 Q0 59.5 0 57 Z" fill="url(#${id}-front)"/>
+    <path d="M0 46 H12 V57 Q12 59.5 10 59.5 H2 Q0 59.5 0 57 Z" filter="url(#${id}-bark)"/>
+    <rect x="0" y="46" width="0.9" height="13.5" fill="url(#${id}-edgeL)"/>
+    <rect x="11.1" y="46" width="0.9" height="13.5" fill="url(#${id}-edgeR)"/>
+    <!-- 端面 -->
+    <rect x="0" y="0" width="12" height="46" fill="url(#${id}-top)"/>
+    <rect x="0" y="0" width="12" height="46" filter="url(#${id}-rough)"/>
+    ${endRings(id, cx, cy, 7, 5.6, 0.92)}
+    <!-- 髓心 -->
+    <ellipse cx="${cx}" cy="${cy}" rx="0.8" ry="0.7" fill="#1c1006"/>
+    <!-- 放射裂纹 -->
+    <path d="M${cx} ${cy} L${cx - 0.4} 2" stroke="#1c1006" stroke-width="0.5" opacity="0.6"/>
+    <path d="M${cx} ${cy} L11.4 ${cy + 4}" stroke="#1c1006" stroke-width="0.45" opacity="0.5"/>
+    <path d="M${cx} ${cy} L1 ${cy - 6}" stroke="#1c1006" stroke-width="0.4" opacity="0.45"/>
+    <path d="M${cx} ${cy} L${cx + 1.5} 44" stroke="#1c1006" stroke-width="0.4" opacity="0.4"/>
+    <line x1="0" y1="46" x2="12" y2="46" stroke="rgba(20,10,4,0.4)" stroke-width="0.4"/>
+  </g>
+</svg>`
+    }
+
+    function blackKeyPressedSvg(w, h) {
+      const id = uid('wsp')
+      const seed = (Math.random() * 100) | 0
+      const cx = 6, cy = 24
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 12 60" fill="none" shape-rendering="geometricPrecision">
+  <defs>
+    <radialGradient id="${id}-top" cx="48%" cy="42%" r="62%">
+      <stop offset="0%" stop-color="#6a4626"/>
+      <stop offset="55%" stop-color="#442c16"/>
+      <stop offset="100%" stop-color="#281808"/>
+    </radialGradient>
+    <linearGradient id="${id}-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#281808"/><stop offset="100%" stop-color="#130b04"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeL" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#281808"/><stop offset="100%" stop-color="#140c04"/>
+    </linearGradient>
+    <linearGradient id="${id}-edgeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#221406"/><stop offset="100%" stop-color="#100a04"/>
+    </linearGradient>
+    <filter id="${id}-rough" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9 0.9" numOctaves="3" seed="${seed}" result="t"/>
+      <feColorMatrix in="t" type="matrix"
+        values="0 0 0 0 0.14
+                0 0 0 0 0.08
+                0 0 0 0 0.03
+                0 0 0 0.7 -0.3"/>
+    </filter>
+  </defs>
+  <path d="M0 52 H12 V57 Q12 59.5 10 59.5 H2 Q0 59.5 0 57 Z" fill="url(#${id}-front)"/>
+  <rect x="0" y="52" width="0.9" height="7.5" fill="url(#${id}-edgeL)"/>
+  <rect x="11.1" y="52" width="0.9" height="7.5" fill="url(#${id}-edgeR)"/>
+  <rect x="0" y="0" width="12" height="52" fill="url(#${id}-top)"/>
+  <rect x="0" y="0" width="12" height="52" filter="url(#${id}-rough)"/>
+  ${endRings(id, cx, cy, 7, 5.6, 0.92)}
+  <ellipse cx="${cx}" cy="${cy}" rx="0.8" ry="0.7" fill="#140c04"/>
+  <path d="M${cx} ${cy} L${cx - 0.4} 2" stroke="#140c04" stroke-width="0.5" opacity="0.6"/>
+  <path d="M${cx} ${cy} L11.4 ${cy + 4}" stroke="#140c04" stroke-width="0.45" opacity="0.5"/>
+  <rect x="0" y="50" width="12" height="2.5" fill="rgba(15,8,3,0.3)"/>
+  <line x1="0" y1="52" x2="12" y2="52" stroke="rgba(15,8,3,0.55)" stroke-width="0.55"/>
+</svg>`
+    }
+
+    const showcase = document.getElementById('showcase')
+    const keyboard = document.getElementById('keyboard')
+    const whiteWInput = document.getElementById('whiteW')
+    const whiteHInput = document.getElementById('whiteH')
+    const blackRatioInput = document.getElementById('blackRatio')
+
+    function readParams() {
+      return getKeySizes(+whiteWInput.value || 20, +whiteHInput.value || 100, +blackRatioInput.value || 0.6)
+    }
+    function renderShowcase() {
+      const { white, black } = readParams()
+      const items = [
+        { title: '木板白键', fn: whiteKeySvg, size: white },
+        { title: '木板白键（按下）', fn: whiteKeyPressedSvg, size: white },
+        { title: '木桩黑键', fn: blackKeySvg, size: black },
+        { title: '木桩黑键（按下）', fn: blackKeyPressedSvg, size: black },
+      ]
+      showcase.innerHTML = items.map(item => `
+        <div class="card"><h3>${item.title}</h3>
+          <div class="key-wrap">${item.fn(item.size.w, item.size.h)}</div>
+          <span class="size-tag">${item.size.w.toFixed(1)} × ${item.size.h.toFixed(1)}</span>
+        </div>`).join('')
+    }
+    const BLACK_LAYOUT = [{ after: 0 }, { after: 1 }, { after: 3 }, { after: 4 }, { after: 5 }]
+    function renderKeyboard() {
+      const { white, black } = readParams()
+      let wh = '<div class="white-row">'
+      for (let i = 0; i < 7; i++) wh += `<div class="white-slot" data-key="w${i}" data-type="white">${whiteKeySvg(white.w, white.h)}</div>`
+      wh += '</div>'
+      let bh = '<div class="black-row">'
+      for (const b of BLACK_LAYOUT) {
+        const left = (b.after + 1) * white.w - white.w * 0.5
+        bh += `<div class="black-slot" data-key="b${b.after}" data-type="black" style="left:${left}px">${blackKeySvg(black.w, black.h)}</div>`
+      }
+      bh += '</div>'
+      keyboard.innerHTML = wh + bh
+      keyboard.style.height = white.h + 'px'
+      keyboard.querySelectorAll('[data-key]').forEach(el => {
+        const down = () => setKeyState(el, true), up = () => setKeyState(el, false)
+        el.addEventListener('mousedown', down)
+        el.addEventListener('mouseup', up)
+        el.addEventListener('mouseleave', up)
+        el.addEventListener('touchstart', e => { e.preventDefault(); down() }, { passive: false })
+        el.addEventListener('touchend', up)
+      })
+    }
+    function setKeyState(el, isPressed) {
+      const { white, black } = readParams()
+      const fns = el.dataset.type === 'white'
+        ? [whiteKeySvg, whiteKeyPressedSvg, white.w, white.h]
+        : [blackKeySvg, blackKeyPressedSvg, black.w, black.h]
+      el.innerHTML = (isPressed ? fns[1] : fns[0])(fns[2], fns[3])
+    }
+    function render() { renderShowcase(); renderKeyboard() }
+    ;[whiteWInput, whiteHInput, blackRatioInput].forEach(i => i.addEventListener('input', render))
+    render()
+    window.PianoKeySvg = { getKeySizes, whiteKeySvg, whiteKeyPressedSvg, blackKeySvg, blackKeyPressedSvg }
+  </script>
+</body>
+</html>

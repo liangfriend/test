@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>墨滴入水</title>
+  <style>
+    * { margin: 0; box-sizing: border-box; }
+    body {
+      overflow: hidden;
+      background: #eef2f4;
+      font-family: system-ui, sans-serif;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      cursor: crosshair;
+    }
+    .hint {
+      position: fixed;
+      left: 16px;
+      bottom: 14px;
+      color: #91a0a8;
+      font-size: 13px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hint b { color: #5c6b73; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <p class="hint">点击 / 拖动落墨 · <b>双击清屏</b></p>
+
+  <script>
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    let w, h
+
+    function resize() {
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      paintWater()
+    }
+
+    /* ---------- 值噪声 + curl 场（让墨丝有机地卷曲） ---------- */
+    const perm = new Uint8Array(512)
+    ;(() => {
+      const p = Array.from({ length: 256 }, (_, i) => i)
+      for (let i = 255; i > 0; i--) {
+        const j = (Math.random() * (i + 1)) | 0
+        ;[p[i], p[j]] = [p[j], p[i]]
+      }
+      for (let i = 0; i < 512; i++) perm[i] = p[i & 255]
+    })()
+
+    function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10) }
+    function lerp(a, b, t) { return a + (b - a) * t }
+    function grad(hash, x, y) {
+      switch (hash & 3) {
+        case 0: return x + y
+        case 1: return -x + y
+        case 2: return x - y
+        default: return -x - y
+      }
+    }
+    function noise(x, y) {
+      const X = Math.floor(x) & 255, Y = Math.floor(y) & 255
+      x -= Math.floor(x); y -= Math.floor(y)
+      const u = fade(x), v = fade(y)
+      const aa = perm[perm[X] + Y], ab = perm[perm[X] + Y + 1]
+      const ba = perm[perm[X + 1] + Y], bb = perm[perm[X + 1] + Y + 1]
+      return lerp(
+        lerp(grad(aa, x, y), grad(ba, x - 1, y), u),
+        lerp(grad(ab, x, y - 1), grad(bb, x - 1, y - 1), u),
+        v
+      )
+    }
+    const FIELD = 0.0016 // 噪声场缩放：越小越平缓、丝越长
+    function curl(x, y) {
+      const e = 1
+      const dx = (noise((x + e) * FIELD, y * FIELD) - noise((x - e) * FIELD, y * FIELD)) / (2 * e)
+      const dy = (noise(x * FIELD, (y + e) * FIELD) - noise(x * FIELD, (y - e) * FIELD)) / (2 * e)
+      return { x: dy, y: -dx } // 旋度方向，产生漩涡丝缕
+    }
+
+    /* ---------- 墨粒子：向外冲 + 卷曲 + 分叉，留下丝状拖尾 ---------- */
+    const particles = []
+    const MAX_PARTICLES = 2600
+
+    class Particle {
+      constructor(x, y, vx, vy, radius, life, depth, hue) {
+        this.x = x; this.y = y
+        this.px = x; this.py = y
+        this.vx = vx; this.vy = vy
+        this.radius = radius
+        this.life = life
+        this.maxLife = life
+        this.depth = depth // 分叉代数，越深越细
+        this.hue = hue
+      }
+
+      step() {
+        this.px = this.x
+        this.py = this.y
+
+        const c = curl(this.x, this.y)
+        const speed = Math.hypot(this.vx, this.vy)
+        // 噪声卷曲：速度越慢，越受噪声主导 => 末端卷成丝
+        const curlAmt = 0.9 + (1 - Math.min(1, speed / 3)) * 2.2
+        this.vx += c.x * curlAmt
+        this.vy += c.y * curlAmt
+
+        // 阻力（水的黏滞），让它逐渐停下、丝缕定形
+        this.vx *= 0.93
+        this.vy *= 0.93
+
+        this.x += this.vx
+        this.y += this.vy
+        this.radius *= 0.992
+        this.life--
+
+        // 分叉：制造一根根分开的墨丝
+        if (
+          this.depth < 4 &&
+          this.life > this.maxLife * 0.35 &&
+          this.radius > 1.2 &&
+          particles.length < MAX_PARTICLES &&
+          Math.random() < 0.04
+        ) {
+          const ang = Math.atan2(this.vy, this.vx) + (Math.random() - 0.5) * 1.4
+          const sp = speed * (0.5 + Math.random() * 0.4)
+          particles.push(new Particle(
+            this.x, this.y,
+            Math.cos(ang) * sp, Math.sin(ang) * sp,
+            this.radius * 0.78,
+            this.life * 0.85,
+            this.depth + 1,
+            this.hue
+          ))
+        }
+      }
+
+      draw() {
+        const t = this.life / this.maxLife
+        const alpha = 0.16 * t + 0.04
+        ctx.strokeStyle = `hsla(${this.hue}, 45%, 16%, ${alpha})`
+        ctx.lineWidth = this.radius
+        ctx.lineCap = 'round'
+        ctx.beginPath()
+        ctx.moveTo(this.px, this.py)
+        ctx.lineTo(this.x, this.y)
+        ctx.stroke()
+      }
+
+      get dead() { return this.life <= 0 || this.radius < 0.4 }
+    }
+
+    function drop(x, y) {
+      const hue = 205 + Math.random() * 35      // 墨色：偏靛蓝黑
+      const rings = 3                            // 一层层往外推的波
+      for (let r = 0; r < rings; r++) {
+        const count = 26 + r * 10
+        const baseSpeed = 2.6 + r * 1.1          // 外层更快 => 形成同心层次
+        const baseRadius = 7 - r * 1.4
+        for (let i = 0; i < count; i++) {
+          const ang = (i / count) * Math.PI * 2 + Math.random() * 0.3
+          const sp = baseSpeed * (0.7 + Math.random() * 0.6)
+          particles.push(new Particle(
+            x + Math.cos(ang) * (2 + r * 3),
+            y + Math.sin(ang) * (2 + r * 3),
+            Math.cos(ang) * sp,
+            Math.sin(ang) * sp,
+            baseRadius * (0.7 + Math.random() * 0.6),
+            90 + Math.random() * 60,
+            0,
+            hue
+          ))
+        }
+      }
+      // 中心一小团浓墨
+      ctx.fillStyle = `hsla(${hue}, 50%, 14%, 0.5)`
+      ctx.beginPath()
+      ctx.arc(x, y, 6, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    /* ---------- 清水背景（只在初始化/清屏时画一次） ---------- */
+    function paintWater() {
+      const g = ctx.createLinearGradient(0, 0, w, h)
+      g.addColorStop(0, '#f4f7f8')
+      g.addColorStop(1, '#e7eef1')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, w, h)
+      const vig = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.2, w / 2, h / 2, Math.max(w, h) * 0.7)
+      vig.addColorStop(0, 'rgba(0,0,0,0)')
+      vig.addColorStop(1, 'rgba(40,60,70,0.06)')
+      ctx.fillStyle = vig
+      ctx.fillRect(0, 0, w, h)
+    }
+
+    function frame() {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]
+        p.step()
+        p.draw()
+        if (p.dead) particles.splice(i, 1)
+      }
+      requestAnimationFrame(frame)
+    }
+
+    /* ---------- 交互 ---------- */
+    let dragging = false
+    canvas.addEventListener('mousedown', (e) => { dragging = true; drop(e.clientX, e.clientY) })
+    canvas.addEventListener('mousemove', (e) => { if (dragging && Math.random() < 0.5) drop(e.clientX, e.clientY) })
+    window.addEventListener('mouseup', () => { dragging = false })
+    canvas.addEventListener('dblclick', () => { particles.length = 0; paintWater() })
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault()
+      for (const t of e.touches) drop(t.clientX, t.clientY)
+    }, { passive: false })
+    window.addEventListener('resize', resize)
+
+    resize()
+    // 自动演示一滴
+    setTimeout(() => drop(w / 2, h / 2), 350)
+    requestAnimationFrame(frame)
+  </script>
+</body>
+</html>
