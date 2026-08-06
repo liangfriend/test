@@ -48,29 +48,29 @@
 //         console.log(1);
 //         resolve()
 //         })
-//         setTimeout(()=>{
-//         console.log(2);
-//         })
-//         promise.then(()=>{
-//         console.log(3);
-//         })
-//         var promise2=getPromise();
-//         async function getPromise(){
-//         console.log(5);
-//         await promise;
-//         console.log(6);
-//         }
-//         console.log(8);
-
-// var a=1
-
-//         setTimeout(()=>{
-//                 a++
-//                 console.log(a)
-
-//         },1000)
-// console.log(a)
+// setTimeout(()=>{
+// console.log(2);
+// })
+// promise.then(()=>{
+// console.log(3);
+// })
+// var promise2=getPromise();
+// async function getPromise(){
+// console.log(5);
+// await promise;
+// console.log(6);
+// }
+// console.log(8);
 //
+// var a=1
+//
+// setTimeout(()=>{
+//         a++
+//         console.log(a)
+//
+// },1000)
+// console.log(a)
+
 
 //2024 12 23 通过下边的代码，理解async中的await,相当于，第一个await变return,后边的await变 .then
 // async function a() {
