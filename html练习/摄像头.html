@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>全屏摄像头</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #fff;
+    }
+
+    #camera {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+      transform: scaleX(-1) scaleY(-1);
+    }
+
+    #camera.rear {
+      transform: none;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      pointer-events: none;
+      padding: 16px;
+      padding-top: max(16px, env(safe-area-inset-top));
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+    }
+
+    .status {
+      align-self: center;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      backdrop-filter: blur(8px);
+    }
+
+    .status.error {
+      background: rgba(180, 40, 40, 0.8);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      pointer-events: auto;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.92);
+      color: #111;
+      backdrop-filter: blur(8px);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    button.ghost {
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .start-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #0b0b0b;
+      z-index: 2;
+    }
+
+    .start-screen.hidden {
+      display: none;
+    }
+
+    .start-screen h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .start-screen p {
+      color: #aaa;
+      font-size: 0.95rem;
+      max-width: 280px;
+      text-align: center;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <video id="camera" autoplay playsinline muted></video>
+
+  <div class="start-screen" id="startScreen">
+    <h1>全屏摄像头</h1>
+    <p>需要授权摄像头权限后才能使用。建议在 HTTPS 或 localhost 下打开。</p>
+    <button id="btnStart">打开摄像头</button>
+  </div>
+
+  <div class="overlay">
+    <div class="status" id="status">未启动</div>
+    <div class="controls">
+<!--      <button class="ghost" id="btnFlip" type="button">切换镜头</button>-->
+<!--      <button class="ghost" id="btnStop" type="button">关闭</button>-->
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById('camera');
+    const statusEl = document.getElementById('status');
+    const startScreen = document.getElementById('startScreen');
+    const btnStart = document.getElementById('btnStart');
+    const btnFlip = document.getElementById('btnFlip');
+    const btnStop = document.getElementById('btnStop');
+
+    let stream = null;
+    let facingMode = 'user'; // user = 前置, environment = 后置
+
+    function setStatus(text, isError = false) {
+      statusEl.textContent = text;
+      statusEl.classList.toggle('error', isError);
+    }
+
+    async function startCamera() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setStatus('当前浏览器不支持摄像头 API', true);
+        return;
+      }
+
+      stopCamera();
+      setStatus('正在打开摄像头…');
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: {
+            facingMode: { ideal: facingMode },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
+          }
+        });
+
+        video.srcObject = stream;
+        video.classList.toggle('rear', facingMode === 'environment');
+        startScreen.classList.add('hidden');
+        setStatus(facingMode === 'user' ? '' : '后置摄像头');
+      } catch (err) {
+        console.error(err);
+        let msg = '无法打开摄像头';
+        if (err.name === 'NotAllowedError') msg = '已拒绝摄像头权限';
+        else if (err.name === 'NotFoundError') msg = '未找到可用摄像头';
+        else if (err.name === 'NotReadableError') msg = '摄像头被其他应用占用';
+        setStatus(msg, true);
+        startScreen.classList.remove('hidden');
+      }
+    }
+
+    function stopCamera() {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+      video.srcObject = null;
+    }
+
+    btnStart.addEventListener('click', startCamera);
+
+    btnFlip.addEventListener('click', async () => {
+      facingMode = facingMode === 'user' ? 'environment' : 'user';
+      await startCamera();
+    });
+
+    btnStop.addEventListener('click', () => {
+      stopCamera();
+      startScreen.classList.remove('hidden');
+      setStatus('已关闭');
+    });
+
+    window.addEventListener('beforeunload', stopCamera);
+  </script>
+</body>
+</html>
